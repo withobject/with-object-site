@@ -340,8 +340,13 @@ fsNext.addEventListener("click", (e) => {
 
 // Modify fullscreen video to remove controls
 function cloneCurrentMediaForFullscreen() {
-  const activeItem = mediaItems[currentIndex];
-  const clone = activeItem.cloneNode(true);
+  // Update main gallery to match current index
+  showMedia(currentIndex);
+
+  // Force new clone of the active item at currentIndex
+  const freshItem = document.querySelectorAll(".gallery-item")[currentIndex];
+  const clone = freshItem.cloneNode(true);
+
   if (clone.tagName === "VIDEO") {
     clone.removeAttribute("controls");
     clone.setAttribute("autoplay", true);
@@ -349,8 +354,8 @@ function cloneCurrentMediaForFullscreen() {
     clone.setAttribute("muted", true);
     clone.setAttribute("playsinline", true);
   }
+
   fullscreenContent.innerHTML = "";
   fullscreenContent.appendChild(clone);
 }
-
 
