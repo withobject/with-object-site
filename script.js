@@ -288,4 +288,69 @@ if (gallery && !hasClickedGallery) {
     }
   });
 }
+// Add click zones for media navigation
+const leftZone = document.createElement("div");
+const rightZone = document.createElement("div");
+leftZone.className = "click-zone left-zone";
+rightZone.className = "click-zone right-zone";
+heroGallery.appendChild(leftZone);
+heroGallery.appendChild(rightZone);
+
+leftZone.addEventListener("click", (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+  showMedia(currentIndex);
+  if (soundEnabled) {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
+});
+
+rightZone.addEventListener("click", (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % mediaItems.length;
+  showMedia(currentIndex);
+  if (soundEnabled) {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  }
+});
+
+// Add fullscreen forward/back buttons
+const fsPrev = document.createElement("div");
+const fsNext = document.createElement("div");
+fsPrev.className = "fs-nav fs-prev";
+fsNext.className = "fs-nav fs-next";
+fsPrev.innerHTML = "&larr;";
+fsNext.innerHTML = "&rarr;";
+fullscreenOverlay.appendChild(fsPrev);
+fullscreenOverlay.appendChild(fsNext);
+
+fsPrev.addEventListener("click", (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+  cloneCurrentMediaForFullscreen();
+});
+
+fsNext.addEventListener("click", (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % mediaItems.length;
+  cloneCurrentMediaForFullscreen();
+});
+
+// Modify fullscreen video to remove controls
+function cloneCurrentMediaForFullscreen() {
+  const activeItem = mediaItems[currentIndex];
+  const clone = activeItem.cloneNode(true);
+  if (clone.tagName === "VIDEO") {
+    clone.removeAttribute("controls");
+    clone.setAttribute("autoplay", true);
+    clone.setAttribute("loop", true);
+    clone.setAttribute("muted", true);
+    clone.setAttribute("playsinline", true);
+  }
+  fullscreenContent.innerHTML = "";
+  fullscreenContent.appendChild(clone);
+}
+
 
