@@ -420,3 +420,50 @@ body.dark .fullscreen-overlay {
 body.gallery-cursor {
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><text x='0' y='20' font-size='20' fill='%2361ff1b'>+</text></svg>") 12 12, auto;
 }
+/* Navigation zones for gallery click-based navigation */
+.click-zone {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 5;
+}
+.left-zone {
+  left: 0;
+}
+.right-zone {
+  right: 0;
+}
+
+/* Fullscreen nav arrows */
+.fs-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: "Roboto Mono", monospace;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  color: #292526;
+  background: #eeebe1;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+  border: 1px solid #292526;
+  transition: all 0.2s ease;
+}
+.fs-prev { left: 1rem; }
+.fs-next { right: 1rem; }
+
+body.dark .fs-nav {
+  background: #292526;
+  color: #eeebe1;
+  border-color: #eeebe1;
+}
+body.dark .fs-nav:hover {
+  background: #eeebe1;
+  color: #292526;
+}
+.fs-nav:hover {
+  background: #292526;
+  color: #eeebe1;
+}
