@@ -1,0 +1,422 @@
+/* Base */
+body {
+  margin: 0;
+  font-family: "Roboto Mono", monospace;
+  background-color: #eeebe1;
+  color: #292526;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+.header h1 {
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  margin: 0;
+  text-align: left;
+}
+
+/* Hero Sections — Desktop */
+.hero-video {
+  width: 100%;
+    height: auto;
+  
+}
+#heroVideo {
+  width: 100%;
+  height: auto;
+
+}
+.hero-image img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.hero-image {
+  display: none;
+}
+
+/* Buttons + Toggles */
+.nav-btn,
+.sound-toggle,
+.dark-toggle {
+  background: none;
+  font-size: 0.85rem;
+  border: 1px solid #292526;
+  padding: 0.5em 1.5em;
+  font-family: "Roboto Mono", monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #292526;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0.5em;
+  margin-bottom: 0.2em;
+}
+
+.intro-button {
+  margin-top: 2rem;
+}
+.nav-btn:hover,
+.sound-toggle:hover,
+.dark-toggle:hover {
+  background-color: #292526;
+  color: #eeebe1;
+}
+
+/* Footer */
+.footer {
+  margin: 1em 0;
+  font-size: 0.75rem;
+}
+.footer a {
+  color: #292526;
+  text-decoration: none;
+  display: none;
+}
+
+
+
+/* About Page */
+.about-minimal {
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 10vh 10vw;
+  min-height: 90vh;
+}
+.about-text {
+  max-width: 600px;
+  font-size: 0.75rem;
+  text-align: left;
+  line-height: 1.7;
+  margin-bottom: 2em;
+}
+.about-button {
+  text-align: left;
+}
+
+/* Secret Link */
+.secret-link {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.75rem;
+  color: #90999d;
+  text-decoration: none;
+  
+}
+.secret-link:hover {
+  text-decoration: underline;
+}
+
+/* Email Link */
+.email-link {
+  color: #292526;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+.email-link:hover {
+  border-bottom: 1px solid #292526;
+}
+body.dark a.email-link {
+  color: #eeebe1;
+  border-color: #eeebe1;
+}
+body.dark a.email-link:hover {
+  border-bottom: 1px solid #eeebe1;
+}
+
+/* Dark Mode */
+body.dark {
+  background-color: #292526;
+  color: #eeebe1;
+}
+body.dark .nav-btn,
+body.dark .sound-toggle,
+body.dark .dark-toggle {
+  color: #eeebe1;
+  border-color: #eeebe1;
+}
+body.dark .nav-btn:hover,
+body.dark .sound-toggle:hover,
+body.dark .dark-toggle:hover {
+  background-color: #eeebe1;
+  color: #292526;
+}
+
+/* Game Page Elements */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  width: 100%;
+  position: static;
+}
+.game-title,
+.close-btn {
+  pointer-events: auto;
+}
+.game-title {
+  font-size: 1rem;
+  color: inherit;
+  text-align: left;
+}
+.close-btn {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.field-container {
+  width: 80vw;
+  height: 80vh;
+  border: 4px solid #90999d;
+  margin: 10vh auto;
+  position: relative;
+  background-color: #292526;
+  overflow: hidden;
+  animation: border-glow 2s infinite alternate;
+}
+
+@keyframes border-glow {
+  from { border-color: #90999d; }
+  to { border-color: #61ff1b; }
+}
+
+.hidden-object {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: crosshair;
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.hidden-object:hover {
+  opacity: 1;
+}
+#foundMessage {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: none;
+  color: #eeebe1;
+  font-size: 1rem;
+  z-index: 10;
+}
+.reset-text {
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  color: inherit;
+}
+
+/* Cursor Trail */
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #292526;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  opacity: 0.9;
+  transition: transform 0.15s ease;
+}
+body.dark .cursor-trail {
+  background-color: #dbdad6;
+}
+@media (pointer: coarse) {
+  .cursor-trail {
+    display: none;
+  }
+}
+
+/* ---------- Mobile-Specific Overrides ---------- */
+@media (max-width: 768px) {
+  .hero-video {
+    height: 100vh;
+    margin-bottom: 0;
+  }
+
+  #heroVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .intro-button {
+    margin-top: 1.5rem; /* tighter spacing */
+  }
+
+  .footer {
+    margin: 1em 0 0.5em 0;
+  }
+
+  .sound-toggle,
+  .dark-toggle {
+    margin-bottom: 1em;
+  }
+}
+/* 2. Object Animation - Floating effect */
+
+
+/* 3. Border Scan Pulse */
+
+.hero-gallery {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.media-container {
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-item {
+  display: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-item.active {
+  display: block;
+}
+
+.view-button {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 50px;
+  color: #61ff1b;
+  font-family: "Roboto Mono", monospace;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+  z-index: 10;
+}
+
+.gallery-container:hover .view-button {
+  display: block;
+}
+
+.hero-gallery:hover .view-button {
+  display: block;
+}
+
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #eeebe1; /* Default light */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+body.dark .fullscreen-overlay {
+  background-color: #292526; /* Dark mode background */
+}
+
+.fullscreen-overlay.active {
+  display: flex;
+}
+
+.fullscreen-content video,
+.fullscreen-content img {
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+
+
+.close-fullscreen {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+
+/* Default: Desktop — crop all media to fit */
+.gallery-container video,
+.gallery-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+/* Mobile: Show gallery images/videos uncropped (except hero video) */
+@media (max-width: 768px) {
+  .gallery-container:not(:first-of-type) video,
+  .gallery-container:not(:first-of-type) img {
+    object-fit: contain;
+    height: auto;
+    max-height: autoh;
+  }
+}
+/* Custom cursor + prompt on gallery */
+.cursor-clickhere {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  color: #61ff1b;
+  font-size: 0.75rem;
+  font-family: "Roboto Mono", monospace;
+  background: none;
+  padding: 0.2rem 0.4rem;
+  mix-blend-mode: difference;
+  transition: transform 0.05s ease;
+}
+
+body.gallery-cursor {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><text x='0' y='20' font-size='20' fill='%2361ff1b'>+</text></svg>") 12 12, auto;
+}
