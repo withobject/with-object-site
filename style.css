@@ -449,18 +449,22 @@ body.gallery-cursor {
   top: 85%;
   transform: translateY(-50%);
   font-family: "Roboto Mono", monospace;
-  font-size: 2rem;
-  padding: 0.5rem 1rem;
-  color: #292526;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
   background: #eeebe1;
-  cursor: pointer;
-  z-index: 10;
-  user-select: none;
+  color: #292526;
   border: 1px solid #292526;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  box-sizing: border-box;
 }
-.fs-prev { left: 1rem; }
-.fs-next { right: 1rem; }
+
+.fs-prev { left: 15rem; }
+.fs-next { right: 15rem; }
 
 body.dark .fs-nav {
   background: #292526;
