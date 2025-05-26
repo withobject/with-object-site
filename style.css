@@ -449,27 +449,26 @@ body.gallery-cursor {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1.5rem;
   margin-top: 2rem;
-  gap: 2rem;
-  width: 100%;
 }
 
 .fs-nav {
-  font-family: "Roboto Mono", monospace;
-  font-size: 1.25rem;
-  padding: 0.5rem 1.5rem;
   background-color: #292526;
   color: #eeebe1;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+
+.fs-nav:hover {
+  opacity: 0.75;
 }
 
 body.dark .fs-nav {
   background-color: #eeebe1;
   color: #292526;
-}
-
-.fs-nav:hover {
-  opacity: 0.8;
 }
