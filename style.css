@@ -447,34 +447,29 @@ body.gallery-cursor {
 /* Fullscreen navigation arrows below media */
 .fullscreen-nav-container {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
   justify-content: center;
-  z-index: 20;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 2rem;
+  width: 100%;
 }
 
 .fs-nav {
   font-family: "Roboto Mono", monospace;
   font-size: 1.25rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem 1.5rem;
   background-color: #292526;
   color: #eeebe1;
-  border: 1px solid #292526;
+  border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-.fs-nav:hover {
-  background-color: #eeebe1;
-  color: #292526;
 }
 
 body.dark .fs-nav {
   background-color: #eeebe1;
   color: #292526;
-  border-color: #eeebe1;
-}
-body.dark .fs-nav:hover {
-  background-color: #292526;
-  color: #eeebe1;
 }
 
+.fs-nav:hover {
+  opacity: 0.8;
+}
