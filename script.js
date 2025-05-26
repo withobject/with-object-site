@@ -296,15 +296,19 @@ rightZone.addEventListener("click", (e) => {
 // Fullscreen nav arrows (<< >> below media)
 const fsPrev = document.createElement("div");
 const fsNext = document.createElement("div");
-fsPrev.className = "fs-nav fs-prev";
-fsNext.className = "fs-nav fs-next";
+
+fsPrev.className = "fs-nav";
+fsNext.className = "fs-nav";
 fsPrev.innerHTML = "&larr;";
 fsNext.innerHTML = "&rarr;";
 
+// Create the nav container
 const navContainer = document.createElement("div");
 navContainer.className = "fullscreen-nav-container";
 navContainer.appendChild(fsPrev);
 navContainer.appendChild(fsNext);
+
+// Append BELOW the media content
 fullscreenOverlay.appendChild(navContainer);
 
 fsPrev.addEventListener("click", (e) => {
