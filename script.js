@@ -298,8 +298,8 @@ const fsPrev = document.createElement("div");
 const fsNext = document.createElement("div");
 fsPrev.className = "fs-nav fs-prev";
 fsNext.className = "fs-nav fs-next";
-fsPrev.innerHTML = "&larr;";
-fsNext.innerHTML = "&rarr;";
+fsPrev.innerHTML = "&lt;";   // displays <
+fsNext.innerHTML = "&gt;";   // displays >
 
 const navContainer = document.createElement("div");
 navContainer.className = "fullscreen-nav-container";
