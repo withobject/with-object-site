@@ -375,14 +375,23 @@ body.dark .fullscreen-overlay {
 
 
 
+/* Fix close button color in dark mode */
 .close-fullscreen {
   position: absolute;
   top: 1rem;
   right: 1.5rem;
   font-size: 2rem;
-  color: white;
+  font-family: "Roboto Mono", monospace;
+  background: none;
+  border: none;
   cursor: pointer;
+  color: #292526;
+  z-index: 1001;
 }
+body.dark .close-fullscreen {
+  color: #eeebe1;
+}
+
 
 
 /* Default: Desktop — crop all media to fit */
@@ -435,35 +444,37 @@ body.gallery-cursor {
   right: 0;
 }
 
-/* Fullscreen nav arrows */
+/* Fullscreen navigation arrows below media */
+.fullscreen-nav-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+  z-index: 20;
+}
+
 .fs-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   font-family: "Roboto Mono", monospace;
-  font-size: 2rem;
-  padding: 0.5rem 1rem;
-  color: #292526;
-  background: #eeebe1;
-  cursor: pointer;
-  z-index: 10;
-  user-select: none;
+  font-size: 1.25rem;
+  padding: 0.5rem 1.25rem;
+  background-color: #292526;
+  color: #eeebe1;
   border: 1px solid #292526;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
-.fs-prev { left: 1rem; }
-.fs-next { right: 1rem; }
+.fs-nav:hover {
+  background-color: #eeebe1;
+  color: #292526;
+}
 
 body.dark .fs-nav {
-  background: #292526;
-  color: #eeebe1;
+  background-color: #eeebe1;
+  color: #292526;
   border-color: #eeebe1;
 }
 body.dark .fs-nav:hover {
-  background: #eeebe1;
-  color: #292526;
-}
-.fs-nav:hover {
-  background: #292526;
+  background-color: #292526;
   color: #eeebe1;
 }
+
