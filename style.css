@@ -447,7 +447,7 @@ body.gallery-cursor {
 /* Fullscreen nav arrows */
 .fs-nav {
   position: absolute;
-  top: 50%;
+  top: 80%;
   transform: translateY(-50%);
   font-family: "Roboto Mono", monospace;
   font-size: 2rem;
