@@ -52,89 +52,6 @@ if (document.getElementById("gameField")) {
   const message = document.getElementById("foundMessage");
   const gameField = document.getElementById("gameField");
   const closeBtn = document.getElementById("closeBtn");
-if (closeBtn) {
-  closeBtn.addEventListener("mouseenter", () => {
-    if (soundEnabled) {
-      hoverSound.currentTime = 0;
-      hoverSound.play();
-    }
-  });
-  closeBtn.addEventListener("click", () => {
-    if (soundEnabled) {
-      clickSound.currentTime = 0;
-      clickSound.play();
-    }
-  });
-}
-
-
-  let objectFound = false;
-
- function resetGame() {
-  objectFound = false;
-  message.style.display = "none";
-  object.style.opacity = 0;
-  object.style.pointerEvents = "none";
-
-  // Randomize position AFTER hiding, THEN delay hover reactivation until user moves mouse again
-  setTimeout(() => {
-    randomPosition();
-    waitForMouseMove();
-  }, 50);
-}
-
-function randomPosition() {
-  const containerRect = gameField.getBoundingClientRect();
-  const objWidth = object.offsetWidth || 60;
-  const objHeight = object.offsetHeight || 60;
-  const maxX = containerRect.width - objWidth;
-  const maxY = containerRect.height - objHeight;
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-  object.style.left = `${x}px`;
-  object.style.top = `${y}px`;
-}
-
-// Hover reactivates only after real movement
-function waitForMouseMove() {
-  const enableHover = () => {
-    object.style.pointerEvents = "auto";
-    window.removeEventListener("mousemove", enableHover);
-  };
-  window.addEventListener("mousemove", enableHover);
-}
-
-object.addEventListener("mouseenter", () => {
-  if (!objectFound) {
-    object.style.opacity = 1;
-  }
-});
-object.addEventListener("mouseleave", () => {
-  if (!objectFound) {
-    object.style.opacity = 0;
-  }
-});
-object.addEventListener("click", (e) => {
-  if (!objectFound) {
-    e.stopPropagation();
-    objectFound = true;
-    object.style.opacity = 0; // Immediately hide after found
-    object.style.pointerEvents = "none";
-    message.style.display = "block";
-    if (soundEnabled) {
-      const foundSound = new Audio("Assets-2/site-sound_found_v1.mp3");
-      foundSound.play();
-    }
-  }
-});
-
-
-  gameField.addEventListener("click", () => {
-    if (objectFound) resetGame();
-  });
-
-
-
   if (closeBtn) {
     closeBtn.addEventListener("mouseenter", () => {
       if (soundEnabled) {
@@ -149,6 +66,64 @@ object.addEventListener("click", (e) => {
       }
     });
   }
+
+  let objectFound = false;
+
+  function resetGame() {
+    objectFound = false;
+    message.style.display = "none";
+    object.style.opacity = 0;
+    object.style.pointerEvents = "none";
+
+    setTimeout(() => {
+      randomPosition();
+      waitForMouseMove();
+    }, 50);
+  }
+
+  function randomPosition() {
+    const containerRect = gameField.getBoundingClientRect();
+    const objWidth = object.offsetWidth || 60;
+    const objHeight = object.offsetHeight || 60;
+    const maxX = containerRect.width - objWidth;
+    const maxY = containerRect.height - objHeight;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    object.style.left = `${x}px`;
+    object.style.top = `${y}px`;
+  }
+
+  function waitForMouseMove() {
+    const enableHover = () => {
+      object.style.pointerEvents = "auto";
+      window.removeEventListener("mousemove", enableHover);
+    };
+    window.addEventListener("mousemove", enableHover);
+  }
+
+  object.addEventListener("mouseenter", () => {
+    if (!objectFound) object.style.opacity = 1;
+  });
+  object.addEventListener("mouseleave", () => {
+    if (!objectFound) object.style.opacity = 0;
+  });
+  object.addEventListener("click", (e) => {
+    if (!objectFound) {
+      e.stopPropagation();
+      objectFound = true;
+      object.style.opacity = 0;
+      object.style.pointerEvents = "none";
+      message.style.display = "block";
+      if (soundEnabled) {
+        const foundSound = new Audio("Assets-2/site-sound_found_v1.mp3");
+        foundSound.play();
+      }
+    }
+  });
+
+  gameField.addEventListener("click", () => {
+    if (objectFound) resetGame();
+  });
 
   if (!window.matchMedia("(pointer: coarse)").matches) {
     const trail = document.createElement("div");
@@ -177,6 +152,7 @@ object.addEventListener("click", (e) => {
     }, 100);
   };
 }
+
 // Gallery Logic
 const heroGallery = document.getElementById("heroGallery");
 const mediaItems = document.querySelectorAll(".gallery-item");
@@ -194,19 +170,22 @@ function showMedia(index) {
 }
 
 function cloneCurrentMediaForFullscreen() {
-  const activeItem = mediaItems[currentIndex];
-  const clone = activeItem.cloneNode(true);
+  showMedia(currentIndex);
+  const freshItem = document.querySelectorAll(".gallery-item")[currentIndex];
+  const clone = freshItem.cloneNode(true);
+
   if (clone.tagName === "VIDEO") {
-    clone.controls = true;
-    clone.autoplay = true;
-    clone.loop = true;
-    clone.muted = false;
+    clone.removeAttribute("controls");
+    clone.setAttribute("autoplay", true);
+    clone.setAttribute("loop", true);
+    clone.setAttribute("muted", true);
+    clone.setAttribute("playsinline", true);
   }
+
   fullscreenContent.innerHTML = "";
   fullscreenContent.appendChild(clone);
 }
 
-// Cycle on click
 heroGallery.addEventListener("click", () => {
   currentIndex = (currentIndex + 1) % mediaItems.length;
   showMedia(currentIndex);
@@ -216,7 +195,6 @@ heroGallery.addEventListener("click", () => {
   }
 });
 
-// Fullscreen open
 viewBtn.addEventListener("click", (e) => {
   e.stopPropagation();
   fullscreenOverlay.classList.add("active");
@@ -227,7 +205,6 @@ viewBtn.addEventListener("click", (e) => {
   }
 });
 
-// Fullscreen close
 closeFullscreen.addEventListener("click", () => {
   fullscreenOverlay.classList.remove("active");
   fullscreenContent.innerHTML = "";
@@ -236,10 +213,10 @@ closeFullscreen.addEventListener("click", () => {
     clickSound.play();
   }
 });
+
 fullscreenContent.addEventListener("click", (e) => {
   const el = fullscreenContent.firstChild;
   if (!el) return;
-
   if (el.style.transform === "scale(1.5)") {
     el.style.transform = "scale(1)";
     el.style.cursor = "zoom-in";
@@ -248,13 +225,13 @@ fullscreenContent.addEventListener("click", (e) => {
     el.style.cursor = "zoom-out";
   }
 });
-// Cursor Text Prompt Setup (only show before first interaction)
+
 const cursorPrompt = document.createElement("div");
 cursorPrompt.className = "cursor-clickhere";
 cursorPrompt.innerText = "CLICK HERE";
 document.body.appendChild(cursorPrompt);
 
-let hasClickedGallery = localStorage.getItem("clickedHeroGallery") === "true" ? true : false;
+let hasClickedGallery = localStorage.getItem("clickedHeroGallery") === "true";
 
 function moveCursorPrompt(e) {
   if (!hasClickedGallery) {
@@ -263,7 +240,6 @@ function moveCursorPrompt(e) {
   }
 }
 
-// Activate special cursor only in hero/gallery
 const gallery = document.getElementById("heroGallery");
 if (gallery && !hasClickedGallery) {
   gallery.addEventListener("mouseenter", () => {
@@ -288,7 +264,8 @@ if (gallery && !hasClickedGallery) {
     }
   });
 }
-// Add click zones for media navigation
+
+// Click zones for main gallery
 const leftZone = document.createElement("div");
 const rightZone = document.createElement("div");
 leftZone.className = "click-zone left-zone";
@@ -316,15 +293,19 @@ rightZone.addEventListener("click", (e) => {
   }
 });
 
-// Add fullscreen forward/back buttons
+// Fullscreen nav arrows (<< >> below media)
 const fsPrev = document.createElement("div");
 const fsNext = document.createElement("div");
 fsPrev.className = "fs-nav fs-prev";
 fsNext.className = "fs-nav fs-next";
 fsPrev.innerHTML = "&larr;";
 fsNext.innerHTML = "&rarr;";
-fullscreenOverlay.appendChild(fsPrev);
-fullscreenOverlay.appendChild(fsNext);
+
+const navContainer = document.createElement("div");
+navContainer.className = "fullscreen-nav-container";
+navContainer.appendChild(fsPrev);
+navContainer.appendChild(fsNext);
+fullscreenOverlay.appendChild(navContainer);
 
 fsPrev.addEventListener("click", (e) => {
   e.stopPropagation();
@@ -337,25 +318,3 @@ fsNext.addEventListener("click", (e) => {
   currentIndex = (currentIndex + 1) % mediaItems.length;
   cloneCurrentMediaForFullscreen();
 });
-
-// Modify fullscreen video to remove controls
-function cloneCurrentMediaForFullscreen() {
-  // Update main gallery to match current index
-  showMedia(currentIndex);
-
-  // Force new clone of the active item at currentIndex
-  const freshItem = document.querySelectorAll(".gallery-item")[currentIndex];
-  const clone = freshItem.cloneNode(true);
-
-  if (clone.tagName === "VIDEO") {
-    clone.removeAttribute("controls");
-    clone.setAttribute("autoplay", true);
-    clone.setAttribute("loop", true);
-    clone.setAttribute("muted", true);
-    clone.setAttribute("playsinline", true);
-  }
-
-  fullscreenContent.innerHTML = "";
-  fullscreenContent.appendChild(clone);
-}
-
