@@ -327,13 +327,14 @@ body.dark .cursor-trail {
   font-size: 50px;
   color: #61ff1b;
   font-family: "Roboto Mono", monospace;
-  background: none;
-  border: none;
+  background: 292526;
+   border: 1px solid #eeebe1;
   cursor: pointer;
-  display: none;
   z-index: 10;
-}
+  user-select: none;
+  transition: all 0.2s ease;
 
+}
 .gallery-container:hover .view-button {
   display: block;
 }
