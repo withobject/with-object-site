@@ -46,6 +46,29 @@ document.querySelectorAll(".nav-btn, .sound-toggle, .dark-toggle, .email-link, b
   });
 });
 
+const captions = [
+  "Our field correspondent, Patch, scans the dark for a signal.",
+  "Torn frame scanned from a disrupted contact sheet - nature as fractured pattern. - Untitled",
+  "Low-cost iconography sampled from street ephemera. Handcrafted printout. - Sample",
+  "Visual for brand imprints - recorded from previous timeline. - Logos/Marks",
+  "Captioned terrain reshaped with cutout lettering. - Low Recordings",
+  "Typographic experiment composed under noise pressure and visual loopback. - Kaf Oaks",
+  "Visual for audio signal frequency. - Oliver the 2nd prod. By Alchemist",
+  "Studio transmission rerouted through analog delay — trusted and tactile. - Florian Gouello",
+  "Reconstructed test strip from corrupted broadcast scan. - Infinite Cycle"
+];
+function formatCaption(text) {
+  const lastDashIndex = text.lastIndexOf(" - ");
+  if (lastDashIndex !== -1) {
+    const description = text.slice(0, lastDashIndex).trim();
+    const title = text.slice(lastDashIndex + 3).trim();
+    return `${description} — <strong>${title}</strong>`;
+  }
+  return text;
+}
+
+
+
 // GAME LOGIC — only applies if game elements are present
 if (document.getElementById("gameField")) {
   const object = document.getElementById("hiddenObject");
@@ -161,6 +184,7 @@ const fullscreenOverlay = document.getElementById("fullscreenOverlay");
 const fullscreenContent = document.getElementById("fullscreenContent");
 const closeFullscreen = document.getElementById("closeFullscreen");
 
+
 let currentIndex = 0;
 
 function showMedia(index) {
@@ -184,7 +208,13 @@ function cloneCurrentMediaForFullscreen() {
 
   fullscreenContent.innerHTML = "";
   fullscreenContent.appendChild(clone);
+
+  const captionEl = document.getElementById("fullscreenCaption");
+  captionEl.innerHTML = formatCaption(captions[currentIndex] || "");
 }
+
+
+
 
 heroGallery.addEventListener("click", () => {
   currentIndex = (currentIndex + 1) % mediaItems.length;
@@ -213,6 +243,7 @@ closeFullscreen.addEventListener("click", () => {
     clickSound.play();
   }
 });
+
 
 fullscreenContent.addEventListener("click", (e) => {
   const el = fullscreenContent.firstChild;
