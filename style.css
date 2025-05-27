@@ -446,22 +446,24 @@ body.gallery-cursor {
 /* Fullscreen nav arrows */
 .fs-nav {
   position: absolute;
-  top: 85%;
-  transform: translateY(-50%);
-  font-family: "Roboto Mono", monospace;
-  font-size: 2rem;
-  padding: 0.5rem 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+  font-family: "Roboto Mono", monospace;;
   color: #292526;
   background: #eeebe1;
   cursor: pointer;
-  z-index: 10;
+  z-index: 1000;
   user-select: none;
   border: 1px solid #292526;
   transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  
 }
+.fs-prev { left: 34rem;}
+.fs-next { right: 4rem; }
 
-.fs-prev { left: 15rem; }
-.fs-next { right: 15rem; }
+
 
 body.dark .fs-nav {
   background: #292526;
