@@ -1,4 +1,7 @@
 /* Base */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+/* Base */
 body {
   margin: 0;
   font-family: "Roboto Mono", monospace;
@@ -372,6 +375,24 @@ body.dark .fullscreen-overlay {
   cursor: zoom-in;
 }
 
+.fullscreen-caption {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: #292526;
+  margin-top: 2rem;
+  max-width: 90vw;
+  text-align: left;
+  word-break: break-word;
+}
+
+body.dark .fullscreen-caption {
+  color: #eeebe1;
+}
+
+.fullscreen-caption strong {
+  font-weight: 700;
+}
 
 
 /* Fix close button color in dark mode */
