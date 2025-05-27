@@ -292,14 +292,40 @@ rightZone.addEventListener("click", (e) => {
     clickSound.play();
   }
 });
+// Click zones for fullscreen gallery
+const fsLeftZone = document.createElement("div");
+const fsRightZone = document.createElement("div");
+fsLeftZone.className = "click-zone fs-left-zone";
+fsRightZone.className = "click-zone fs-right-zone";
+fullscreenOverlay.appendChild(fsLeftZone);
+fullscreenOverlay.appendChild(fsRightZone);
 
-// Fullscreen nav arrows (<< >> below media)
-const fsPrev = document.createElement("div");
-const fsNext = document.createElement("div");
-fsPrev.className = "fs-nav fs-prev";
-fsNext.className = "fs-nav fs-next";
-fsPrev.textContent = "<";   // cleaner text character
-fsNext.textContent = ">";
+fsLeftZone.addEventListener("click", (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+  cloneCurrentMediaForFullscreen();
+});
+fsRightZone.addEventListener("click", (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % mediaItems.length;
+  cloneCurrentMediaForFullscreen();
+});
+
+// Mobile swipe detection in fullscreen
+let startX = 0;
+fullscreenOverlay.addEventListener("touchstart", (e) => {
+  startX = e.touches[0].clientX;
+});
+fullscreenOverlay.addEventListener("touchend", (e) => {
+  let endX = e.changedTouches[0].clientX;
+  if (endX - startX > 50) {
+    currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+    cloneCurrentMediaForFullscreen();
+  } else if (startX - endX > 50) {
+    currentIndex = (currentIndex + 1) % mediaItems.length;
+    cloneCurrentMediaForFullscreen();
+  }
+});
 
 const navContainer = document.createElement("div");
 navContainer.className = "fullscreen-nav-container";
