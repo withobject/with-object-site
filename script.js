@@ -49,12 +49,6 @@ document.querySelectorAll(".nav-btn, .sound-toggle, .dark-toggle, .email-link, b
 const captions = [
   "Our field correspondent, Patch, scans the dark for a signal.",
   "Torn frame scanned from a disrupted contact sheet - nature as fractured pattern. - Untitled",
-  "Low-cost iconography sampled from street ephemera. Handcrafted printout. - Sample",
-  "Visual for brand imprints - recorded from previous timeline. - Logos/Marks",
-  "Captioned terrain reshaped with cutout lettering. - Low Recordings",
-  "Typographic experiment composed under noise pressure and visual loopback. - Kaf Oaks",
-  "Visual for audio signal frequency. - Oliver the 2nd prod. By Alchemist",
-  "Studio transmission rerouted through analog delay — trusted and tactile. - Florian Gouello",
   "Reconstructed test strip from corrupted broadcast scan. - Infinite Cycle"
 ];
 function formatCaption(text) {
