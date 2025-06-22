@@ -1,7 +1,6 @@
 /* Base */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
-/* Base */
 body {
   margin: 0;
   font-family: "Roboto Mono", monospace;
@@ -34,13 +33,11 @@ html {
 /* Hero Sections — Desktop */
 .hero-video {
   width: 100%;
-    height: auto;
-  
+  height: auto;
 }
 #heroVideo {
   width: 100%;
   height: auto;
-
 }
 .hero-image img {
   width: 100%;
@@ -93,8 +90,6 @@ html {
   display: none;
 }
 
-
-
 /* About Page */
 .about-minimal {
   font-size: 0.75rem;
@@ -124,7 +119,6 @@ html {
   font-size: 0.75rem;
   color: #90999d;
   text-decoration: none;
-  
 }
 .secret-link:hover {
   text-decoration: underline;
@@ -193,6 +187,8 @@ body.dark .dark-toggle:hover {
   background: none;
   cursor: pointer;
 }
+
+/* Game field */
 .field-container {
   width: 80vw;
   height: 80vh;
@@ -203,12 +199,10 @@ body.dark .dark-toggle:hover {
   overflow: hidden;
   animation: border-glow 2s infinite alternate;
 }
-
 @keyframes border-glow {
   from { border-color: #90999d; }
-  to { border-color: #61ff1b; }
+  to   { border-color: #61ff1b; }
 }
-
 .hidden-object {
   position: absolute;
   width: 60px;
@@ -218,20 +212,15 @@ body.dark .dark-toggle:hover {
   cursor: crosshair;
   animation: float 2s ease-in-out infinite;
 }
-
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-5px); }
 }
-
-.hidden-object:hover {
-  opacity: 1;
-}
+.hidden-object:hover { opacity: 1; }
 #foundMessage {
   position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 40%; left: 50%;
+  transform: translate(-50%,-50%);
   text-align: center;
   display: none;
   color: #eeebe1;
@@ -247,10 +236,8 @@ body.dark .dark-toggle:hover {
 /* Cursor Trail */
 .cursor-trail {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 10px;
-  height: 10px;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
   background-color: #292526;
   border-radius: 50%;
   pointer-events: none;
@@ -263,42 +250,19 @@ body.dark .cursor-trail {
   background-color: #dbdad6;
 }
 @media (pointer: coarse) {
-  .cursor-trail {
-    display: none;
-  }
+  .cursor-trail { display: none; }
 }
 
-/* ---------- Mobile-Specific Overrides ---------- */
+/* Mobile Overrides */
 @media (max-width: 768px) {
-  .hero-video {
-    height: 100vh;
-    margin-bottom: 0;
-  }
-
-  #heroVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .intro-button {
-    margin-top: 1.5rem; /* tighter spacing */
-  }
-
-  .footer {
-    margin: 1em 0 0.5em 0;
-  }
-
-  .sound-toggle,
-  .dark-toggle {
-    margin-bottom: 1em;
-  }
+  .hero-video { height: 100vh; margin-bottom: 0; }
+  #heroVideo { width: 100%; height: 100%; object-fit: cover; }
+  .intro-button { margin-top: 1.5rem; }
+  .footer { margin: 1em 0 0.5em 0; }
+  .sound-toggle, .dark-toggle { margin-bottom: 1em; }
 }
-/* 2. Object Animation - Floating effect */
 
-
-/* 3. Border Scan Pulse */
-
+/* Hero Gallery */
 .hero-gallery {
   position: relative;
   width: 100%;
@@ -306,77 +270,105 @@ body.dark .cursor-trail {
   overflow: hidden;
   cursor: crosshair;
 }
-
 .media-container {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
 }
-
 .gallery-item {
   display: none;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
 }
-
 .gallery-item.active {
   display: block;
 }
 
+/* UPDATED: Square View Button */
 .view-button {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  font-size: 50px;
-  color: #61ff1b;
-  font-family: "Roboto Mono", monospace;
-  background: none;
-  border: none;
-  cursor: pointer;
   display: none;
+  align-items: center;
+  justify-content: center;
+
+  /* square border instead of circle */
+  background: none;
+  border: 1px solid currentColor;
+  width: 40px;       /* ensure ≥40×40px hit area */
+  height: 40px;
+  padding: 0;
+  border-radius: 4px; /* small corner rounding—use 0 for fully sharp corners */
+
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: currentColor;
   z-index: 10;
 }
-.gallery-container:hover .view-button {
-  display: block;
-}
 
+/* show on hover of gallery */
 .hero-gallery:hover .view-button {
-  display: block;
+  display: flex;
 }
 
+/* SVG icon sizing and color */
+.fullscreen-icon {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+}
+
+/* hover states */
+.view-button:hover {
+  background-color: #292526;
+  color: #eeebe1;
+}
+
+/* dark mode adjustments */
+body.dark .view-button {
+  color: #eeebe1;
+}
+body.dark .view-button:hover {
+  background-color: #eeebe1;
+  color: #292526;
+}
+
+
+/* Fullscreen Overlay */
 .fullscreen-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #eeebe1; /* Default light */
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: #eeebe1;
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 999;
 }
-
 body.dark .fullscreen-overlay {
-  background-color: #292526; /* Dark mode background */
+  background-color: #292526;
 }
-
 .fullscreen-overlay.active {
   display: flex;
 }
-
+.fullscreen-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
 .fullscreen-content video,
 .fullscreen-content img {
-  max-width: 80vw;
-  max-height: 80vh;
+  max-width: 90vw;
+  max-height: 75vh;
   object-fit: contain;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
   transition: transform 0.3s ease;
   cursor: zoom-in;
 }
-
 .fullscreen-caption {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   font-size: 0.75rem;
   line-height: 1.7;
   color: #292526;
@@ -385,17 +377,14 @@ body.dark .fullscreen-overlay {
   text-align: left;
   word-break: break-word;
 }
-
 body.dark .fullscreen-caption {
   color: #eeebe1;
 }
-
 .fullscreen-caption strong {
   font-weight: 700;
 }
 
-
-/* Fix close button color in dark mode */
+/* Close Button */
 .close-fullscreen {
   position: absolute;
   top: 1rem;
@@ -406,75 +395,28 @@ body.dark .fullscreen-caption {
   border: none;
   cursor: pointer;
   color: #292526;
+  transition: all 0.2s ease;
   z-index: 1001;
+}
+.close-fullscreen:hover {
+  background-color: #292526;
+  color: #eeebe1;
 }
 body.dark .close-fullscreen {
   color: #eeebe1;
 }
-
-
-
-/* Default: Desktop — crop all media to fit */
-.gallery-container video,
-.gallery-container img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  display: block;
+body.dark .close-fullscreen:hover {
+  background-color: #eeebe1;
+  color: #292526;
 }
 
-/* Mobile: Show gallery images/videos uncropped (except hero video) */
-@media (max-width: 768px) {
-  .gallery-container:not(:first-of-type) video,
-  .gallery-container:not(:first-of-type) img {
-    object-fit: contain;
-    height: auto;
-    max-height: autoh;
-  }
-}
-/* Custom cursor + prompt on gallery */
-.cursor-clickhere {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  color: #61ff1b;
-  font-size: 0.75rem;
-  font-family: "Roboto Mono", monospace;
-  background: none;
-  padding: 0.2rem 0.4rem;
-  mix-blend-mode: difference;
-  transition: transform 0.05s ease;
-}
-
-body.gallery-cursor {
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><text x='0' y='20' font-size='20' fill='%2361ff1b'>+</text></svg>") 12 12, auto;
-}
-/* Navigation zones for gallery click-based navigation */
+/* Navigation Zones */
 .click-zone {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  z-index: 5;
-}
-.left-zone {
-  left: 0;
-}
-.right-zone {
-  right: 0;
-}
-
-/* Fullscreen left/right zones for navigation */
-.fs-left-zone, .fs-right-zone {
   position: absolute;
   top: 0;
   width: 50%;
   height: 100%;
   z-index: 20;
 }
-.fs-left-zone {
-  left: 0;
-}
-.fs-right-zone {
-  right: 0;
-}
+.fs-left-zone { left: 0; }
+.fs-right-zone { right: 0; }
