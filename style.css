@@ -179,14 +179,37 @@ body.dark .dark-toggle:hover {
   color: inherit;
   text-align: left;
 }
+/* make the game-page “X” a square, bordered button */
 .close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;                   /* same hit-area as view-button */
+  height: 40px;
   font-size: 1.5rem;
-  text-decoration: none;
   color: inherit;
-  border: none;
   background: none;
+  border: 1px solid currentColor;
+  border-radius: 4px;            /* small corner rounding */
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
+
+/* hover state */
+.close-btn:hover {
+  background-color: #292526;
+  color: #eeebe1;
+}
+
+/* dark-mode overrides */
+body.dark .close-btn {
+  color: #eeebe1;
+}
+body.dark .close-btn:hover {
+  background-color: #eeebe1;
+  color: #292526;
+}
+
 
 /* Game field */
 .field-container {
@@ -282,48 +305,36 @@ body.dark .cursor-trail {
   display: block;
 }
 
-/* UPDATED: Square View Button */
+/* UPDATED: Square View Button Always Visible */
 .view-button {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
-  display: none;
+  display: flex;              /* <-- now always shown */
   align-items: center;
   justify-content: center;
-
-  /* square border instead of circle */
   background: none;
   border: 1px solid currentColor;
-  width: 40px;       /* ensure ≥40×40px hit area */
+  width: 40px;
   height: 40px;
   padding: 0;
-  border-radius: 4px; /* small corner rounding—use 0 for fully sharp corners */
-
+  border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
   color: currentColor;
   z-index: 10;
 }
 
-/* show on hover of gallery */
-.hero-gallery:hover .view-button {
-  display: flex;
-}
-
-/* SVG icon sizing and color */
+/* Keep your dark/light hover on the button */
 .fullscreen-icon {
   width: 32px;
   height: 32px;
   fill: currentColor;
 }
-
-/* hover states */
 .view-button:hover {
   background-color: #292526;
   color: #eeebe1;
 }
-
-/* dark mode adjustments */
 body.dark .view-button {
   color: #eeebe1;
 }
@@ -332,6 +343,16 @@ body.dark .view-button:hover {
   color: #292526;
 }
 
+/* when hovering the gallery or fullscreen container, hide the native cursor */
+.hero-gallery:hover,
+.fullscreen-overlay.active {
+  cursor: none;
+}
+/* but always show pointer when over the two buttons */
+.view-button,
+.close-fullscreen {
+  cursor: pointer !important;
+}
 
 /* Fullscreen Overlay */
 .fullscreen-overlay {
@@ -343,6 +364,7 @@ body.dark .view-button:hover {
   align-items: center;
   justify-content: center;
   z-index: 999;
+  cursor: crosshair;
 }
 body.dark .fullscreen-overlay {
   background-color: #292526;
@@ -385,30 +407,45 @@ body.dark .fullscreen-caption {
 }
 
 /* Close Button */
+/* square, bordered fullscreen “X” button */
 .close-fullscreen {
   position: absolute;
   top: 1rem;
   right: 1.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+
   font-size: 1.5rem;
   font-family: "Roboto Mono", monospace;
+  color: currentColor;
+
   background: none;
-  border: none;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+
   cursor: pointer;
-  color: #292526;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   z-index: 1001;
 }
+
 .close-fullscreen:hover {
   background-color: #292526;
   color: #eeebe1;
 }
+
 body.dark .close-fullscreen {
   color: #eeebe1;
 }
+
 body.dark .close-fullscreen:hover {
   background-color: #eeebe1;
   color: #292526;
 }
+
 
 /* Navigation Zones */
 .click-zone {
@@ -418,5 +455,47 @@ body.dark .close-fullscreen:hover {
   height: 100%;
   z-index: 20;
 }
-.fs-left-zone { left: 0; }
+.left-zone   { left: 0; }
+.right-zone  { right: 0; }
+.fs-left-zone  { left: 0; }
 .fs-right-zone { right: 0; }
+
+
+/* Hide default cursor inside gallery/fullscreen so only your “CLICK HERE” shows */
+.hero-gallery:hover,
+.fullscreen-overlay.active {
+  cursor: none;
+}
+
+/* Ensure buttons keep pointer */
+.view-button,
+.close-fullscreen {
+  cursor: pointer;
+}
+
+/* Cursor Text Label */
+.cursor-text {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  color: #61ff1b;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transform: translate(-50%, -120%);
+  user-select: none;
+  display: none;
+  mix-blend-mode: difference;
+}
+/* Make sure view-button sits on top of the click-zones */
+.view-button {
+  z-index: 999 !important;
+}
+
+/* Push the gallery click-zones underneath everything except the gallery itself */
+.click-zone,
+.fs-left-zone,
+.fs-right-zone {
+  z-index: 5; /* anything less than your view-button’s z-index */
+}
+
