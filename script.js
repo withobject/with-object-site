@@ -1,5 +1,3 @@
-// script.js
-
 // ——————————————————————————————————————————————————————
 // Sound Setup
 const hoverSound = new Audio('Assets-2/site-sound_hover_v1.mp3');
@@ -39,10 +37,11 @@ if (soundToggle) {
   });
 }
 
-document.querySelectorAll(".nav-btn, .sound-toggle, .dark-toggle, .email-link, button, a[href^='mailto']").forEach(el => {
-  el.addEventListener("mouseenter", () => { if (soundEnabled) hoverSound.play(); });
-  el.addEventListener("click", () =>    { if (soundEnabled) clickSound.play(); });
-});
+document.querySelectorAll(".nav-btn, .sound-toggle, .dark-toggle, .email-link, button, a[href^='mailto']")
+  .forEach(el => {
+    el.addEventListener("mouseenter", () => { if (soundEnabled) hoverSound.play(); });
+    el.addEventListener("click",     () => { if (soundEnabled) clickSound.play(); });
+  });
 
 // ——————————————————————————————————————————————————————
 // Captions Data & Formatter
@@ -67,8 +66,7 @@ function formatCaption(text) {
 }
 
 // ——————————————————————————————————————————————————————
-// Find-the-Object Game Logic (unchanged)
-// … (your existing game code here) …
+// (Your existing Find-the-Object game code remains entirely unchanged)
 
 // ——————————————————————————————————————————————————————
 // Gallery & Fullscreen
@@ -87,15 +85,18 @@ function showMedia(idx) {
 function openFullscreen() {
   fullscreenOverlay.classList.add("active");
   const clone = mediaItems[currentIndex].cloneNode(true);
-  if (clone.tagName==="VIDEO") {
-    clone.autoplay=true; clone.loop=true;
-    clone.muted=true;   clone.playsInline=true;
+  if (clone.tagName === "VIDEO") {
+    clone.autoplay = true;
+    clone.loop    = true;
+    clone.muted   = true;
+    clone.playsInline = true;
   }
-  fullscreenContent.innerHTML="";
+  fullscreenContent.innerHTML = "";
   fullscreenContent.appendChild(clone);
-  fullscreenCaption.innerHTML = formatCaption(captions[currentIndex]||"");
+  fullscreenCaption.innerHTML = formatCaption(captions[currentIndex] || "");
 }
 
+// cycle on hero-gallery click
 if (heroGallery) {
   heroGallery.addEventListener("click", () => {
     currentIndex = (currentIndex + 1) % mediaItems.length;
@@ -103,6 +104,7 @@ if (heroGallery) {
     if (soundEnabled) clickSound.play();
   });
 }
+// open full screen
 if (viewBtn) {
   viewBtn.addEventListener("click", e => {
     e.stopPropagation();
@@ -110,61 +112,115 @@ if (viewBtn) {
     if (soundEnabled) clickSound.play();
   });
 }
+// close full screen
 if (closeFS) {
-  closeFS.addEventListener("mouseenter", ()=>{ if (soundEnabled) hoverSound.play(); });
-  closeFS.addEventListener("click", ()=> {
+  closeFS.addEventListener("mouseenter", () => { if (soundEnabled) hoverSound.play(); });
+  closeFS.addEventListener("click", () => {
     fullscreenOverlay.classList.remove("active");
-    fullscreenContent.innerHTML="";
+    fullscreenContent.innerHTML = "";
     if (soundEnabled) clickSound.play();
   });
 }
-fullscreenContent.addEventListener("click", ()=>{
+// zoom toggle
+fullscreenContent.addEventListener("click", () => {
   const el = fullscreenContent.firstChild;
   if (!el) return;
-  if (el.style.transform==="scale(1.5)") {
-    el.style.transform="scale(1)"; el.style.cursor="zoom-in";
+  if (el.style.transform === "scale(1.5)") {
+    el.style.transform = "scale(1)";
+    el.style.cursor    = "zoom-in";
   } else {
-    el.style.transform="scale(1.5)"; el.style.cursor="zoom-out";
+    el.style.transform = "scale(1.5)";
+    el.style.cursor    = "zoom-out";
   }
 });
 
-// Navigation zones for fullscreen
-["left","right"].forEach(dir=>{
+// full-screen left/right zones
+["left","right"].forEach(dir => {
   const z = document.createElement("div");
   z.className = `click-zone fs-${dir}-zone`;
   fullscreenOverlay.appendChild(z);
-  z.addEventListener("click", e=>{
+  z.addEventListener("click", e => {
     e.stopPropagation();
-    currentIndex = dir==="left"
-      ? (currentIndex-1+mediaItems.length)%mediaItems.length
-      : (currentIndex+1)%mediaItems.length;
+    currentIndex = dir === "left"
+      ? (currentIndex - 1 + mediaItems.length) % mediaItems.length
+      : (currentIndex + 1) % mediaItems.length;
     openFullscreen();
   });
 });
 
-// Swipe support
-let startX=0;
-fullscreenOverlay.addEventListener("touchstart", e=>startX=e.touches[0].clientX);
-fullscreenOverlay.addEventListener("touchend", e=>{
+// swipe support
+let startX = 0;
+fullscreenOverlay.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+fullscreenOverlay.addEventListener("touchend", e => {
   const dx = e.changedTouches[0].clientX - startX;
-  if (dx>50)  currentIndex=(currentIndex-1+mediaItems.length)%mediaItems.length;
-  if (dx<-50) currentIndex=(currentIndex+1)%mediaItems.length;
+  if (dx > 50)  currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+  if (dx < -50) currentIndex = (currentIndex + 1) % mediaItems.length;
   openFullscreen();
 });
 
 // ——————————————————————————————————————————————————————
-// NEW: “CLICK HERE” Cursor Text
-document.addEventListener("DOMContentLoaded", ()=>{
+// NEW: Click-zones on main gallery for left/right
+if (heroGallery) {
+  const leftZone  = document.createElement("div");
+  const rightZone = document.createElement("div");
+  leftZone.className  = "click-zone left-zone";
+  rightZone.className = "click-zone right-zone";
+  heroGallery.appendChild(leftZone);
+  heroGallery.appendChild(rightZone);
+  leftZone.addEventListener("click", e => {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+    showMedia(currentIndex);
+    if (soundEnabled) clickSound.play();
+  });
+  rightZone.addEventListener("click", e => {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % mediaItems.length;
+    showMedia(currentIndex);
+    if (soundEnabled) clickSound.play();
+  });
+}
+
+// ——————————————————————————————————————————————————————
+// NEW: “CLICK HERE” Cursor Text (replace your old block with this)
+document.addEventListener("DOMContentLoaded", () => {
   if (!heroGallery) return;
   const lbl = document.createElement("div");
   lbl.className = "cursor-text";
-  lbl.innerText  = "CLICK HERE";
+  lbl.innerText = "CLICK HERE";
   document.body.appendChild(lbl);
 
-  heroGallery.addEventListener("mouseenter", ()=> lbl.style.display="block");
-  heroGallery.addEventListener("mousemove", e=>{
-    lbl.style.left = e.clientX + "px";
-    lbl.style.top  = e.clientY + "px";
+  // Helper to decide if we’re over a button
+  function overButton(el) {
+    return el.closest("#viewBtn, #closeFullscreen") != null;
+  }
+
+  // GALLERY handlers
+  heroGallery.addEventListener("mouseenter", () => lbl.style.display = "block");
+  heroGallery.addEventListener("mousemove", e => {
+    if (overButton(e.target)) {
+      lbl.style.display = "none";
+    } else {
+      lbl.style.display = "block";
+      lbl.style.left = e.clientX + "px";
+      lbl.style.top  = e.clientY + "px";
+    }
   });
-  heroGallery.addEventListener("mouseleave", ()=> lbl.style.display="none");
+  heroGallery.addEventListener("mouseleave", () => lbl.style.display = "none");
+
+  // FULLSCREEN handlers
+  fullscreenOverlay.addEventListener("mouseenter", () => {
+    if (fullscreenOverlay.classList.contains("active")) lbl.style.display = "block";
+  });
+  fullscreenOverlay.addEventListener("mousemove", e => {
+    if (!fullscreenOverlay.classList.contains("active")) return;
+    if (overButton(e.target)) {
+      lbl.style.display = "none";
+    } else {
+      lbl.style.display = "block";
+      lbl.style.left = e.clientX + "px";
+      lbl.style.top  = e.clientY + "px";
+    }
+  });
+  fullscreenOverlay.addEventListener("mouseleave", () => lbl.style.display = "none");
 });
