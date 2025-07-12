@@ -1,70 +1,462 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WITH OBJECT</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="grid-container">
+    <!-- Header -->
+    <header class="site-header">
+      <a href="index.html" class="logo-link">
+        <div class="logo"></div>
+      </a>
+      <nav class="header-nav">
+        <a href="about.html" class="nav-item">ABOUT_</a>
+        <span class="nav-item sound-toggle">SOUND ON_</span>
+        <span class="nav-item color-toggle">COLOR MODE_</span>
+      </nav>
+      
+      <!-- Burger Menu for Mobile -->
+      <div class="burger-menu" id="burgerMenu">
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+        <div class="burger-line"></div>
+      </div>
+      
+      <!-- Mobile Menu Overlay -->
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="about.html" class="mobile-nav-item">ABOUT</a>
+        <span class="mobile-nav-item sound-toggle-mobile">SOUND ON_</span>
+        <span class="mobile-nav-item color-toggle-mobile">COLOR MODE_</span>
+      </div>
+    </header>
 
-  <header class="header">
-    <h1>WITH OBJECT</h1>
-  </header>
+    <!-- Horizontal Scroll Container -->
+    <main class="scroll-container">
+      <div class="gallery-overlay" id="galleryOverlay">HORIZONTAL SCROLL</div>
+      <div class="section-title" id="sectionTitle">SIGNAL ARCHIVE 01 — HERO</div>
+      <div class="frame-title" id="frameTitle">FRAME 01</div>
+      
+      <!-- Project Container -->
+      <div class="project-container" id="projectContainer">
+        <!-- Project 1: Signal Archive 01 -->
+        <div class="project" data-project="0">
+          <div class="project-sections" id="projectSections0">
+            <!-- Section 1: Hero Image -->
+            <section class="project-section hero-section">
+              <div class="gallery-container">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://ia800207.us.archive.org/5/items/1992-L-06203/1999-L-00478.jpg" alt="Signal Archive 01 - Hero" class="hero-media gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 2: Case Study Panel -->
+            <section class="project-section case-study-section">
+              <div class="case-study-content">
+                <div class="case-study-header">
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">WORK TITLE</div>
+                    <div class="case-study-value">Signal Archive 01</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">YEAR</div>
+                    <div class="case-study-value">2025</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">TYPE</div>
+                    <div class="case-study-value">Video Series</div>
+                  </div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">OBJECTIVE</div>
+                  <div class="case-study-value">Translate the feeling of digital displacement into a visual system. Pain points: retaining clarity through abstract motion, sound-text sync, non-linear narrative structure.</div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">FINAL OBJECT</div>
+                  <div class="case-study-value">A 3-part video sequence that mimics corrupted data restoration. Output included analog-processed sound layers, text overlays, and rephotographed footage encoded as a looping broadcast.</div>
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 3: Additional Media -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Signal Archive 01 - Detail 1" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Signal Archive 01 - Detail 2" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 4: Additional Media Page 2 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Signal Archive 01 - Detail 3" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Signal Archive 01 - Detail 4" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 5: Additional Media Page 3 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181345/pexels-photo-1181345.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Signal Archive 01 - Detail 5" class="media-item single-image gallery-media">
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
 
- <section class="hero-gallery" id="heroGallery">
-  <div class="media-container" id="mediaContainer">
-    <video autoplay loop muted playsinline class="gallery-item active">
-      <source src="Assets-2/index_gallery-img_herovideo_v01.mp4" type="video/mp4">
-    </video>
-    <img src="Assets-2/index_gallery-img_augment_v01.jpg" class="gallery-item">
-    <img src="Assets-2/index_gallery-img_smoke_v01.jpg" class="gallery-item">
-     <video autoplay loop muted playsinline class="gallery-item active">
-      <source src="Assets-2/index_gallery-vid_LogoVideo_v03.mp4" type="video/mp4">
-    </video>
-    <img src="Assets-2/index_gallery-img_low2_v01.jpg" class="gallery-item">
-    <img src="Assets-2/index_gallery-img_kafoaks_v01.jpg" class="gallery-item">
-    <img src="Assets-2/index_gallery-img_floriangouello_v01.jpg" class="gallery-item">
-    <video autoplay loop muted playsinline class="gallery-item active">
-      <source src="Assets-2/index_gallery-vid_withobjectvideo_v02.mp4" type="video/mp4">
-    </video>
+        <!-- Project 2: Resonance Study 02 -->
+        <div class="project" data-project="1">
+          <div class="project-sections" id="projectSections1">
+            <!-- Section 1: Hero Image -->
+            <section class="project-section hero-section">
+              <div class="gallery-container">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Resonance Study 02 - Hero" class="hero-media gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 2: Case Study Panel -->
+            <section class="project-section case-study-section">
+              <div class="case-study-content">
+                <div class="case-study-header">
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">WORK TITLE</div>
+                    <div class="case-study-value">Resonance Study 02</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">YEAR</div>
+                    <div class="case-study-value">2024</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">TYPE</div>
+                    <div class="case-study-value">Interactive Installation</div>
+                  </div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">OBJECTIVE</div>
+                  <div class="case-study-value">Create a responsive environment that reacts to human presence and movement. Challenge: balancing sensitivity with stability, avoiding false triggers.</div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">FINAL OBJECT</div>
+                  <div class="case-study-value">A room-scale installation using motion sensors and projected light patterns. Visitors' movements generate evolving visual compositions that persist and layer over time.</div>
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 3: Additional Media -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Resonance Study 02 - Detail 1" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181712/pexels-photo-1181712.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Resonance Study 02 - Detail 2" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 4: Additional Media Page 2 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181772/pexels-photo-1181772.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Resonance Study 02 - Detail 3" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181773/pexels-photo-1181773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Resonance Study 02 - Detail 4" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 5: Additional Media Page 3 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181896/pexels-photo-1181896.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Resonance Study 02 - Detail 5" class="media-item single-image gallery-media">
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- Project 3: Data Fragments 03 -->
+        <div class="project" data-project="2">
+          <div class="project-sections" id="projectSections2">
+            <!-- Section 1: Hero Image -->
+            <section class="project-section hero-section">
+              <div class="gallery-container">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181919/pexels-photo-1181919.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Data Fragments 03 - Hero" class="hero-media gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 2: Case Study Panel -->
+            <section class="project-section case-study-section">
+              <div class="case-study-content">
+                <div class="case-study-header">
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">WORK TITLE</div>
+                    <div class="case-study-value">Data Fragments 03</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">YEAR</div>
+                    <div class="case-study-value">2024</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">TYPE</div>
+                    <div class="case-study-value">Print Series</div>
+                  </div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">OBJECTIVE</div>
+                  <div class="case-study-value">Visualize the decay and reconstruction of digital information through analog processes. Focus on texture, grain, and information loss.</div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">FINAL OBJECT</div>
+                  <div class="case-study-value">A series of 12 large-format prints combining digital glitch artifacts with traditional darkroom techniques. Each piece represents a different stage of data corruption.</div>
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 3: Additional Media -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1181980/pexels-photo-1181980.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Data Fragments 03 - Detail 1" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182022/pexels-photo-1182022.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Data Fragments 03 - Detail 2" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 4: Additional Media Page 2 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182056/pexels-photo-1182056.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Data Fragments 03 - Detail 3" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182123/pexels-photo-1182123.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Data Fragments 03 - Detail 4" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 5: Additional Media Page 3 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182198/pexels-photo-1182198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Data Fragments 03 - Detail 5" class="media-item single-image gallery-media">
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- Project 4: Temporal Shift 04 -->
+        <div class="project" data-project="3">
+          <div class="project-sections" id="projectSections3">
+            <!-- Section 1: Hero Image -->
+            <section class="project-section hero-section">
+              <div class="gallery-container">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182241/pexels-photo-1182241.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Temporal Shift 04 - Hero" class="hero-media gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 2: Case Study Panel -->
+            <section class="project-section case-study-section">
+              <div class="case-study-content">
+                <div class="case-study-header">
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">WORK TITLE</div>
+                    <div class="case-study-value">Temporal Shift 04</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">YEAR</div>
+                    <div class="case-study-value">2023</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">TYPE</div>
+                    <div class="case-study-value">Sound Design</div>
+                  </div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">OBJECTIVE</div>
+                  <div class="case-study-value">Compose audio that exists in multiple time signatures simultaneously. Technical challenge: maintaining coherence while creating rhythmic displacement.</div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">FINAL OBJECT</div>
+                  <div class="case-study-value">A 20-minute composition using layered field recordings and synthesized tones. The piece shifts between 4/4, 7/8, and 5/4 time signatures in overlapping cycles.</div>
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 3: Additional Media -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182325/pexels-photo-1182325.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Temporal Shift 04 - Detail 1" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182414/pexels-photo-1182414.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Temporal Shift 04 - Detail 2" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 4: Additional Media Page 2 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182468/pexels-photo-1182468.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Temporal Shift 04 - Detail 3" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182491/pexels-photo-1182491.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Temporal Shift 04 - Detail 4" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 5: Additional Media Page 3 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182519/pexels-photo-1182519.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Temporal Shift 04 - Detail 5" class="media-item single-image gallery-media">
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- Project 5: Object Memory 05 -->
+        <div class="project" data-project="4">
+          <div class="project-sections" id="projectSections4">
+            <!-- Section 1: Hero Image -->
+            <section class="project-section hero-section">
+              <div class="gallery-container">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182540/pexels-photo-1182540.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Object Memory 05 - Hero" class="hero-media gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 2: Case Study Panel -->
+            <section class="project-section case-study-section">
+              <div class="case-study-content">
+                <div class="case-study-header">
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">WORK TITLE</div>
+                    <div class="case-study-value">Object Memory 05</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">YEAR</div>
+                    <div class="case-study-value">2023</div>
+                  </div>
+                  <div class="case-study-field inline">
+                    <div class="case-study-label">TYPE</div>
+                    <div class="case-study-value">Sculpture Series</div>
+                  </div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">OBJECTIVE</div>
+                  <div class="case-study-value">Explore the relationship between digital and physical permanence. How do objects retain information about their creation process?</div>
+                </div>
+                <div class="case-study-field">
+                  <div class="case-study-label">FINAL OBJECT</div>
+                  <div class="case-study-value">Five sculptural pieces cast from 3D-printed molds, each containing embedded NFC chips with creation metadata. Physical forms that carry their digital DNA.</div>
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 3: Additional Media -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182581/pexels-photo-1182581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Object Memory 05 - Detail 1" class="media-item gallery-media">
+                </div>
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <img src="https://images.pexels.com/photos/1182624/pexels-photo-1182624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Object Memory 05 - Detail 2" class="media-item gallery-media">
+                </div>
+              </div>
+            </section>
+            
+            <!-- Section 4: Additional Media Page 2 -->
+            <section class="project-section media-section">
+              <div class="additional-media">
+                <div class="media-wrapper">
+                  <div class="media-placeholder"></div>
+                  <video class="media-item single-image gallery-media" autoplay muted loop playsinline>
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+            </section>
+            
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <footer class="bottom-nav">
+      <div class="bottom-left">
+        <div class="gallery-number" id="galleryNumber">001</div>
+      </div>
+      <div class="bottom-center">
+        <span class="nav-item view-project-toggle" id="prevSetBtn">PREV OBJECT_</span>
+        <span class="nav-item view-project-toggle" id="nextSetBtn">NEXT OBJECT_</span>
+      </div>
+      <div class="bottom-right">
+        <div class="square-button" id="returnToBeginningBtn" title="Return to beginning of project"></div>
+      </div>
+    </footer>
   </div>
-   
- <button class="view-button" id="viewBtn" aria-label="Open fullscreen">
-      <svg
-        class="fullscreen-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        width="32" height="32"
-      >
-        <path d="M3 3h6v2H5v4H3V3zm12 0h6v6h-2V5h-4V3zm6 12v6h-6v-2h4v-4h2zm-18 6v-6h2v4h4v2H3z"/>
-      </svg>
-    </button>
-</section>
-
-<div class="fullscreen-overlay" id="fullscreenOverlay">
-  <span class="close-fullscreen" id="closeFullscreen">x</span>
-  <div class="fullscreen-inner">
-    <div class="fullscreen-content" id="fullscreenContent"></div>
-    <div class="fullscreen-caption" id="fullscreenCaption"></div>
-  </div>
-</div>
-
-  <section class="intro-button">
-    <a href="about.html" class="nav-btn enter-btn">ABOUT</a>
-  </section>
-
-  <footer class="footer">
-  <p class="footer-small">
-     <a href="mailto:contact@withobject.design" class="email-link">contact@withobject.design</a><br>
-    &copy; 2025 WITH OBJECT. All rights reserved.
-  </p>
-  <div class="toggles">
-    <div class="sound-toggle" id="soundToggle">SOUND: ON</div>
-    <div class="dark-toggle" id="darkToggle">DARK MODE: OFF</div>
-  </div>
-</footer>
 
   <script src="script.js"></script>
 </body>

@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Find the Object</title>
- <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FIND THE OBJECT — WITH OBJECT</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-
-  <!-- FIXED UI HEADER -->
-<div class="game-header">
-  <div class="game-title">FIND THE OBJECT</div>
-  <a href="about.html" class="close-btn" id="closeBtn">x</a>
-</div>
-
-
-  <div class="field-container" id="gameField">
-    <img
-      src="https://cdn.glitch.global/c608904e-0a89-447c-bfca-1f26ed478d82/ladderw%3A.png?v=1747279093187"
-      id="hiddenObject"
-      class="hidden-object"
-      alt="Hidden Object"
-    />
-
-    <div id="foundMessage">
-      <p>OBJECT FOUND</p>
-      <p class="reset-text">click anywhere to reset</p>
+<body class="theme-dark">
+  <div class="about-container">
+    <div class="content-wrapper">
+      <button class="close-button" onclick="window.location.href='index.html'">[X]</button>
+      <div class="about-text">
+        <p>
+          FIND THE OBJECT — Coming Soon
+        </p>
+        <p>
+          A new interactive experience is being crafted. Return soon to discover what lies within.
+        </p>
+      </div>
     </div>
   </div>
-
-  <footer class="footer">
-    <p class="footer-small">
-      <a href="mailto:contact@withobject.design" class="email-link">contact@withobject.design</a><br>
-      &copy; 2025 WITH OBJECT. All rights reserved.
-    </p>
-    <div class="toggles">
-      <div class="sound-toggle" id="soundToggle">SOUND: ON</div>
-      <div class="dark-toggle" id="darkToggle">DARK MODE: OFF</div>
-    </div>
-  </footer>
-  <link rel="stylesheet" href="./styles/styles.css" />
   <script src="script.js"></script>
+  
+  <!-- Initialize sound system for find-the-object page -->
+  <script>
+    // Ensure sound system works on find-the-object page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Small delay to ensure script.js has loaded
+      setTimeout(() => {
+        if (typeof initializeSoundSystem === 'function') {
+          initializeSoundSystem();
+        }
+      }, 200);
+    });
+  </script>
 </body>
 </html>

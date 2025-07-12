@@ -1,28 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ABOUT — WITH OBJECT</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-
-  <section class="about-minimal">
-    <div class="about-text">
-      <p>WITH OBJECT is a creative operations studio. We engage in design, sound, and motion using raw input as our material. Each output is a form of transmission — made to carry meaning and move with intent.<br><br>
-      SIGNAL — <a href="mailto:contact@withobject.design" class="email-link">contact@withobject.design</a>
-</p>
+<body class="theme-dark">
+  <!-- DVD Bouncing Logo -->
+  <div class="dvd-logo" id="dvdLogo">DVD</div>
+  
+  <div class="about-container">
+    <div class="content-wrapper">
+      <button class="close-button" onclick="window.location.href='index.html'">[X]</button>
+      <div class="about-text">
+        <div class="about-description">
+          WITH OBJECT is a creative operations studio. We engage in design, sound, and motion using raw input as our material. Each output is a form of transmission - made to carry meaning and move with intent.
+        </div>
+        <div class="about-contact">
+          <div class="about-label">SIGNAL</div>
+          <div class="about-value">
+            <a href="mailto:contact@withobject.design" class="email-link">contact@withobject.design</a>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="about-button">
-      <a href="index.html" class="nav-btn">HOME</a>
-    </div>
-  </section>
-  <link rel="stylesheet" href="./styles/styles.css" />
+  </div>
   <script src="script.js"></script>
-  <a href="find-the-object.html" class="secret-link">(CLICK TO) FIND THE OBJECT</a>
-
-
+  <script>
+    // DVD Bouncing Logo Effect
+    class DVDBouncer {
+      constructor() {
+        this.logo = document.getElementById('dvdLogo');
+        this.x = Math.random() * (window.innerWidth - 60);
+        this.y = Math.random() * (window.innerHeight - 150);
+        this.speedX = 2;
+        this.speedY = 2;
+        this.colors = [
+          'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+          'linear-gradient(45deg, #a8e6cf, #ffd93d)',
+          'linear-gradient(45deg, #ff8a80, #82b1ff)',
+          'linear-gradient(45deg, #ce93d8, #80cbc4)',
+          'linear-gradient(45deg, #ffab91, #81c784)',
+          'linear-gradient(45deg, #f8bbd9, #e1bee7)'
+        ];
+        this.currentColorIndex = 0;
+        
+        this.init();
+        this.animate();
+      }
+      
+      init() {
+        this.logo.style.left = this.x + 'px';
+        this.logo.style.top = this.y + 'px';
+      }
+      
+      animate() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        
+        // Check for collision with edges
+        if (this.x <= 0 || this.x >= window.innerWidth - 60) {
+          this.speedX = -this.speedX;
+        }
+        
+        if (this.y <= 0 || this.y >= window.innerHeight - 150) {
+          this.speedY = -this.speedY;
+        }
+        
+        // Keep within bounds
+        this.x = Math.max(0, Math.min(this.x, window.innerWidth - 60));
+        this.y = Math.max(0, Math.min(this.y, window.innerHeight - 150));
+        
+        // Update position
+        this.logo.style.left = this.x + 'px';
+        this.logo.style.top = this.y + 'px';
+        
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+    
+    // Initialize DVD bouncer when page loads
+    window.addEventListener('load', () => {
+      new DVDBouncer();
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      // Reinitialize bouncer on resize to adjust boundaries
+      const existingLogo = document.getElementById('dvdLogo');
+      if (existingLogo) {
+        new DVDBouncer();
+      }
+    });
+  </script>
+  
+  <!-- Initialize sound system for about page -->
+  <script>
+    // Ensure sound system works on about page
+    document.addEventListener('DOMContentLoaded', () => {
+      // Small delay to ensure script.js has loaded
+      setTimeout(() => {
+        if (typeof initializeSoundSystem === 'function') {
+          initializeSoundSystem();
+        }
+      }, 200);
+    });
+  </script>
 </body>
 </html>
