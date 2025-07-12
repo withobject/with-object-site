@@ -753,7 +753,7 @@ a:active {
   position: fixed;
   width: 60px;
   height: 150px;
-  background-image: url('https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=60&h=150');
+  background-image: url('/Assets/Cellphone_bouncing_animation_v6.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
