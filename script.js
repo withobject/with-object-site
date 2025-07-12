@@ -603,8 +603,8 @@ if (colorToggleMobile) {
 }
 
 // AUDIO
-const hoverSound = new Audio('Assets-2/site-sound_hover_v1.mp3');
-const clickSound = new Audio('Assets-2/site-sound_click_v1.mp3');
+const hoverSound = new Audio('Assets/site-sound_hover_v1.mp3');
+const clickSound = new Audio('Assets/site-sound_click_v1.mp3');
 const boundarySound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.wav');
 
 // COMPREHENSIVE SOUND SYSTEM - Works on all pages and elements
