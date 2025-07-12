@@ -71,7 +71,7 @@ function applyThemeSetting() {
 let currentProjectIndex = 0;
 let currentSectionIndex = 0; // 0: hero, 1: case study, 2: additional media
 const totalProjects = 5;
-const totalSections = 4;
+const totalSections = 5;
 let isNavigating = false;
 let animationFrameId = null;
 
@@ -190,18 +190,19 @@ const frameTitleScrambler = frameTitleElement ? new TextScrambler(frameTitleElem
 
 // Section titles data
 const projectTitles = [
-  'SIGNAL ARCHIVE 01',
-  'RESONANCE STUDY 02', 
-  'DATA FRAGMENTS 03',
-  'TEMPORAL SHIFT 04',
-  'OBJECT MEMORY 05'
+  'WHO IS WITH OBJECT? 01',
+  'DAFFI ALBUM ART 02', 
+  'LOW RECORDS 03',
+  'THE NIGHTBEAR 04',
+  'ALTERNATE TIMELINES 05'
 ];
 
 const sectionNames = [
   'HERO',
   'CASE STUDY', 
   'MEDIA 01',
-  'MEDIA 02'
+  'MEDIA 02',
+  'MEDIA 03'
 ];
 
 // Update section title
@@ -304,7 +305,10 @@ function prevProject() {
 
 function nextSection() {
   if (isNavigating) return;
-  if (currentSectionIndex < totalSections - 1) {
+  // Check if we're at the last section for the current project
+  const maxSections = currentProjectIndex === 3 ? 3 : 4; // Project 4 (THE NIGHTBEAR) has only 4 sections (0-3)
+  
+  if (currentSectionIndex < maxSections) {
     smoothTransition(() => {
       isNavigating = true;
       currentSectionIndex++;
@@ -407,27 +411,6 @@ let scrollTimeout;
 let touchTimeout;
 
 if (scrollContainer) {
-  // Mouse wheel scroll with debouncing
-  scrollContainer.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    
-    // Clear existing timeout
-    if (scrollTimeout) {
-      clearTimeout(scrollTimeout);
-    }
-    
-    // Set new timeout for scroll action
-    scrollTimeout = setTimeout(() => {
-      smoothTransition(() => {
-        if (e.deltaY > 0) {
-          nextSection();
-        } else {
-          prevSection();
-        }
-      });
-    }, 50); // 50ms debounce
-  });
-  
   // Touch handling
   let touchStartX = 0;
   let touchStartY = 0;
@@ -451,17 +434,10 @@ if (scrollContainer) {
         const deltaX = touchEndX - touchStartX;
         const deltaY = touchEndY - touchStartY;
         
-        // Determine if it's a horizontal or vertical swipe
+        // Only respond to horizontal swipes
         if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
-          // Horizontal swipe - navigate sections
+          // Horizontal swipe only - navigate sections
           if (deltaX > 0) {
-            prevSection();
-          } else {
-            nextSection();
-          }
-        } else if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 50) {
-          // Vertical swipe - navigate sections
-          if (deltaY > 0) {
             prevSection();
           } else {
             nextSection();
@@ -474,10 +450,10 @@ if (scrollContainer) {
 
 // KEYBOARD NAVIGATION
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+  if (e.key === 'ArrowLeft') {
     e.preventDefault();
     prevSection();
-  } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+  } else if (e.key === 'ArrowRight') {
     e.preventDefault();
     nextSection();
   }
@@ -605,7 +581,7 @@ if (colorToggleMobile) {
 // AUDIO
 const hoverSound = new Audio('Assets/site-sound_hover_v1.mp3');
 const clickSound = new Audio('Assets/site-sound_click_v1.mp3');
-const boundarySound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.wav');
+const boundarySound = new Audio('Assets/site-sound_found_v1.mp3');
 
 // COMPREHENSIVE SOUND SYSTEM - Works on all pages and elements
 function initializeSoundSystem() {
