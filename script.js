@@ -580,7 +580,7 @@ if (colorToggleMobile) {
 
 // AUDIO
 const hoverSound = new Audio('Assets/new_hover_sound_v1.mp3');
-const clickSound = new Audio('Assets/new_click_prev_sound_v1.mp3');
+const clickSound = new Audio('Assets/new_click_next_sound_v1.mp3');
 const boundarySound = new Audio('Assets/new_errorclick_sound_v1.mp3');
 
 // COMPREHENSIVE SOUND SYSTEM - Works on all pages and elements
