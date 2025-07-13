@@ -292,18 +292,12 @@ function nextProject() {
   if (isNavigating) return;
   currentProjectIndex = (currentProjectIndex + 1) % totalProjects;
   switchToProject(currentProjectIndex);
-  if (typeof clickSound !== 'undefined' && soundOn) {
-    clickSound.play().catch(() => {});
-  }
 }
 
 function prevProject() {
   if (isNavigating) return;
   currentProjectIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
   switchToProject(currentProjectIndex);
-  if (typeof prevClickSound !== 'undefined' && soundOn) {
-    prevClickSound.play().catch(() => {});
-  }
 }
 
 function nextSection() {
@@ -327,6 +321,9 @@ function nextSection() {
   } else {
     // User is at last section - go to next project
     nextProject();
+    if (typeof nextClickSound !== 'undefined' && soundOn) {
+      nextClickSound.play().catch(() => {});
+    }
   }
 }
 
@@ -348,6 +345,9 @@ function prevSection() {
   } else {
     // User is at first section - go to previous project
     prevProject();
+    if (typeof prevClickSound !== 'undefined' && soundOn) {
+      prevClickSound.play().catch(() => {});
+    }
   }
 }
 
