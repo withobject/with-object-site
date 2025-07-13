@@ -320,8 +320,8 @@ function nextSection() {
       currentSectionIndex++;
       scrollToSection(currentProjectIndex, currentSectionIndex);
       updateSectionTitle();
-      if (typeof clickSound !== 'undefined' && soundOn) {
-        clickSound.play().catch(() => {});
+      if (typeof nextClickSound !== 'undefined' && soundOn) {
+        nextClickSound.play().catch(() => {});
       }
       setTimeout(() => {
         isNavigating = false;
