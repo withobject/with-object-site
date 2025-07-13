@@ -49,6 +49,12 @@ function applySoundSetting() {
   if (typeof boundarySound !== 'undefined') {
     boundarySound.volume = soundOn ? 0.7 : 0.0; // Slightly quieter than other sounds
   }
+  if (typeof nextClickSound !== 'undefined') {
+    nextClickSound.volume = soundOn ? 1.0 : 0.0;
+  }
+  if (typeof prevClickSound !== 'undefined') {
+    prevClickSound.volume = soundOn ? 1.0 : 0.0;
+  }
 }
 
 function applyThemeSetting() {
@@ -298,8 +304,8 @@ function prevProject() {
   if (isNavigating) return;
   currentProjectIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
   switchToProject(currentProjectIndex);
-  if (typeof clickSound !== 'undefined' && soundOn) {
-    clickSound.play().catch(() => {});
+  if (typeof prevClickSound !== 'undefined' && soundOn) {
+    prevClickSound.play().catch(() => {});
   }
 }
 
@@ -335,8 +341,8 @@ function prevSection() {
       currentSectionIndex--;
       scrollToSection(currentProjectIndex, currentSectionIndex);
       updateSectionTitle();
-      if (typeof clickSound !== 'undefined' && soundOn) {
-        clickSound.play().catch(() => {});
+      if (typeof prevClickSound !== 'undefined' && soundOn) {
+        prevClickSound.play().catch(() => {});
       }
       setTimeout(() => {
         isNavigating = false;
@@ -582,6 +588,8 @@ if (colorToggleMobile) {
 const hoverSound = new Audio('Assets/new_hover_sound_v1.mp3');
 const clickSound = new Audio('Assets/new_click_next_sound_v1.mp3');
 const boundarySound = new Audio('Assets/new_errorclick_sound_v1.mp3');
+const nextClickSound = new Audio('Assets/new_click_next_sound_v1.mp3');
+const prevClickSound = new Audio('Assets/new_click_prev_sound_v1.mp3');
 
 // COMPREHENSIVE SOUND SYSTEM - Works on all pages and elements
 function initializeSoundSystem() {
