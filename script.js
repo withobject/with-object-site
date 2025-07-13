@@ -40,9 +40,6 @@ function applySoundSetting() {
   }
   
   // Update audio volumes if they exist
-  if (typeof hoverSound !== 'undefined') {
-    hoverSound.volume = soundOn ? 1.0 : 0.0;
-  }
   if (typeof clickSound !== 'undefined') {
     clickSound.volume = soundOn ? 1.0 : 0.0;
   }
@@ -386,9 +383,6 @@ if (scrollContainer && overlay) {
 
   scrollContainer.addEventListener('mouseenter', () => {
     // Don't automatically show overlay - let mousemove handle it
-    if (typeof hoverSound !== 'undefined' && soundOn) {
-      hoverSound.play().catch(() => {});
-    }
   });
 
   scrollContainer.addEventListener('mouseleave', () => {
@@ -585,7 +579,6 @@ if (colorToggleMobile) {
 }
 
 // AUDIO
-const hoverSound = new Audio('Assets/new_hover_sound_v1.mp3');
 const clickSound = new Audio('Assets/new_click_next_sound_v1.mp3');
 const boundarySound = new Audio('Assets/new_errorclick_sound_v1.mp3');
 const nextClickSound = new Audio('Assets/new_click_next_sound_v1.mp3');
@@ -594,7 +587,7 @@ const prevClickSound = new Audio('Assets/new_click_prev_sound_v1.mp3');
 // COMPREHENSIVE SOUND SYSTEM - Works on all pages and elements
 function initializeSoundSystem() {
   // Wait for sounds to be created
-  if (!hoverSound || !clickSound) {
+  if (!clickSound) {
     setTimeout(initializeSoundSystem, 100);
     return;
   }
@@ -612,12 +605,6 @@ function initializeSoundSystem() {
   ];
 
   // Define all hoverable selectors (includes clickables + some extras)
-  const hoverableSelectors = [
-    ...clickableSelectors,
-    '.info-button',
-    '[role="button"]',
-    '[tabindex="0"]'
-  ];
 
   // Add click sounds to all clickable elements
   clickableSelectors.forEach(selector => {
@@ -629,23 +616,11 @@ function initializeSoundSystem() {
     });
   });
 
-  // Add hover sounds to all hoverable elements
-  hoverableSelectors.forEach(selector => {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach(element => {
-      // Remove existing listeners to prevent duplicates
-      element.removeEventListener('mouseenter', playHoverSound);
-      element.addEventListener('mouseenter', playHoverSound);
-    });
-  });
-
   // Special handling for scroll container (already has click handler)
   const scrollContainer = document.querySelector('.scroll-container');
   if (scrollContainer) {
     // The scroll container already has click handling in the existing code
-    // Just add hover sound
-    scrollContainer.removeEventListener('mouseenter', playScrollHoverSound);
-    scrollContainer.addEventListener('mouseenter', playScrollHoverSound);
+    // No hover sound needed
   }
 }
 
@@ -653,19 +628,6 @@ function initializeSoundSystem() {
 function playClickSound(e) {
   if (clickSound && soundOn) {
     clickSound.play().catch(() => {});
-  }
-}
-
-function playHoverSound(e) {
-  if (hoverSound && soundOn) {
-    hoverSound.play().catch(() => {});
-  }
-}
-
-function playScrollHoverSound(e) {
-  // Only play hover sound if not already handled by existing scroll container logic
-  if (hoverSound && soundOn) {
-    hoverSound.play().catch(() => {});
   }
 }
 
