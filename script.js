@@ -592,21 +592,18 @@ function initializeSoundSystem() {
     return;
   }
 
-  // Define all clickable selectors
+  // Define clickable selectors that should use clickSound
   const clickableSelectors = [
-    'a', 'button', 
-    '.nav-item', '.mobile-nav-item', 
-    '.view-project-toggle', '.square-button',
+    '.nav-item', '.mobile-nav-item',
     '.sound-toggle', '.sound-toggle-mobile',
     '.color-toggle', '.color-toggle-mobile',
     '.close-button', '.email-link',
     '.logo', '.burger-menu',
-    '#prevSetBtn', '#nextSetBtn', '#returnToBeginningBtn'
+    '.square-button'
   ];
 
-  // Define all hoverable selectors (includes clickables + some extras)
 
-  // Add click sounds to all clickable elements
+  // Add click sounds to specific UI elements only
   clickableSelectors.forEach(selector => {
     const elements = document.querySelectorAll(selector);
     elements.forEach(element => {
@@ -616,12 +613,6 @@ function initializeSoundSystem() {
     });
   });
 
-  // Special handling for scroll container (already has click handler)
-  const scrollContainer = document.querySelector('.scroll-container');
-  if (scrollContainer) {
-    // The scroll container already has click handling in the existing code
-    // No hover sound needed
-  }
 }
 
 // Sound playing functions
