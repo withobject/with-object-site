@@ -579,30 +579,31 @@ a:active {
 
 .additional-media {
   display: flex;
-  gap: 30px;
   justify-content: center;
   align-items: center;
+  gap: 20px; /* Space between images */
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
+  padding: 2vh 2vw; /* Scales with viewport */
   box-sizing: border-box;
-  padding: 20px;
+  overflow: hidden;
 }
 
+/* All images */
 .media-item {
-  max-width: calc(50vw - 40px);
-  max-height: calc(100vh - 160px);
+  flex: 1 1 auto; /* Flexible growth/shrink */
+  max-width: 40vw; /* Adjust width dynamically */
+  max-height: 70vh; /* Allow height scaling */
   width: auto;
   height: auto;
-  object-fit: contain;
-  flex-shrink: 1;
+  object-fit: contain; /* Prevent cropping */
+  display: block;
 }
 
-.media-item.single-image {
-  max-width: calc(70vw - 40px);
-  max-height: calc(100vh - 160px);
+/* If only one image, make it bigger */
+.additional-media:has(.media-item:only-child) .media-item {
+  max-width: 70vw; /* Bigger for single image */
+  max-height: 80vh;
 }
 
 /* INFO BUTTONS */
