@@ -125,7 +125,8 @@ a:active {
 
 .grid-container {
   display: grid;
-  grid-template-rows: 60px 1fr 60px; /* Fixed heights for header and footer */
+  grid-template-rows: repeat(20, 1fr);
+  grid-template-columns: repeat(20, 1fr);
   height: 100vh; /* Fixed viewport height */
   min-height: 100vh;
   overflow: hidden; /* Prevent any overflow from the grid */
@@ -139,9 +140,10 @@ a:active {
   align-items: center;
   padding: 0 20px;
   font-weight: 700;
-  height: 60px; /* Fixed header height */
+  grid-row: 1 / 3; /* Rows 1-2 (equivalent to ~60px at viewport height) */
+  grid-column: 1 / 21; /* Full width */
   position: relative;
-  z-index: 100; /* Ensure header stays above gallery */
+  z-index: 100;
 }
 
 .logo {
@@ -319,6 +321,8 @@ a:active {
 /* PROJECT CONTAINER */
 
 .scroll-container {
+  grid-row: 3 / 19; /* Rows 3-18 (main content area) */
+  grid-column: 1 / 21; /* Full width */
   position: relative;
   width: 100%;
   height: 100%;
@@ -666,9 +670,10 @@ a:active {
   font-size: 12px; /* 12pt Roboto Mono/Regular */
   font-weight: 400; /* Regular */
   line-height: 1.33; /* 8pt grid: 16px line height */
-  height: 60px; /* Fixed footer height */
+  grid-row: 19 / 21; /* Rows 19-20 (equivalent to ~60px at viewport height) */
+  grid-column: 1 / 21; /* Full width */
   position: relative;
-  z-index: 100; /* Ensure footer stays above gallery */
+  z-index: 100;
 }
 
 .bottom-left {
@@ -891,7 +896,8 @@ a:active {
   }
   
   .grid-container {
-    grid-template-rows: 56px 1fr 56px; /* 8pt grid: 7 × 8px for mobile */
+    grid-template-rows: repeat(20, 1fr);
+    grid-template-columns: repeat(20, 1fr);
     height: 100vh;
     min-height: 100vh;
     max-height: 100vh; /* Prevent overflow */
@@ -900,7 +906,8 @@ a:active {
   /* MOBILE HEADER */
   .site-header {
     padding: 0 16px; /* 8pt grid: 2 × 8px */
-    height: 56px; /* 8pt grid: 7 × 8px */
+    grid-row: 1 / 3; /* Maintain same proportional space */
+    grid-column: 1 / 21;
     justify-content: center;
     position: relative;
   }
@@ -928,6 +935,8 @@ a:active {
   
   /* MOBILE MAIN CONTENT */
   .scroll-container {
+    grid-row: 3 / 19; /* Main content area */
+    grid-column: 1 / 21;
     height: 100%;
     overflow: hidden;
   }
@@ -935,7 +944,8 @@ a:active {
   /* MOBILE FOOTER */
   .bottom-nav {
     padding: 0 16px; /* 8pt grid: 2 × 8px */
-    height: 56px; /* 8pt grid: 7 × 8px */
+    grid-row: 19 / 21; /* Bottom area */
+    grid-column: 1 / 21;
     justify-content: space-between;
     align-items: center;
     position: relative;
@@ -1049,16 +1059,19 @@ a:active {
 /* SMALL MOBILE OPTIMIZATION */
 @media screen and (max-width: 375px) {
   .grid-container {
-    grid-template-rows: 48px 1fr 48px; /* 8pt grid: 6 × 8px for small mobile */
+    grid-template-rows: repeat(20, 1fr);
+    grid-template-columns: repeat(20, 1fr);
   }
   
   .site-header {
-    height: 48px; /* 8pt grid: 6 × 8px */
+    grid-row: 1 / 3;
+    grid-column: 1 / 21;
     padding: 0 12px; /* Slightly tighter on small screens */
   }
   
   .bottom-nav {
-    height: 48px; /* 8pt grid: 6 × 8px */
+    grid-row: 19 / 21;
+    grid-column: 1 / 21;
     padding: 0 12px;
   }
   
