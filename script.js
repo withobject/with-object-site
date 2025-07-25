@@ -33,10 +33,10 @@ function applySoundSetting() {
   const soundToggle = document.querySelector('.sound-toggle');
   const soundToggleMobile = document.querySelector('.sound-toggle-mobile');
   if (soundToggle) {
-    soundToggle.textContent = soundOn ? 'SOUND ON_' : 'SOUND OFF_';
+    soundToggle.textContent = soundOn ? 'SOUND OFF_' : 'SOUND ON_';
   }
   if (soundToggleMobile) {
-    soundToggleMobile.textContent = soundOn ? 'SOUND ON_' : 'SOUND OFF_';
+    soundToggleMobile.textContent = soundOn ? 'SOUND OFF_' : 'SOUND ON_';
   }
   
   // Update audio volumes if they exist
