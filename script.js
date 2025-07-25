@@ -7,7 +7,7 @@ const themes = [
   { name: 'AMBER', class: 'theme-amber' }
 ];
 
-let currentThemeIndex = 0;
+let currentThemeIndex = 1; // Default LIGHT
 let soundOn = true;
 
 function loadSettings() {
@@ -15,9 +15,10 @@ function loadSettings() {
   const savedSoundSetting = localStorage.getItem('soundOn');
   soundOn = savedSoundSetting !== null ? JSON.parse(savedSoundSetting) : true;
   
-  // Load theme setting (default: 0 for dark theme)
-  const savedThemeIndex = localStorage.getItem('themeIndex');
-  currentThemeIndex = savedThemeIndex !== null ? parseInt(savedThemeIndex) : 0;
+  // Load theme setting (default: 1 for light theme)
+const savedThemeIndex = localStorage.getItem('themeIndex');
+currentThemeIndex = savedThemeIndex !== null ? parseInt(savedThemeIndex) : 1;
+
   
   // Apply settings
   applySoundSetting();
