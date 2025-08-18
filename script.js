@@ -243,11 +243,20 @@ if (aboutMenuLink) {
 
   // ===== SOUND MODE (shared) =====
   // Your audio assets
-  const clickSound     = new Audio('Assets/test_click.mp3');
-  const hoverSound     = new Audio('Assets/test_hover.mp3');
-  const nextClickSound = new Audio('Assets/test_next.mp3');
-  const prevClickSound = new Audio('Assets/test_prev.mp3');
-  const boundarySound  = new Audio('Assets/test_boundary.mp3');
+    // ===== SOUND MODE (shared, robust) =====
+  // Audio assets
+  const SFX = {
+    click: new Audio('Assets/test_click.mp3'),
+    hover: new Audio('Assets/test_hover.mp3'),
+    next:  new Audio('Assets/test_next.mp3'),
+    prev:  new Audio('Assets/test_prev.mp3'),
+    edge:  new Audio('Assets/test_boundary.mp3'),
+  };
+
+  // First-time visitors default to sound ON
+  if (localStorage.getItem(SOUND_KEY) == null) {
+    localStorage.setItem(SOUND_KEY, 'on');
+  }
 
   let soundEnabled = getSavedSoundOn();
 
@@ -268,29 +277,76 @@ if (aboutMenuLink) {
     });
   }
 
-  function playSound(audioObj) {
-    if (soundEnabled && audioObj) {
-      audioObj.currentTime = 0;
-      audioObj.play().catch(() => {});
-    }
+  // Unlock audio on first real user gesture (mobile Safari/Chrome)
+  let audioUnlocked = false;
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    Object.values(SFX).forEach(a => {
+      try {
+        a.volume = 0.001;
+        a.play().then(() => a.pause()).catch(() => {});
+        a.currentTime = 0;
+        a.volume = 1;
+      } catch {}
+    });
   }
+  ['pointerdown','keydown','touchstart','click'].forEach(evt =>
+    window.addEventListener(evt, unlockAudio, { once: true, capture: true })
+  );
 
-  // Bind sounds to clicks/hover (only if elements exist)
-  document.querySelectorAll('a, button').forEach((el) => {
-    el.addEventListener('click', () => playSound(clickSound));
-    el.addEventListener('mouseenter', () => playSound(hoverSound));
-  });
-  if (nextBtn) nextBtn.addEventListener('click', () => playSound(nextClickSound));
-  if (prevBtn) prevBtn.addEventListener('click', () => playSound(prevClickSound));
+  // Safe play helpers
+  function playSfx(a) {
+    if (!soundEnabled || !a) return;
+    try {
+      a.currentTime = 0;
+      a.play().catch(() => {});
+    } catch {}
+  }
+  // Backward-compatible wrapper for your other code
+  function playSound(audioObj) { playSfx(audioObj); }
+
+  // What counts as interactive on your site
+  const INTERACTIVE_SELECTOR = [
+    'a',
+    'button',
+    '.menu-toggle',
+    '.nav',            // arrow buttons
+    '.project-box',    // project dots
+    '#infoToggle',
+    '#soundToggle',
+    '#colorModeToggle',
+    '.logo-link'
+  ].join(',');
+
+  // Click sounds: delegate so it works for dynamic menu items too
   document.addEventListener('click', (e) => {
-    const isInteractive = e.target.closest('a, button, .project-box, #menuToggle, #soundToggle, #infoToggle');
-    if (!isInteractive) playSound(boundarySound);
-  });
+    const el = e.target.closest(INTERACTIVE_SELECTOR);
+    if (el) {
+      if (el.id === 'nextBtn') return playSfx(SFX.next);
+      if (el.id === 'prevBtn') return playSfx(SFX.prev);
+      return playSfx(SFX.click);
+    }
+    // Background click ambience
+    playSfx(SFX.edge);
+  }, true);
+
+  // Hover/focus sounds (pointerenter for mouse/pen, focusin for keyboard)
+  document.addEventListener('pointerenter', (e) => {
+    const el = e.target.closest(INTERACTIVE_SELECTOR);
+    if (el) playSfx(SFX.hover);
+  }, true);
+
+  document.addEventListener('focusin', (e) => {
+    const el = e.target.closest(INTERACTIVE_SELECTOR);
+    if (el) playSfx(SFX.hover);
+  }, true);
 
   // Make available for pages that want to re-sync labels after load
   window.initializeSoundSystem = function initializeSoundSystem() {
     setSoundLabel(document.getElementById('soundToggle'), getSavedSoundOn());
   };
+
 
   // ===== EMAIL TOGGLE (if present) =====
   if (emailToggle && contactContainer) {
