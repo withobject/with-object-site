@@ -123,7 +123,7 @@ if (aboutMenuLink) {
   // ===== PROJECT DATA (index only uses these) =====
   const projectImages = [
     [
-      'https://i.pinimg.com/1200x/9e/6e/d2/9e6ed2acd6459a362acdac9849f42adc.jpg',
+      'Assets/cd_player_frame1_v2.png',
       'https://i.pinimg.com/1200x/db/6e/55/db6e553509254016b399fb3ed17f1d13.jpg',
       'https://i.pinimg.com/736x/ec/32/df/ec32dfd758ebf7cdad50d633638d9410.jpg',
       'https://i.pinimg.com/1200x/f9/48/bb/f948bb6a474d73b73b7b24ef0fa10234.jpg',
