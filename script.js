@@ -300,4 +300,22 @@ if (aboutMenuLink) {
     });
     emailToggle.addEventListener('mouseenter', () => playSound(hoverSound));
   }
+})(); 
+
+// === ABOUT PAGE SWAP LOGIC ===
+(function () {
+  const aboutLink = document.getElementById('aboutMenuLink');
+  if (!aboutLink) return;
+
+  // Detect if we are currently on the About page
+  const onAboutPage = window.location.pathname.endsWith('about.html');
+
+  if (onAboutPage) {
+    aboutLink.textContent = 'Home';
+    aboutLink.setAttribute('href', 'index.html');
+  } else {
+    aboutLink.textContent = 'About';
+    aboutLink.setAttribute('href', 'about.html');
+  }
 })();
+
