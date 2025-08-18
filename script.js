@@ -242,7 +242,6 @@
   // Your asset filenames (exact, under Assets/)
   const SFX = {
     click:    new Audio('Assets/new_click_next_sound_v1.mp3'),   // used for generic clicks
-    hover:    new Audio('Assets/new_hover_sound_v1.mp3'),
     next:     new Audio('Assets/new_click_next_sound_v1.mp3'),
     prev:     new Audio('Assets/new_click_prev_sound_v1.mp3'),
     dead:     new Audio('Assets/new_deadclick_sound_v1.mp3'),
