@@ -260,11 +260,11 @@
 
   let soundEnabled = getSavedSoundOn();
 
-  function setSoundLabel(el, on) {
-    if (!el) return;
-    el.textContent = on ? 'Sound On' : 'Sound Off';
-    el.setAttribute('aria-pressed', String(on));
-  }
+function setSoundLabel(el, on) {
+  if (!el) return;
+  el.textContent = on ? 'Sound Off' : 'Sound On';
+  el.setAttribute('aria-pressed', String(on));
+}
 
   setSoundLabel(soundToggleEl, soundEnabled);
 
