@@ -250,6 +250,11 @@
     edge:  new Audio('Assets/test_boundary.mp3'),
   };
 
+  // Preload so first play isn't silent
+  Object.values(SFX).forEach(a => {
+    try { a.preload = 'auto'; a.load(); } catch {}
+  });
+
   // First-time visitors default to sound ON
   if (localStorage.getItem(SOUND_KEY) == null) {
     localStorage.setItem(SOUND_KEY, 'on');
@@ -288,9 +293,10 @@
       } catch {}
     });
   }
-  ['pointerdown','keydown','touchstart','click'].forEach(evt =>
-    window.addEventListener(evt, unlockAudio, { once: true, capture: true })
-  );
+  ['pointerdown','keydown','touchstart','click'].forEach(evt => {
+    window.addEventListener(evt, unlockAudio, { once: true, capture: true });
+    document.addEventListener(evt, unlockAudio, { once: true, capture: true });
+  });
 
   // Safe play helpers
   function playSfx(a) {
@@ -320,6 +326,7 @@
   document.addEventListener('click', (e) => {
     const el = e.target.closest(INTERACTIVE_SELECTOR);
     if (el) {
+      // Specific routing for the gallery arrows
       if (el.id === 'nextBtn') return playSfx(SFX.next);
       if (el.id === 'prevBtn') return playSfx(SFX.prev);
       return playSfx(SFX.click);
@@ -328,16 +335,14 @@
     playSfx(SFX.edge);
   }, true);
 
-  // Hover/focus sounds (pointerenter for mouse/pen, focusin for keyboard)
-  document.addEventListener('pointerenter', (e) => {
+  // Hover/focus sounds (pointerenter for mouse/pen, mouseenter for Safari, focusin for keyboard)
+  const hoverHandler = (e) => {
     const el = e.target.closest(INTERACTIVE_SELECTOR);
     if (el) playSfx(SFX.hover);
-  }, true);
-
-  document.addEventListener('focusin', (e) => {
-    const el = e.target.closest(INTERACTIVE_SELECTOR);
-    if (el) playSfx(SFX.hover);
-  }, true);
+  };
+  document.addEventListener('pointerenter', hoverHandler, true);
+  document.addEventListener('mouseenter', hoverHandler, true); // fallback
+  document.addEventListener('focusin', hoverHandler, true);
 
   // Make available for pages that want to re-sync labels after load
   window.initializeSoundSystem = function initializeSoundSystem() {
