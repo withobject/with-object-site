@@ -1,37 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ABOUT — WITH OBJECT</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- SEO (placeholders you can swap later) -->
+  <meta name="description" content="PLACEHOLDER: About page description">
+  <link rel="canonical" href="https://withobject.design/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About | WITH OBJECT">
+  <meta property="og:description" content="PLACEHOLDER: About OG description">
+  <meta property="og:url" content="https://withobject.design/about.html">
+  <meta property="og:image" content="https://withobject.design/og-placeholder.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About | WITH OBJECT">
+  <meta name="twitter:description" content="PLACEHOLDER: About Twitter description">
+  <meta name="twitter:image" content="https://withobject.design/og-placeholder.jpg">
+
+  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="theme-dark">
-  <!-- DVD Bouncing Logo -->
+<body class="theme-light">
+  <!-- HEADER -->
+  <header class="custom-header">
+    <a href="/" class="logo-link">
+      <span class="logo"></span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >+</button>
+
+    <nav class="menu" id="mainMenu" hidden>
+      <ul>
+        <li><a href="about.html" aria-current="page">About</a></li>
+        <li><a href="#" id="colorModeToggle">Color Mode</a></li>
+        <li>
+          <a href="#"
+             id="soundToggle"
+             role="button"
+             aria-pressed="false"
+          >Sound Off</a>
+        </li>
+       <!-- <li><a href="shop.html">Shop</a></li>-->
+      </ul>
+    </nav>
+  </header>
+
+  <!-- BOUNCING DVD LOGO -->
   <div class="dvd-logo" id="dvdLogo">DVD</div>
-  
-  <div class="about-container">
-    <div class="content-wrapper">
-      <button class="close-button" onclick="window.location.href='index.html'">[X]</button>
-      <div class="about-text">
-        <div class="about-description">
+
+  <!-- ABOUT CONTENT -->
+  <div class="about-container" style="height:100%;display:flex;align-items:center;justify-content:center;">
+    <div class="content-wrapper" style="position:relative;max-width:720px;padding:20px;">
+      
+      <div class="about-text" style="color:var(--text-color);">
+        <div class="about-description" style="margin-bottom:24px;">
           WITH OBJECT is a creative operations studio. We engage in design, sound, and motion using raw input as our material. Each output is a form of transmission - made to carry meaning and move with intent.
         </div>
         <div class="about-contact">
-          <div class="about-label">SIGNAL</div>
+          <div class="about-label" style="font-family:'Roboto Mono', monospace;">SIGNAL</div>
           <div class="about-value">
-            <a href="mailto:contact@withobject.design" class="email-link">contact@withobject.design</a>
+            <a href="mailto:contact@withobject.design" class="email-link" style="color:inherit;text-decoration:none;">contact@withobject.design</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- JS (shared behavior + theme/sound sync lives in script.js) -->
   <script src="script.js"></script>
+
+  <!-- DVD BOUNCER LOGIC -->
   <script>
-    // DVD Bouncing Logo Effect
     class DVDBouncer {
       constructor() {
         this.logo = document.getElementById('dvdLogo');
@@ -39,70 +84,33 @@
         this.y = Math.random() * (window.innerHeight - 150);
         this.speedX = 2;
         this.speedY = 2;
-        this.colors = [
-          'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
-          'linear-gradient(45deg, #a8e6cf, #ffd93d)',
-          'linear-gradient(45deg, #ff8a80, #82b1ff)',
-          'linear-gradient(45deg, #ce93d8, #80cbc4)',
-          'linear-gradient(45deg, #ffab91, #81c784)',
-          'linear-gradient(45deg, #f8bbd9, #e1bee7)'
-        ];
-        this.currentColorIndex = 0;
-        
         this.init();
         this.animate();
       }
-      
       init() {
         this.logo.style.left = this.x + 'px';
         this.logo.style.top = this.y + 'px';
       }
-      
       animate() {
         this.x += this.speedX;
         this.y += this.speedY;
-        
-        // Check for collision with edges
-        if (this.x <= 0 || this.x >= window.innerWidth - 60) {
-          this.speedX = -this.speedX;
-        }
-        
-        if (this.y <= 0 || this.y >= window.innerHeight - 150) {
-          this.speedY = -this.speedY;
-        }
-        
-        // Keep within bounds
+        if (this.x <= 0 || this.x >= window.innerWidth - 60) this.speedX = -this.speedX;
+        if (this.y <= 0 || this.y >= window.innerHeight - 150) this.speedY = -this.speedY;
         this.x = Math.max(0, Math.min(this.x, window.innerWidth - 60));
         this.y = Math.max(0, Math.min(this.y, window.innerHeight - 150));
-        
-        // Update position
         this.logo.style.left = this.x + 'px';
         this.logo.style.top = this.y + 'px';
-        
         requestAnimationFrame(() => this.animate());
       }
     }
-    
-    // Initialize DVD bouncer when page loads
-    window.addEventListener('load', () => {
-      new DVDBouncer();
-    });
-    
-    // Handle window resize
+    window.addEventListener('load', () => new DVDBouncer());
     window.addEventListener('resize', () => {
-      // Reinitialize bouncer on resize to adjust boundaries
       const existingLogo = document.getElementById('dvdLogo');
-      if (existingLogo) {
-        new DVDBouncer();
-      }
+      if (existingLogo) new DVDBouncer();
     });
-  </script>
-  
-  <!-- Initialize sound system for about page -->
-  <script>
-    // Ensure sound system works on about page
+
+    // Optional: slight delay to allow shared sound init in script.js first
     document.addEventListener('DOMContentLoaded', () => {
-      // Small delay to ensure script.js has loaded
       setTimeout(() => {
         if (typeof initializeSoundSystem === 'function') {
           initializeSoundSystem();
