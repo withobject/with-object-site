@@ -74,17 +74,15 @@
 
   // --- PAGE-SPECIFIC MENU SWAP (About ↔ Home) ---
   const aboutMenuLink =
-    document.querySelector('#mainMenu a[href$="about.html"]')   // normal case
-    || document.querySelector('#mainMenu a#menuAbout');         // if you later add an id
+    document.querySelector('#mainMenu a[href$="about.html"]')
+    || document.querySelector('#mainMenu a#menuAbout');
 
   if (aboutMenuLink) {
     const onAbout = /about(?:\.html)?$/i.test(window.location.pathname);
     if (onAbout) {
-      // If we’re ON the about page, show “Home”
       aboutMenuLink.textContent = 'Home';
       aboutMenuLink.setAttribute('href', 'index.html');
     } else {
-      // Everywhere else, show “About”
       aboutMenuLink.textContent = 'About';
       aboutMenuLink.setAttribute('href', 'about.html');
     }
@@ -241,13 +239,14 @@
   }
 
   // ===== SOUND MODE (shared, robust) =====
-  // Audio assets
+  // Your asset filenames (exact, under Assets/)
   const SFX = {
-    click: new Audio('Assets/test_click.mp3'),
-    hover: new Audio('Assets/test_hover.mp3'),
-    next:  new Audio('Assets/test_next.mp3'),
-    prev:  new Audio('Assets/test_prev.mp3'),
-    edge:  new Audio('Assets/test_boundary.mp3'),
+    click:    new Audio('Assets/new_click_next_sound_v1.mp3'),   // used for generic clicks
+    hover:    new Audio('Assets/new_hover_sound_v1.mp3'),
+    next:     new Audio('Assets/new_click_next_sound_v1.mp3'),
+    prev:     new Audio('Assets/new_click_prev_sound_v1.mp3'),
+    dead:     new Audio('Assets/new_deadclick_sound_v1.mp3'),
+    error:    new Audio('Assets/new_errorclick_sound_v1.mp3')    // exposed for future use
   };
 
   // Preload so first play isn't silent
@@ -322,26 +321,31 @@
     '.logo-link'
   ].join(',');
 
+  // Utilities to guard against non-Element event targets
+  const asEl = (n) => (n && n.nodeType === 1 ? /** @type {Element} */ (n) : null);
+
   // Click sounds: delegate so it works for dynamic menu items too
   document.addEventListener('click', (e) => {
-    const el = e.target.closest(INTERACTIVE_SELECTOR);
+    const target = asEl(e.target);
+    const el = target ? target.closest(INTERACTIVE_SELECTOR) : null;
     if (el) {
       // Specific routing for the gallery arrows
       if (el.id === 'nextBtn') return playSfx(SFX.next);
       if (el.id === 'prevBtn') return playSfx(SFX.prev);
       return playSfx(SFX.click);
     }
-    // Background click ambience
-    playSfx(SFX.edge);
+    // Background (non-interactive) click = dead click
+    playSfx(SFX.dead);
   }, true);
 
-  // Hover/focus sounds (pointerenter for mouse/pen, mouseenter for Safari, focusin for keyboard)
+  // Hover/focus sounds (pointerenter covers mouse/pen; focusin for keyboard; mouseenter as fallback)
   const hoverHandler = (e) => {
-    const el = e.target.closest(INTERACTIVE_SELECTOR);
+    const target = asEl(e.target);
+    const el = target ? target.closest(INTERACTIVE_SELECTOR) : null;
     if (el) playSfx(SFX.hover);
   };
   document.addEventListener('pointerenter', hoverHandler, true);
-  document.addEventListener('mouseenter', hoverHandler, true); // fallback
+  document.addEventListener('mouseenter', hoverHandler, true);
   document.addEventListener('focusin', hoverHandler, true);
 
   // Make available for pages that want to re-sync labels after load
