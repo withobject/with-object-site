@@ -1,472 +1,91 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WITH OBJECT</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <div class="grid-container">
-    <!-- Header -->
-    <header class="site-header">
-      <a href="index.html" class="logo-link">
-        <div class="logo"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <title>Image Viewer</title>
+
+    <!-- SEO & Social Meta -->
+    <meta name="description" content="PLACEHOLDER: brief page description for search engines">
+    <link rel="canonical" href="https://withobject.design/">
+    <meta property="og:type"        content="website">
+    <meta property="og:title"       content="Image Viewer | WITH OBJECT">
+    <meta property="og:description" content="PLACEHOLDER: OG description">
+    <meta property="og:url"         content="https://withobject.design/">
+    <meta property="og:image"       content="https://withobject.design/og-placeholder.jpg">
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="Image Viewer | WITH OBJECT">
+    <meta name="twitter:description" content="PLACEHOLDER: Twitter desc">
+    <meta name="twitter:image"       content="https://withobject.design/og-placeholder.jpg">
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#F2F2F2" media="(prefers-color-scheme: light)">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="theme-light">
+
+    <!-- Skip link -->
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="custom-header">
+      <a href="/" class="logo-link">
+        <span class="logo"></span>
       </a>
-      <nav class="header-nav">
-        <a href="about.html" class="nav-item">ABOUT_</a>
-        <span class="nav-item sound-toggle">SOUND ON_</span>
-        <span class="nav-item color-toggle">COLOR MODE_</span>
-      </nav>
 
-       <!-- Frame and Section Titles -->
-  <div class="frame-title">FRAME 01</div>
-  <div class="section-title">OBJECT 01 — HERO</div>
-      
-      <!-- Burger Menu for Mobile -->
-      <div class="burger-menu" id="burgerMenu">
-        <div class="burger-line"></div>
-        <div class="burger-line"></div>
-        <div class="burger-line"></div>
+      <!-- EMAIL ICON + HIDDEN EMAIL -->
+      <div class="header-controls">
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >+</button>
+
+
+  <nav class="menu" id="mainMenu" hidden>
+    <ul>
+       <li><a href="about.html">About</a></li>
+      <li><a href="#" id="colorModeToggle">Color Mode</a></li>
+      <li>
+        <a href="#"
+           id="soundToggle"
+           role="button"
+           aria-pressed="false"
+        >Sound Off</a>
+      </li>
+      <!--<li><a href="shop.html">Shop</a></li>-->
+    </ul>
+  </nav>
+</header>
+
+    <div id="main" class="image-wrapper">
+      <button class="nav left" id="prevBtn" aria-label="Previous image">❮</button>
+      <img id="zoomImage" src="" alt="Zoomable" />
+      <button class="nav right" id="nextBtn" aria-label="Next image">❯</button>
+    </div>
+
+    <footer class="custom-footer">
+      <button
+        class="info-toggle"
+        id="infoToggle"
+        aria-expanded="false"
+      >Show Info</button>
+      <div class="project-nav">
+        <div class="project-box selected" data-project="0"></div>
+        <div class="project-box" data-project="1"></div>
+        <div class="project-box" data-project="2"></div>
       </div>
-      
-      <!-- Mobile Menu Overlay -->
-      <div class="mobile-menu" id="mobileMenu">
-        <a href="about.html" class="mobile-nav-item">ABOUT</a>
-        <span class="mobile-nav-item sound-toggle-mobile">SOUND ON_</span>
-        <span class="mobile-nav-item color-toggle-mobile">COLOR MODE_</span>
-      </div>
-    </header>
-
-    <!-- Horizontal Scroll Container -->
-    <main class="scroll-container">
-      <div class="gallery-overlay" id="galleryOverlay">HORIZONTAL SCROLL</div>
-      <div class="section-title" id="sectionTitle">OBJECT 01 — HERO</div>
-      <div class="frame-title" id="frameTitle">FRAME 01</div>
-      
-      <!-- Project Container -->
-      <div class="project-container" id="projectContainer">
-        <!-- Project 1: Signal Archive 01 -->
-        <div class="project" data-project="0">
-          <div class="project-sections" id="projectSections0">
-            <!-- Section 1: Hero Image -->
-            <section class="project-section hero-section">
-              <div class="gallery-container">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/cd_player_frame1_v2.png" alt="WHO IS WITH OBJECT? - Hero" class="hero-media gallery-media">
-                </div>
-                 <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/cd_player_frame1_v2.png" alt="WHO IS WITH OBJECT? - Hero" class="hero-media gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 2: Case Study Panel -->
-            <section class="project-section case-study-section">
-              <div class="case-study-content">
-                <div class="case-study-header">
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">WORK TITLE</div>
-                    <div class="case-study-value">WHO IS WITH OBJECT?</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">YEAR</div>
-                    <div class="case-study-value">2025</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">TYPE</div>
-                    <div class="case-study-value">Creative Operations</div>
-                  </div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">OBJECTIVE</div>
-                  <div class="case-study-value">Create a tactile, memory-charged alias for raw creative output—rooted in design, sound, and motion, shaped by the past but built to adapt. WITH love.</div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">FINAL OBJECT</div>
-                  <div class="case-study-value">An evolving system and digital space-serving as archive, interface, and launchpad for experimental work across disciplines.</div>
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 3: Additional Media -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/model1_frame3_v1.jpg" alt="WHO IS WITH OBJECT? - Detail 1" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/wo_layout_frame4_v1.jpg" alt="WHO IS WITH OBJECT? - Detail 2" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 4: Additional Media Page 2 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/model2_frame3_v1.jpg" alt="WHO IS WITH OBJECT? - Detail 3" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/patch_frame4_v1.JPG" alt="WHO IS WITH OBJECT? - Detail 4" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 5: Additional Media Page 3 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <video class="media-item single-image gallery-media" autoplay muted loop playsinline>
-                    <source src="Assets/wo_animation_frame5_v1.MP4" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-
-        <!-- Project 2: Resonance Study 02 -->
-        <div class="project" data-project="1">
-          <div class="project-sections" id="projectSections1">
-            <!-- Section 1: Hero Image -->
-            <section class="project-section hero-section">
-              <div class="gallery-container">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/dhelmet_frame4_v1.png" alt="DAFFI ALBUM ART - Hero" class="hero-media gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 2: Case Study Panel -->
-            <section class="project-section case-study-section">
-              <div class="case-study-content">
-                <div class="case-study-header">
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">WORK TITLE</div>
-                    <div class="case-study-value">DAFFI ALBUM ART</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">YEAR</div>
-                    <div class="case-study-value">2018</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">TYPE</div>
-                    <div class="case-study-value">Album Artwork & Character World</div>
-                  </div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">OBJECTIVE</div>
-                  <div class="case-study-value">Design an emotional container for Daffi - a visual myth built from asphalt dreams, street archetypes, and cards dealt in secrecy.</div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">FINAL OBJECT</div>
-                  <div class="case-study-value">Archival-style album artwork fusing motorcycle grit, playing card symbolism, and alter-ego lore into a clean yet haunted visual identity.</div>
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 3: Additional Media -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/dtape_frame1_v1.jpg" alt="DAFFI ALBUM ART - Detail 1" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/dback_frame4_v1.jpg" alt="DAFFI ALBUM ART - Detail 2" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 4: Additional Media Page 2 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/dtape_frame3_v1.jpg" alt="DAFFI ALBUM ART - Detail 3" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/dtape_frame4_v1.jpg" alt="DAFFI ALBUM ART - Detail 4" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 5: Additional Media Page 3 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/dbike_frame5_v1.jpg" alt="DAFFI ALBUM ART - Detail 5" class="media-item single-image gallery-media">
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-
-        <!-- Project 3: Data Fragments 03 -->
-        <div class="project" data-project="2">
-          <div class="project-sections" id="projectSections2">
-            <!-- Section 1: Hero Image -->
-            <section class="project-section hero-section">
-              <div class="gallery-container">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/index_gallery-img_low2_v01.jpg" alt="LOW RECORDS - Hero" class="hero-media gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 2: Case Study Panel -->
-            <section class="project-section case-study-section">
-              <div class="case-study-content">
-                <div class="case-study-header">
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">WORK TITLE</div>
-                    <div class="case-study-value">LOW RECORDS</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">YEAR</div>
-                    <div class="case-study-value">2023–2024</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">TYPE</div>
-                    <div class="case-study-value">Print + Digital Promo</div>
-                  </div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">OBJECTIVE</div>
-                  <div class="case-study-value">Build a visual identity system that rejects uniformity - where every flyer and sticker speaks in a new tone, tuned to the party.</div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">FINAL OBJECT</div>
-                  <div class="case-study-value">A diverse spread of bold promo assets - flyers, stickers, digital drops - designed for nightclubs, LA vibes, and speaker stacks.</div>
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 3: Additional Media -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/index_gallery-img_low3 Flyer_v01.jpg" alt="LOW RECORDS - Detail 1" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/index_gallery_img_low4_v1.jpg" alt="LOW RECORDS - Detail 2" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 4: Additional Media Page 2 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/index_gallery-img_low Flyer_v01.jpg" alt="LOW RECORDS - Detail 3" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/index_gallery_img_low6_v1.jpg" alt="LOW RECORDS - Detail 4" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 5: Additional Media Page 3 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/index_gallery_img_low5_v1.jpg" alt="LOW RECORDS - Detail 5" class="media-item single-image gallery-media">
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-
-        <!-- Project 4: Temporal Shift 04 -->
-        <div class="project" data-project="3">
-          <div class="project-sections" id="projectSections3">
-            <!-- Section 1: Hero Image -->
-            <section class="project-section hero-section">
-              <div class="gallery-container">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/nightbear_frame1_v1.png" alt="THE NIGHTBEAR - Hero" class="hero-media gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 2: Case Study Panel -->
-            <section class="project-section case-study-section">
-              <div class="case-study-content">
-                <div class="case-study-header">
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">WORK TITLE</div>
-                    <div class="case-study-value">THE NIGHTBEAR</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">YEAR</div>
-                    <div class="case-study-value">2019</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">TYPE</div>
-                    <div class="case-study-value">Illustration + Animation</div>
-                  </div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">OBJECTIVE</div>
-                  <div class="case-study-value">Develop character sketches that prioritize raw gesture and instinct, testing animation as a tool for emotional presence over polish.</div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">FINAL OBJECT</div>
-                  <div class="case-study-value">A short looping bear animation and sketch set, revealing the process itself as the most honest form of character study.</div>
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 3: Additional Media -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/nightbear_sketch_frame3_v1.jpg" alt="THE NIGHTBEAR - Sketch 1" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/sketch_frame3_v1.jpg" alt="THE NIGHTBEAR - Sketch 2" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 4: Animation -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <video class="media-item single-image gallery-media" autoplay muted loop playsinline>
-                    <source src="Assets/nightbear_frame4_v1.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-
-        <!-- Project 5: Object Memory 05 -->
-        <div class="project" data-project="4">
-          <div class="project-sections" id="projectSections4">
-            <!-- Section 1: Hero Image -->
-            <section class="project-section hero-section">
-              <div class="gallery-container">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/kafoaks_frame4_v1.jpg" alt="ALTERNATE TIMELINES - Hero" class="hero-media gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 2: Case Study Panel -->
-            <section class="project-section case-study-section">
-              <div class="case-study-content">
-                <div class="case-study-header">
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">WORK TITLE</div>
-                    <div class="case-study-value">ALTERNATE TIMELINES</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">YEAR</div>
-                    <div class="case-study-value">Ongoing (Across Timelines)</div>
-                  </div>
-                  <div class="case-study-field inline">
-                    <div class="case-study-label">TYPE</div>
-                    <div class="case-study-value">Speculative Design Artifacts</div>
-                  </div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">OBJECTIVE</div>
-                  <div class="case-study-value">Use fake clients to explore real execution - each brief a mirror for intuition, discipline, and alternate-universe creative logic.</div>
-                </div>
-                <div class="case-study-field">
-                  <div class="case-study-label">FINAL OBJECT</div>
-                  <div class="case-study-value">Brand materials for imagined clients - crafted with seriousness, humor, and design rigor, despite never being commissioned. Practice without permission.</div>
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 3: Additional Media -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/augmentmag_frame3_v1.jpg" alt="ALTERNATE TIMELINES - Detail 1" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/lecache_frame3_v3.jpg" alt="ALTERNATE TIMELINES - Detail 2" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-            
-            <!-- Section 4: Additional Media Page 2 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/hailmag_frame1_v1.jpg" alt="ALTERNATE TIMELINES - Detail 3" class="media-item gallery-media">
-                </div>
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/kafoaks2_frame4_v4.jpg" alt="ALTERNATE TIMELINES - Detail 4" class="media-item gallery-media">
-                </div>
-              </div>
-            </section>
-
-            <!-- Section 5: Additional Media Page 3 -->
-            <section class="project-section media-section">
-              <div class="additional-media">
-                <div class="media-wrapper">
-                  <div class="media-placeholder"></div>
-                  <img src="Assets/spaceman_frame5_v5.jpg" alt="ALTERNATE TIMELINES - Detail 5" class="media-item single-image gallery-media">
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- Bottom Navigation -->
-    <footer class="bottom-nav">
-      <div class="bottom-left">
-        <div class="gallery-number" id="galleryNumber">001</div>
-      </div>
-      <div class="bottom-center">
-        <span class="nav-item view-project-toggle" id="prevSetBtn">PREV OBJECT_</span>
-        <span class="nav-item view-project-toggle" id="nextSetBtn">NEXT OBJECT_</span>
-      </div>
-      <div class="bottom-right">
-        <div class="square-button" id="returnToBeginningBtn" title="Return to beginning of project"></div>
+      <div class="info-popup" id="infoPopup" hidden>
+        <h2 class="info-title">Project Title</h2>
+        <h3 class="info-sub">OBJECTIVE</h3>
+        <p class="info-body">Brief 10 word description of project objective goes here.</p>
+        <h3 class="info-sub">FINAL OBJECT</h3>
+        <p class="info-body">Brief 10 word description of final object goes here.</p>
       </div>
     </footer>
-  </div>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
