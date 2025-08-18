@@ -72,24 +72,23 @@
     });
   }
 
-// --- PAGE-SPECIFIC MENU SWAP (About ↔ Home) ---
-const aboutMenuLink =
-  document.querySelector('#mainMenu a[href$="about.html"]')   // normal case
-  || document.querySelector('#mainMenu a#menuAbout');         // if you later add an id
+  // --- PAGE-SPECIFIC MENU SWAP (About ↔ Home) ---
+  const aboutMenuLink =
+    document.querySelector('#mainMenu a[href$="about.html"]')   // normal case
+    || document.querySelector('#mainMenu a#menuAbout');         // if you later add an id
 
-if (aboutMenuLink) {
-  const onAbout = /about(?:\.html)?$/i.test(window.location.pathname);
-  if (onAbout) {
-    // If we’re ON the about page, show “Home”
-    aboutMenuLink.textContent = 'Home';
-    aboutMenuLink.setAttribute('href', 'index.html');
-  } else {
-    // Everywhere else, show “About”
-    aboutMenuLink.textContent = 'About';
-    aboutMenuLink.setAttribute('href', 'about.html');
+  if (aboutMenuLink) {
+    const onAbout = /about(?:\.html)?$/i.test(window.location.pathname);
+    if (onAbout) {
+      // If we’re ON the about page, show “Home”
+      aboutMenuLink.textContent = 'Home';
+      aboutMenuLink.setAttribute('href', 'index.html');
+    } else {
+      // Everywhere else, show “About”
+      aboutMenuLink.textContent = 'About';
+      aboutMenuLink.setAttribute('href', 'about.html');
+    }
   }
-}
-
 
   // ===== CLOSE POPUPS WHEN CLICKING OUTSIDE =====
   document.addEventListener('click', (event) => {
@@ -241,9 +240,7 @@ if (aboutMenuLink) {
     });
   }
 
-  // ===== SOUND MODE (shared) =====
-  // Your audio assets
-    // ===== SOUND MODE (shared, robust) =====
+  // ===== SOUND MODE (shared, robust) =====
   // Audio assets
   const SFX = {
     click: new Audio('Assets/test_click.mp3'),
@@ -303,7 +300,7 @@ if (aboutMenuLink) {
       a.play().catch(() => {});
     } catch {}
   }
-  // Backward-compatible wrapper for your other code
+  // Backward-compatible wrapper for any legacy calls
   function playSound(audioObj) { playSfx(audioObj); }
 
   // What counts as interactive on your site
@@ -347,14 +344,13 @@ if (aboutMenuLink) {
     setSoundLabel(document.getElementById('soundToggle'), getSavedSoundOn());
   };
 
-
   // ===== EMAIL TOGGLE (if present) =====
   if (emailToggle && contactContainer) {
     emailToggle.addEventListener('click', () => {
       contactContainer.classList.toggle('show-email');
-      playSound(clickSound);
+      playSfx(SFX.click);
     });
-    emailToggle.addEventListener('mouseenter', () => playSound(hoverSound));
+    emailToggle.addEventListener('mouseenter', () => playSfx(SFX.hover));
   }
 })(); 
 
@@ -374,4 +370,3 @@ if (aboutMenuLink) {
     aboutLink.setAttribute('href', 'about.html');
   }
 })();
-
