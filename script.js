@@ -122,12 +122,12 @@
   // ===== PROJECT DATA =====
   const projectImages = [
     [
+      'Assets/wo_tease_frame5_v3.mp4',
+      'Assets/cd_player_frame1_v2.png',
+      'Assets/cellphone_frame1_v2.jpg',   // mixed media works
+      'wo_tease_frame5_v3.mp4',
       'Assets/cd_player_frame1_v2.png',
       'Assets/cellphone_frame1_v2.jpg',
-      'Assets/wo_animation_frame5_v1.MP4',   // mixed media works
-      'https://i.pinimg.com/1200x/db/6e/55/db6e553509254016b399fb3ed17f1d13.jpg',
-      'https://i.pinimg.com/736x/ec/32/df/ec32dfd758ebf7cdad50d633638d9410.jpg',
-      'https://i.pinimg.com/1200x/f9/48/bb/f948bb6a474d73b73b7b24ef0fa10234.jpg',
       'https://i.pinimg.com/1200x/8a/1d/8f/8a1d8f22816b78b3436566aeba72d438.jpg',
       'https://i.pinimg.com/736x/93/ff/da/93ffda5ebed346ae89a3966d3b1811cd.jpg',
       'https://i.pinimg.com/1200x/73/89/5e/73895e8340a893f382c6465f7d366f9b.jpg',
