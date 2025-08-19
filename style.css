@@ -182,6 +182,7 @@ body {
   background: transparent;
 }
 
+#zoomImage, #mediaVideo { position: absolute; inset: 0; margin: auto; object-fit: contain; }
 
 
 /* Unmute/Mute overlay button */
