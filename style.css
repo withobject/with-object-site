@@ -154,42 +154,34 @@ body {
 
 
 /* ===== IMAGE WRAPPER ===== */
-/* wrapper unchanged logic, explicit centering */
-/* EXACTLY like before, centered by the wrapper */
+/* ===== IMAGE WRAPPER ===== */
 .image-wrapper {
   width: 100%;
   height: 100%;
   padding: 60px;
   box-sizing: border-box;
   display: flex;
-  align-items: center;        /* vertical center */
-  justify-content: center;    /* horizontal center */
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: auto;
   background-color: var(--bg-color);
   overscroll-behavior: contain;
 }
 
-/* Single, unified media rule — same sizing as your old #zoomImage */
 #zoomImage,
 #mediaVideo {
   max-width: 595px;
-  max-height: calc(100vh - 120px);
-  width: auto;
   height: auto;
+  max-height: calc(100vh - 120px);
   display: block;
-  margin: auto;               /* keep your original centering */
-  object-fit: contain;        /* prevent cropping on video */
-  object-position: center;
-  /* keep your existing transition/cursor bits */
+  margin: auto;
   transition: transform 0.3s ease, background-color 0.3s ease;
   cursor: zoom-in;
   user-select: none;
   -webkit-user-select: none;
   touch-action: auto;
 }
-
-/* (Optional) remove any duplicate .image-wrapper blocks below this */
 
 
 /* Unmute/Mute overlay button */
