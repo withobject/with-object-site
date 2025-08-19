@@ -41,6 +41,9 @@
   const menuToggle = document.getElementById('menuToggle');
   const mainMenu   = document.getElementById('mainMenu');
 
+  const videoEl  = document.getElementById('mediaVideo');
+  const muteBtn  = document.getElementById('muteBtn');
+
   const infoToggle = document.getElementById('infoToggle');
   const infoPopup  = document.getElementById('infoPopup');
 
@@ -158,35 +161,81 @@
     }
   ];
 
-  // ===== IMAGE NAV (index only) =====
+  // ===== MEDIA TYPE DETECTOR =====
+  function isVideoSrc(src) {
+    return /\.(mp4|webm|ogg)(\?.*)?$/i.test(src);
+  }
+
+  // ===== MEDIA NAV (index only) =====
   if (img && prevBtn && nextBtn) {
     let images = [...projectImages[currentProject]];
 
-    function updateImage() {
-      img.src = images[currentIndex];
-      img.alt = projectInfo[currentProject].title;
-      img.style.transform = 'scale(1)';
-      img.style.cursor = isMobile ? 'default' : 'zoom-in';
-      zoomed = false;
+    // --- REPLACEMENT: media-aware updater (image OR video) ---
+    async function updateMedia() {
+      const src = images[currentIndex];
+      const title = projectInfo[currentProject].title;
+      const onVideo = isVideoSrc(src);
+
+      if (onVideo) {
+        // Show video, hide image
+        if (img) img.hidden = true;
+        if (videoEl) {
+          videoEl.hidden = false;
+          videoEl.controls = false;
+          videoEl.loop = true;
+          videoEl.playsInline = true;
+          videoEl.muted = true; // required for autoplay on mobile
+          if (videoEl.src !== src) videoEl.src = src;
+
+          try { await videoEl.play(); } catch { /* ignore autoplay errors */ }
+
+          if (muteBtn) {
+            muteBtn.hidden = false;
+            muteBtn.textContent = '🔇 Unmute';
+            muteBtn.setAttribute('aria-pressed', 'true'); // true = muted
+          }
+        }
+      } else {
+        // Show image, hide video
+        if (videoEl) {
+          try { videoEl.pause(); } catch {}
+          videoEl.hidden = true;
+          videoEl.removeAttribute('src');
+          try { videoEl.load(); } catch {}
+        }
+        if (img) {
+          img.hidden = false;
+          img.src = src;
+          img.alt = title;
+          img.style.transform = 'scale(1)';
+          img.style.cursor = isMobile ? 'default' : 'zoom-in';
+          zoomed = false;
+        }
+        if (muteBtn) muteBtn.hidden = true;
+      }
+
+      // Keep your arrow visibility logic
       prevBtn.style.display = currentIndex === 0 ? 'none' : 'block';
       nextBtn.style.display = currentIndex === images.length - 1 ? 'none' : 'block';
     }
 
+    // Prev/Next handlers -> now call updateMedia()
     prevBtn.addEventListener('click', () => {
       if (currentIndex > 0) {
         currentIndex--;
-        updateImage();
+        updateMedia();
       }
     });
 
     nextBtn.addEventListener('click', () => {
       if (currentIndex < images.length - 1) {
         currentIndex++;
-        updateImage();
+        updateMedia();
       }
     });
 
-    if (!isMobile) {
+    // Existing image click zoom stays (only relevant when image is visible)
+    if (!isMobile && img) {
       img.addEventListener('click', () => {
         zoomed = !zoomed;
         img.style.transform = zoomed ? 'scale(2)' : 'scale(1)';
@@ -196,6 +245,7 @@
       });
     }
 
+    // Project dot switching -> now calls updateMedia()
     const projectBoxes = document.querySelectorAll('.project-box');
     projectBoxes.forEach((box) => {
       box.addEventListener('click', (e) => {
@@ -203,7 +253,7 @@
         currentProject = pid;
         currentIndex = 0;
         images = [...projectImages[pid]];
-        updateImage();
+        updateMedia();
         updateProjectInfo(pid);
         projectBoxes.forEach((b) => b.classList.remove('selected'));
         e.currentTarget.classList.add('selected');
@@ -221,10 +271,27 @@
     }
 
     // INIT (index only)
-    updateImage();
+    updateMedia();
     updateProjectInfo(currentProject);
     const firstDot = document.querySelector('.project-box');
     if (firstDot) firstDot.classList.add('selected');
+  }
+
+  // ===== MUTE / UNMUTE OVERLAY =====
+  if (muteBtn && videoEl) {
+    muteBtn.addEventListener('click', async () => {
+      const becomingUnmuted = videoEl.muted; // if currently muted, we are unmuting
+      videoEl.muted = !videoEl.muted;
+
+      if (becomingUnmuted) {
+        try { await videoEl.play(); } catch {}
+        muteBtn.textContent = '🔊 Mute';
+        muteBtn.setAttribute('aria-pressed', 'false');
+      } else {
+        muteBtn.textContent = '🔇 Unmute';
+        muteBtn.setAttribute('aria-pressed', 'true');
+      }
+    });
   }
 
   // ===== COLOR MODE TOGGLE (shared) =====
@@ -241,7 +308,7 @@
   // ===== SOUND MODE (shared, robust) =====
   // Your asset filenames (exact, under Assets/)
   const SFX = {
-    click:    new Audio('Assets/new_click_next_sound_v1.mp3'),   // used for generic clicks
+    click:    new Audio('Assets/new_click_next_sound_v1.mp3'),   // generic clicks
     next:     new Audio('Assets/new_click_next_sound_v1.mp3'),
     prev:     new Audio('Assets/new_click_prev_sound_v1.mp3'),
     dead:     new Audio('Assets/new_deadclick_sound_v1.mp3'),
@@ -260,11 +327,11 @@
 
   let soundEnabled = getSavedSoundOn();
 
-function setSoundLabel(el, on) {
-  if (!el) return;
-  el.textContent = on ? 'Sound Off' : 'Sound On';
-  el.setAttribute('aria-pressed', String(on));
-}
+  function setSoundLabel(el, on) {
+    if (!el) return;
+    el.textContent = on ? 'Sound Off' : 'Sound On';
+    el.setAttribute('aria-pressed', String(on));
+  }
 
   setSoundLabel(soundToggleEl, soundEnabled);
 
@@ -337,7 +404,7 @@ function setSoundLabel(el, on) {
     playSfx(SFX.dead);
   }, true);
 
-  // Hover/focus sounds (pointerenter covers mouse/pen; focusin for keyboard; mouseenter as fallback)
+  // Hover/focus sounds (safe even if you removed hover asset; playSfx ignores falsy)
   const hoverHandler = (e) => {
     const target = asEl(e.target);
     const el = target ? target.closest(INTERACTIVE_SELECTOR) : null;
