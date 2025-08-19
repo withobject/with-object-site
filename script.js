@@ -123,6 +123,7 @@
   const projectImages = [
     [
       'Assets/cd_player_frame1_v2.png',
+      'Assets/cellphone_frame1_v2.jpg',
       'Assets/wo_animation_frame5_v1.MP4',   // mixed media works
       'https://i.pinimg.com/1200x/db/6e/55/db6e553509254016b399fb3ed17f1d13.jpg',
       'https://i.pinimg.com/736x/ec/32/df/ec32dfd758ebf7cdad50d633638d9410.jpg',
