@@ -154,49 +154,35 @@ body {
 
 
 /* ===== IMAGE WRAPPER ===== */
+/* wrapper unchanged logic, explicit centering */
 .image-wrapper {
   width: 100%;
   height: 100%;
   padding: 60px;
   box-sizing: border-box;
   display: flex;
-  align-items: center;       /* vertical center */
-  justify-content: center;   /* horizontal center */
+  align-items: center;        /* vertical center */
+  justify-content: center;    /* horizontal center */
   position: relative;
   overflow: auto;
   background-color: var(--bg-color);
   overscroll-behavior: contain;
-  text-align: initial;       /* don't let text-align affect media */
 }
 
-#zoomImage {
-  max-width: 595px;
-  height: auto;
-  max-height: calc(100vh - 120px);
-  display: block;
-  margin: auto;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  cursor: zoom-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: auto;
-}
-
-/* Media (image + video) share the same sizing rules */
+/* SINGLE source of truth for media sizing */
 #zoomImage,
 #mediaVideo {
   display: block;
-  /* DO NOT let flexbox stretch this item */
-  flex: 0 0 auto;
-  /* Give it a natural box that can be centered */
-  width: auto;               /* <-- important: not 100% */
-  max-width: 595px;          /* cap width like before */
+  flex: 0 0 auto;             /* <- critical: don’t let flex stretch it */
+  width: auto;                /* <- critical: NOT 100% */
+  max-width: 595px;
   height: auto;
   max-height: calc(100vh - 120px);
-  margin: 0;                 /* container does the centering */
-  object-fit: contain;       /* avoid cropping for any aspect ratio */
-  object-position: center;   /* ensure pixel center inside its box */
+  margin: 0;                  /* centering is done by the container */
+  object-fit: contain;        /* no cropping for any aspect ratio */
+  object-position: center;
 }
+
 
 /* When we need hard containment both ways, allow the wrapper to control it */
 .image-wrapper {
