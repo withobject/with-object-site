@@ -155,6 +155,7 @@ body {
 
 /* ===== IMAGE WRAPPER ===== */
 /* wrapper unchanged logic, explicit centering */
+/* EXACTLY like before, centered by the wrapper */
 .image-wrapper {
   width: 100%;
   height: 100%;
@@ -169,26 +170,27 @@ body {
   overscroll-behavior: contain;
 }
 
-/* SINGLE source of truth for media sizing */
+/* Single, unified media rule — same sizing as your old #zoomImage */
 #zoomImage,
 #mediaVideo {
-  display: block;
-  flex: 0 0 auto;             /* <- critical: don’t let flex stretch it */
-  width: auto;                /* <- critical: NOT 100% */
   max-width: 595px;
-  height: auto;
   max-height: calc(100vh - 120px);
-  margin: 0;                  /* centering is done by the container */
-  object-fit: contain;        /* no cropping for any aspect ratio */
+  width: auto;
+  height: auto;
+  display: block;
+  margin: auto;               /* keep your original centering */
+  object-fit: contain;        /* prevent cropping on video */
   object-position: center;
+  /* keep your existing transition/cursor bits */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: zoom-in;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: auto;
 }
 
+/* (Optional) remove any duplicate .image-wrapper blocks below this */
 
-/* When we need hard containment both ways, allow the wrapper to control it */
-.image-wrapper {
-  position: relative;
-  /* already centers; you have padding & auto overflow */
-}
 
 /* Unmute/Mute overlay button */
 .mute-btn {
