@@ -172,16 +172,16 @@ body {
 #zoomImage,
 #mediaVideo {
   max-width: 595px;
-  height: auto;
   max-height: calc(100vh - 120px);
+  width: auto;
+  height: auto;
   display: block;
   margin: auto;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  cursor: zoom-in;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: auto;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
 }
+
 
 
 /* Unmute/Mute overlay button */
