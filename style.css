@@ -184,6 +184,9 @@ body {
 
 #zoomImage, #mediaVideo { position: absolute; inset: 0; margin: auto; object-fit: contain; }
 
+/* make hidden bulletproof for media */
+#zoomImage[hidden], #mediaVideo[hidden] { display: none !important; }
+
 
 /* Unmute/Mute overlay button */
 .mute-btn {
