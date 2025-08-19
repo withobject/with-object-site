@@ -41,8 +41,9 @@
   const menuToggle = document.getElementById('menuToggle');
   const mainMenu   = document.getElementById('mainMenu');
 
-  const videoEl  = document.getElementById('mediaVideo');
-  const muteBtn  = document.getElementById('muteBtn');
+  // NEW: video + mute overlay (must exist in HTML)
+  const videoEl = document.getElementById('mediaVideo');
+  const muteBtn = document.getElementById('muteBtn');
 
   const infoToggle = document.getElementById('infoToggle');
   const infoPopup  = document.getElementById('infoPopup');
@@ -121,10 +122,13 @@
   const isMobile     = /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent);
 
   // ===== PROJECT DATA (index only uses these) =====
+  // You can mix images AND videos here (e.g. 'Assets/clip1.mp4')
   const projectImages = [
     [
       'Assets/cd_player_frame1_v2.png',
-      'Assets/wo_animation_frame5_v1.MP4',
+      // Example video slot (uncomment when you have a file):
+      // 'Assets/my_video_01.mp4',
+      'https://i.pinimg.com/1200x/db/6e/55/db6e553509254016b399fb3ed17f1d13.jpg',
       'https://i.pinimg.com/736x/ec/32/df/ec32dfd758ebf7cdad50d633638d9410.jpg',
       'https://i.pinimg.com/1200x/f9/48/bb/f948bb6a474d73b73b7b24ef0fa10234.jpg',
       'https://i.pinimg.com/1200x/8a/1d/8f/8a1d8f22816b78b3436566aeba72d438.jpg',
@@ -170,15 +174,19 @@
   if (img && prevBtn && nextBtn) {
     let images = [...projectImages[currentProject]];
 
-    // --- REPLACEMENT: media-aware updater (image OR video) ---
+    // ---- MEDIA-AWARE UPDATER (shows exactly one element) ----
     async function updateMedia() {
-      const src = images[currentIndex];
+      const src   = images[currentIndex];
       const title = projectInfo[currentProject].title;
       const onVideo = isVideoSrc(src);
 
       if (onVideo) {
-        // Show video, hide image
-        if (img) img.hidden = true;
+        // Hide image
+        if (img) {
+          img.hidden = true;
+          img.style.transform = 'scale(1)';
+        }
+        // Show video
         if (videoEl) {
           videoEl.hidden = false;
           videoEl.controls = false;
@@ -186,23 +194,22 @@
           videoEl.playsInline = true;
           videoEl.muted = true; // required for autoplay on mobile
           if (videoEl.src !== src) videoEl.src = src;
-
-          try { await videoEl.play(); } catch { /* ignore autoplay errors */ }
-
+          try { await videoEl.play(); } catch {}
           if (muteBtn) {
             muteBtn.hidden = false;
             muteBtn.textContent = '🔇 Unmute';
-            muteBtn.setAttribute('aria-pressed', 'true'); // true = muted
+            muteBtn.setAttribute('aria-pressed', 'true'); // muted
           }
         }
       } else {
-        // Show image, hide video
+        // Hide video
         if (videoEl) {
           try { videoEl.pause(); } catch {}
           videoEl.hidden = true;
           videoEl.removeAttribute('src');
           try { videoEl.load(); } catch {}
         }
+        // Show image
         if (img) {
           img.hidden = false;
           img.src = src;
@@ -214,12 +221,12 @@
         if (muteBtn) muteBtn.hidden = true;
       }
 
-      // Keep your arrow visibility logic
+      // Arrow visibility
       prevBtn.style.display = currentIndex === 0 ? 'none' : 'block';
       nextBtn.style.display = currentIndex === images.length - 1 ? 'none' : 'block';
     }
 
-    // Prev/Next handlers -> now call updateMedia()
+    // Prev/Next handlers
     prevBtn.addEventListener('click', () => {
       if (currentIndex > 0) {
         currentIndex--;
@@ -234,7 +241,7 @@
       }
     });
 
-    // Existing image click zoom stays (only relevant when image is visible)
+    // Image zoom (when image visible)
     if (!isMobile && img) {
       img.addEventListener('click', () => {
         zoomed = !zoomed;
@@ -245,7 +252,7 @@
       });
     }
 
-    // Project dot switching -> now calls updateMedia()
+    // Dots -> change project & refresh
     const projectBoxes = document.querySelectorAll('.project-box');
     projectBoxes.forEach((box) => {
       box.addEventListener('click', (e) => {
@@ -280,7 +287,7 @@
   // ===== MUTE / UNMUTE OVERLAY =====
   if (muteBtn && videoEl) {
     muteBtn.addEventListener('click', async () => {
-      const becomingUnmuted = videoEl.muted; // if currently muted, we are unmuting
+      const becomingUnmuted = videoEl.muted;
       videoEl.muted = !videoEl.muted;
 
       if (becomingUnmuted) {
@@ -306,21 +313,16 @@
   }
 
   // ===== SOUND MODE (shared, robust) =====
-  // Your asset filenames (exact, under Assets/)
   const SFX = {
     click:    new Audio('Assets/new_click_next_sound_v1.mp3'),   // generic clicks
     next:     new Audio('Assets/new_click_next_sound_v1.mp3'),
     prev:     new Audio('Assets/new_click_prev_sound_v1.mp3'),
     dead:     new Audio('Assets/new_deadclick_sound_v1.mp3'),
-    error:    new Audio('Assets/new_errorclick_sound_v1.mp3')    // exposed for future use
+    error:    new Audio('Assets/new_errorclick_sound_v1.mp3')
   };
 
-  // Preload so first play isn't silent
-  Object.values(SFX).forEach(a => {
-    try { a.preload = 'auto'; a.load(); } catch {}
-  });
+  Object.values(SFX).forEach(a => { try { a.preload = 'auto'; a.load(); } catch {} });
 
-  // First-time visitors default to sound ON
   if (localStorage.getItem(SOUND_KEY) == null) {
     localStorage.setItem(SOUND_KEY, 'on');
   }
@@ -363,52 +365,40 @@
     document.addEventListener(evt, unlockAudio, { once: true, capture: true });
   });
 
-  // Safe play helpers
   function playSfx(a) {
     if (!soundEnabled || !a) return;
-    try {
-      a.currentTime = 0;
-      a.play().catch(() => {});
-    } catch {}
+    try { a.currentTime = 0; a.play().catch(() => {}); } catch {}
   }
-  // Backward-compatible wrapper for any legacy calls
   function playSound(audioObj) { playSfx(audioObj); }
 
-  // What counts as interactive on your site
   const INTERACTIVE_SELECTOR = [
     'a',
     'button',
     '.menu-toggle',
-    '.nav',            // arrow buttons
-    '.project-box',    // project dots
+    '.nav',
+    '.project-box',
     '#infoToggle',
     '#soundToggle',
     '#colorModeToggle',
     '.logo-link'
   ].join(',');
 
-  // Utilities to guard against non-Element event targets
-  const asEl = (n) => (n && n.nodeType === 1 ? /** @type {Element} */ (n) : null);
+  const asEl = (n) => (n && n.nodeType === 1 ? n : null);
 
-  // Click sounds: delegate so it works for dynamic menu items too
   document.addEventListener('click', (e) => {
     const target = asEl(e.target);
     const el = target ? target.closest(INTERACTIVE_SELECTOR) : null;
     if (el) {
-      // Specific routing for the gallery arrows
       if (el.id === 'nextBtn') return playSfx(SFX.next);
       if (el.id === 'prevBtn') return playSfx(SFX.prev);
       return playSfx(SFX.click);
     }
-    // Background (non-interactive) click = dead click
     playSfx(SFX.dead);
   }, true);
 
-  // Hover/focus sounds (safe even if you removed hover asset; playSfx ignores falsy)
+  // (Hover sound disabled by passing undefined to playSfx, which no-ops)
   const hoverHandler = (e) => {
-    const target = asEl(e.target);
-    const el = target ? target.closest(INTERACTIVE_SELECTOR) : null;
-    if (el) playSfx(SFX.hover);
+    // no hover sfx by design
   };
   document.addEventListener('pointerenter', hoverHandler, true);
   document.addEventListener('mouseenter', hoverHandler, true);
@@ -425,7 +415,7 @@
       contactContainer.classList.toggle('show-email');
       playSfx(SFX.click);
     });
-    emailToggle.addEventListener('mouseenter', () => playSfx(SFX.hover));
+    // (No hover sound)
   }
 })(); 
 
@@ -434,7 +424,6 @@
   const aboutLink = document.getElementById('aboutMenuLink');
   if (!aboutLink) return;
 
-  // Detect if we are currently on the About page
   const onAboutPage = window.location.pathname.endsWith('about.html');
 
   if (onAboutPage) {
@@ -445,4 +434,3 @@
     aboutLink.setAttribute('href', 'about.html');
   }
 })();
- 
