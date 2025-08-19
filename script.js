@@ -41,9 +41,9 @@
   const menuToggle = document.getElementById('menuToggle');
   const mainMenu   = document.getElementById('mainMenu');
 
-  // video + mute overlay
+  // video (native controls on hover; overlay button no longer used)
   const videoEl = document.getElementById('mediaVideo');
-  const muteBtn = document.getElementById('muteBtn');
+  const muteBtn = document.getElementById('muteBtn'); // kept for compatibility; we’ll hide it
 
   const infoToggle = document.getElementById('infoToggle');
   const infoPopup  = document.getElementById('infoPopup');
@@ -168,14 +168,36 @@
   const show = (el) => { if (!el) return; el.hidden = false; el.style.display = 'block'; el.style.opacity = '1'; };
   const hide = (el) => { if (!el) return; el.hidden = true;  el.style.display = 'none';  el.style.opacity = '0'; };
 
-  function positionMuteBtn() {
-    if (!muteBtn || !videoEl || videoEl.hidden) return;
-    const rect = videoEl.getBoundingClientRect();
-    const pad  = 12;
-    muteBtn.style.left = `${Math.max(rect.right - muteBtn.offsetWidth - pad, pad)}px`;
-    muteBtn.style.top  = `${Math.max(rect.top + pad, pad)}px`;
+  // Native controls on hover/tap (no overlay buttons)
+  let _videoHoverBound = false;
+  function bindVideoHoverControls() {
+    if (!videoEl || _videoHoverBound) return;
+    _videoHoverBound = true;
+
+    let hideTimer = null;
+    const showControls = () => {
+      videoEl.controls = true;
+      if (hideTimer) clearTimeout(hideTimer);
+    };
+    const hideControls = () => {
+      hideTimer = setTimeout(() => { videoEl.controls = false; }, 350);
+    };
+
+    // Desktop: pointer hover
+    videoEl.addEventListener('pointerenter', showControls);
+    videoEl.addEventListener('pointerleave', hideControls);
+
+    // Mobile: brief controls on tap
+    videoEl.addEventListener('touchstart', () => {
+      showControls();
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => { videoEl.controls = false; }, 2500);
+    }, { passive: true });
   }
-  window.addEventListener('resize', positionMuteBtn);
+  bindVideoHoverControls();
+
+  // If an old muteBtn exists in the HTML, hide it permanently
+  if (muteBtn) { muteBtn.hidden = true; muteBtn.style.display = 'none'; }
 
   // ===== MEDIA NAV =====
   if (img && prevBtn && nextBtn) {
@@ -187,35 +209,31 @@
       const onVideo = isVideoSrc(src);
 
       if (onVideo) {
-        // Hide image HARD
+        // Hide image completely so it can't overlap
         hide(img);
-        img.style.transform = 'scale(1)';
+        if (img) img.style.transform = 'scale(1)';
 
         // Show video
         if (videoEl) {
           show(videoEl);
-          videoEl.controls = false;
+          videoEl.controls = false;        // hidden until hover/tap
           videoEl.loop = true;
           videoEl.playsInline = true;
-          videoEl.muted = true; // autoplay requirement
+          videoEl.setAttribute('playsinline', '');
+          videoEl.muted = true;            // needed for autoplay
           if (videoEl.src !== src) videoEl.src = src;
           try { await videoEl.play(); } catch {}
         }
-        if (muteBtn) {
-          show(muteBtn);
-          muteBtn.textContent = '🔇 Unmute';
-          muteBtn.setAttribute('aria-pressed', 'true');
-          // place it on the video
-          requestAnimationFrame(positionMuteBtn);
-        }
       } else {
-        // Hide video HARD
+        // Hide video completely so it can't overlap and stop audio
         if (videoEl) {
           try { videoEl.pause(); } catch {}
+          videoEl.controls = false;
           hide(videoEl);
-          videoEl.removeAttribute('src'); // stop audio on iOS
+          videoEl.removeAttribute('src');
           try { videoEl.load(); } catch {}
         }
+
         // Show image
         if (img) {
           img.src = src;
@@ -225,7 +243,6 @@
           img.style.cursor = isMobile ? 'default' : 'zoom-in';
           zoomed = false;
         }
-        if (muteBtn) hide(muteBtn);
       }
 
       // Arrow visibility
@@ -289,25 +306,6 @@
     updateProjectInfo(currentProject);
     const firstDot = document.querySelector('.project-box');
     if (firstDot) firstDot.classList.add('selected');
-  }
-
-  // ===== MUTE / UNMUTE OVERLAY =====
-  if (muteBtn && videoEl) {
-    muteBtn.addEventListener('click', async () => {
-      const becomingUnmuted = videoEl.muted;
-      videoEl.muted = !videoEl.muted;
-
-      if (becomingUnmuted) {
-        try { await videoEl.play(); } catch {}
-        muteBtn.textContent = '🔊 Mute';
-        muteBtn.setAttribute('aria-pressed', 'false');
-      } else {
-        muteBtn.textContent = '🔇 Unmute';
-        muteBtn.setAttribute('aria-pressed', 'true');
-      }
-      // keep it glued to the video after label change
-      positionMuteBtn();
-    });
   }
 
   // ===== COLOR MODE TOGGLE =====
