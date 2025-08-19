@@ -181,6 +181,43 @@ body {
   touch-action: auto;
 }
 
+/* Media (image + video) share the same sizing rules */
+#zoomImage,
+#mediaVideo {
+  max-width: 595px;
+  max-height: calc(100vh - 120px);
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+  object-fit: contain;    /* key: prevents cropping, any aspect ratio */
+  background: transparent;
+}
+
+/* When we need hard containment both ways, allow the wrapper to control it */
+.image-wrapper {
+  position: relative;
+  /* already centers; you have padding & auto overflow */
+}
+
+/* Unmute/Mute overlay button */
+.mute-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 20;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  font: 600 12px/1 'Helvetica Neue', Arial, sans-serif;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.theme-light .mute-btn { background: rgba(0,0,0,0.7); color: #fff; }
+.theme-dark  .mute-btn { background: rgba(255,255,255,0.15); color: #fff; }
+
+
 /* ===== NAV ARROWS ===== */
 /* Base arrow style */
 .nav {
