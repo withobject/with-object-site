@@ -126,12 +126,7 @@
       'Assets/cd_player_frame1_v2.png',
       'Assets/cellphone_frame1_v2.jpg',   // mixed media works
       'Assets/model1_frame3_v3.jpg',
-      'Assets/cellphone_frame1_v2.jpg',
-      'https://i.pinimg.com/1200x/8a/1d/8f/8a1d8f22816b78b3436566aeba72d438.jpg',
-      'https://i.pinimg.com/736x/93/ff/da/93ffda5ebed346ae89a3966d3b1811cd.jpg',
-      'https://i.pinimg.com/1200x/73/89/5e/73895e8340a893f382c6465f7d366f9b.jpg',
-      'https://i.pinimg.com/736x/06/25/02/062502e1df4deca275377dd63e406a88.jpg',
-      'https://i.pinimg.com/736x/77/b1/2d/77b12d5b643ab9130113e3ea6cbd4dce.jpg'
+      'Assets/cellphone_frame1_v2.jpg'
     ],
     [
       'https://i.pinimg.com/736x/ec/32/df/ec32dfd758ebf7cdad50d633638d9410.jpg',
