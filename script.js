@@ -129,8 +129,15 @@
       'Assets/cellphone_frame1_v2.jpg'
     ],
     [
-      'https://i.pinimg.com/736x/ec/32/df/ec32dfd758ebf7cdad50d633638d9410.jpg',
-      'https://i.pinimg.com/1200x/f9/48/bb/f948bb6a474d73b73b7b24ef0fa10234.jpg'
+      'glassindex_v1.jpg',
+      'glassindex_v3.jpg',
+      'glassindex_v2.jpg',
+      'glassindex_v4.jpg',
+      'glassindex_v5.jpg',
+      'glassindex_v7.jpg',
+      'glassindex_v6.jpg',
+      'glassindex_v8.jpg',
+      'glassindex_v9.jpg'  
     ],
     [
       'https://i.pinimg.com/1200x/8a/1d/8f/8a1d8f22816b78b3436566aeba72d438.jpg',
