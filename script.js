@@ -129,15 +129,15 @@
       'Assets/cellphone_frame1_v2.jpg'
     ],
     [
-      'glassindex_v1.jpg',
-      'glassindex_v3.jpg',
-      'glassindex_v2.jpg',
-      'glassindex_v4.jpg',
-      'glassindex_v5.jpg',
-      'glassindex_v7.jpg',
-      'glassindex_v6.jpg',
-      'glassindex_v8.jpg',
-      'glassindex_v9.jpg'  
+      'Assets/glassindex_v1.jpg',
+      'Assets/glassindex_v3.jpg',
+      'Assets/glassindex_v2.jpg',
+      'Assets/glassindex_v4.jpg',
+      'Assets/glassindex_v5.jpg',
+      'Assets/glassindex_v7.jpg',
+      'Assets/glassindex_v6.jpg',
+      'Assets/glassindex_v8.jpg',
+      'Assets/glassindex_v9.jpg'  
     ],
     [
       'https://i.pinimg.com/1200x/8a/1d/8f/8a1d8f22816b78b3436566aeba72d438.jpg',
