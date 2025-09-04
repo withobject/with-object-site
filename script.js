@@ -152,9 +152,9 @@
       final: 'An evolving system and digital space-serving as archive, interface, and launchpad for experimental work across disciplines.'
     },
     {
-      title: 'Project Two',
-      objective: 'Portrait study on color and noise',
-      final: 'Minimal series for concept gallery'
+      title: 'Field Kit CONCEPT: Glass Index',
+      objective: 'FIELD KIT: GLASS INDEX is the first entry in the INDEX series - a system of digital packs that document fragile surfaces as both material and memory. This project uses AI not as an end, but as a story vehicle: raising the question of how artificial intelligence can help us preserve memory, extend imagination, and create tactile records of human experience. Each texture originates from AI-generated fragments, but every surface is then processed by hand, refined, layered, and shaped through traditional design methods. The goal is to merge technological possibility with human intentionality, building artifacts that feel cinematic, physical, and alive.',
+      final: 'The result is a concept campaign featuring editorial-style cinematic layouts and a digital texture pack of ten high-resolution glass scans. Each fragment carries the trace of impact and memory: cracks, shattered glass, static interference, and grain. Together, they form a collection that is both practical for design application and embedded within the broader WITH OBJECT narrative — an archive where human and machine collaborate to preserve the residue of time. Format: JPG · Hi Resolution · Set ID: FK-A01-001'
     },
     {
       title: 'Project Three',
