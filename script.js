@@ -152,9 +152,9 @@
       final: 'An evolving system and digital space-serving as archive, interface, and launchpad for experimental work across disciplines.'
     },
     {
-      title: 'Field Kit CONCEPT: Glass Index',
-      objective: 'FIELD KIT: GLASS INDEX is the first entry in the INDEX series - a system of digital packs that document fragile surfaces as both material and memory. This project uses AI not as an end, but as a story vehicle: raising the question of how artificial intelligence can help us preserve memory, extend imagination, and create tactile records of human experience. Each texture originates from AI-generated fragments, but every surface is then processed by hand, refined, layered, and shaped through traditional design methods. The goal is to merge technological possibility with human intentionality, building artifacts that feel cinematic, physical, and alive.',
-      final: 'The result is a concept campaign featuring editorial-style cinematic layouts and a digital texture pack of ten high-resolution glass scans. Each fragment carries the trace of impact and memory: cracks, shattered glass, static interference, and grain. Together, they form a collection that is both practical for design application and embedded within the broader WITH OBJECT narrative — an archive where human and machine collaborate to preserve the residue of time. Format: JPG · Hi Resolution · Set ID: FK-A01-001'
+      title: 'FIELD KIT: GLASS INDEX',
+      objective: 'FIELD KIT: GLASS INDEX showcase our INDEX texture series, using AI as a story vehicle to question how technology can preserve memory and extend imagination. Each AI fragment is refined by hand, merging machine possibility with human craft into cinematic, tactile artifacts.',
+      final: 'The result is a concept campaign editorial, a pack of 20 high-resolution glass scans. Each fragment bears cracks, static, and grain - not only serving as creative resources but also expanding the lore of WITH OBJECT, where every surface becomes evidence of fractured timelines and preserved human memory.'
     },
     {
       title: 'Project Three',
