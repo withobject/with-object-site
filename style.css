@@ -459,3 +459,21 @@ button:focus-visible,
 .menu a:focus-visible {
   opacity: var(--hover-fade);
 }
+/* Back-to-top (restore) */
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  z-index: 2001;          /* above footer */
+  display: none;
+  padding: 10px 12px;
+  font-size: 18px;
+  border: 0;
+  background: var(--accent-color);
+  color: var(--text-color);
+  cursor: pointer;
+}
+.back-to-top.show { display: inline-block; }
+
+/* Ensure page can scroll vertically */
+html, body { overflow-y: auto; overflow-x: hidden; }
