@@ -537,3 +537,50 @@ html, body { overflow-y: auto; overflow-x: hidden; }
   /* If you'd rather keep 2-up on small, delete the two lines above. */
 }
 
+/* ==== SOLID Show Info background per theme (no transparency/blur) ==== */
+:root {
+  /* defaults (will be overridden by theme classes below) */
+  --panel-bg: var(--bg-color);
+  --panel-border: rgba(255,255,255,0.22);
+}
+
+/* Light mode */
+.theme-light {
+  --panel-bg: #F2F2F2;
+  --panel-border: rgba(0,0,0,0.18);
+}
+
+/* Dark mode */
+.theme-dark {
+  --panel-bg: #1A1A1A;
+  --panel-border: rgba(255,255,255,0.22);
+}
+
+/* CRT mode */
+.theme-crt {
+  --panel-bg: #4A4A4A;
+  --panel-border: rgba(0,255,0,0.35);
+}
+
+/* Blue mode */
+.theme-blue {
+  --panel-bg: #4169E1;
+  --panel-border: rgba(255,255,255,0.25);
+}
+
+/* Amber mode */
+.theme-amber {
+  --panel-bg: #1A1A1A;
+  --panel-border: rgba(255,126,0,0.35);
+}
+
+/* Apply the solid background + subtle separation */
+.info-popup {
+  background: var(--panel-bg) !important;          /* solid, theme-aware */
+  border: 1px solid var(--panel-border) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);         /* soft lift; works in all themes */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: var(--text-color) !important;             /* keep text readable per theme */
+  z-index: 2001;                                   /* above footer/buttons if needed */
+}
