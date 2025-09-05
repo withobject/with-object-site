@@ -477,3 +477,8 @@ button:focus-visible,
 
 /* Ensure page can scroll vertically */
 html, body { overflow-y: auto; overflow-x: hidden; }
+
+/* Back-to-top: final stacking + visibility */
+.back-to-top { position: fixed; z-index: 1500; pointer-events: auto; }
+.back-to-top.show { display: block; }
+
