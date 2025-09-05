@@ -145,9 +145,6 @@
       'Assets/weird_forest_v1.jpg',
       'Assets/weird_cap_v1.jpg',
       'Assets/weird_mock_v1.jpg',
-      'Assets/weird_text_v1.jpg',
-      'Assets/weird_thumb_v1.jpg',
-      'Assets/weird_thumb_v2.jpg',
       'Assets/weird_loop_v1.mp4'
     ]
   ];
