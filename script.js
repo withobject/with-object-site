@@ -156,7 +156,7 @@
   const rowMap = {
     0: [[2,3]],  // example: side-by-side for indices 2 and 3 in project 0
     1: [[2,3]],
-    2: []
+    2: [[1,2]]
   };
 
   // ===== INFO PANEL UPDATE =====
