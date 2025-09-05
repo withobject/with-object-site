@@ -190,6 +190,33 @@
     document.querySelectorAll('.gallery video').forEach(v => videoObserver.observe(v));
   }
 
+  function updateAboutLink() {
+  const link =
+    document.getElementById('aboutMenuLink') ||
+    document.querySelector('#mainMenu a[href$="about.html"]');
+  if (!link) return;
+
+  const onAbout = /(^|\/)about(?:\.html)?$/i.test(window.location.pathname);
+  if (onAbout) {
+    link.textContent = 'Home';
+    link.setAttribute('href', 'index.html');
+  } else {
+    link.textContent = 'About';
+    link.setAttribute('href', 'about.html');
+  }
+}
+// Call once on load
+updateAboutLink();
+
+// Also update every time the + menu opens/closes
+if (menuToggle) {
+  menuToggle.addEventListener('click', () => {
+    // your existing menu open/close logic runs here…
+    updateAboutLink();
+  });
+}
+
+
   // ===== BUILD VERTICAL GALLERY =====
   function buildProjectSection(pid) {
     const section = document.createElement('section');
@@ -319,6 +346,15 @@
     });
     backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
+  // Back-to-top (restore)
+if (backToTop) {
+  const toggleBackToTop = () => backToTop.classList.toggle('show', window.scrollY > 400);
+  window.addEventListener('scroll', toggleBackToTop, { passive: true });
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  // Run once on load (in case the page opens scrolled)
+  toggleBackToTop();
+}
+
 
   // ===== INFO POPUP TOGGLE =====
   if (infoToggle && infoPopup) {
