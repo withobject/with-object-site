@@ -138,11 +138,18 @@
       'Assets/glassindex_v7.jpg',
       'Assets/glassindex_v11.jpg',
       'Assets/glassindex_v8.jpg',
-      'Assets/glassindex_v9.jpg'  
+      'Assets/glassindex_v9.jpg',  
     ],
     [
-      'https://i.pinimg.com/1200x/8a/1d/8f/8a1d8f22816b78b3436566aeba72d438.jpg',
-      'https://i.pinimg.com/736x/93/ff/da/93ffda5ebed346ae89a3966d3b1811cd.jpg'
+      'Assets/weird_thumb_v4.jpg',
+      'Assets/weird_thumb_v3.jpg',
+      'Assets/weird_forest_v1.jpg',
+      'Assets/weird_cap_v1.jpg',
+      'Assets/weird_mock_v1.jpg',
+      'Assets/weird_text_v1.jpg',
+      'Assets/weird_thumb_v1.jpg',
+      'Assets/weird_thumb_v2.jpg',
+      'Assets/weird_loop_v1.mp4'
     ]
   ];
 
