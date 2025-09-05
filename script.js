@@ -33,7 +33,7 @@
   // Apply saved theme immediately so UI paints correctly
   applySavedTheme();
 
-  // ===== ELEMENTS (guard for pages that don't have them) =====
+  // ===== ELEMENTS =====
   const menuToggle = document.getElementById('menuToggle');
   const mainMenu   = document.getElementById('mainMenu');
 
@@ -94,7 +94,7 @@
     }
   });
 
-  // ===== PROJECT INFO REFERENCES (only on index) =====
+  // ===== PROJECT INFO REFERENCES =====
   const infoTitle      = document.querySelector('.info-popup h2');
   const infoObjectives = document.querySelectorAll('.info-sub');
   const infoBodies     = document.querySelectorAll('.info-body');
@@ -102,7 +102,7 @@
   // ===== STATE =====
   let currentProject = 0;
 
-  // ===== PROJECT DATA (EXACTLY YOURS) =====
+  // ===== YOUR DATA (unchanged) =====
   const projectImages = [
     [
       'Assets/cd_player_frame1_v2.png',
@@ -150,16 +150,14 @@
     }
   ];
 
-  // ===== NEW: OPTIONAL side-by-side config without touching your arrays =====
-  // rowMap[projectIndex] = [ [i,j], [k,l,m], ... ]  (indices in projectImages[projectIndex])
-  // Anything not listed renders as a full-width block in order.
+  // ===== OPTIONAL side-by-side rows (unchanged) =====
   const rowMap = {
-    0: [[2,3]],  // example: side-by-side for indices 2 and 3 in project 0
+    0: [[2,3]],
     1: [[2,3]],
     2: [[1,2]]
   };
 
-  // ===== INFO PANEL UPDATE =====
+  // ===== INFO PANEL =====
   function updateProjectInfo(pid) {
     if (!infoTitle || !infoObjectives.length || !infoBodies.length) return;
     const info = projectInfo[pid];
@@ -172,6 +170,25 @@
 
   // ===== HELPERS =====
   function isVideoSrc(src) { return /\.(mp4|webm|ogg)(\?.*)?$/i.test(src); }
+
+  // === NEW: viewport-based video auto play/pause ===
+  let videoObserver;
+  function setupVideoObserver() {
+    if (videoObserver) videoObserver.disconnect();
+    videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const v = entry.target;
+        if (!(v instanceof HTMLVideoElement)) return;
+        if (entry.isIntersecting) {
+          // try to play when visible
+          try { v.play().catch(()=>{}); } catch {}
+        } else {
+          try { v.pause(); } catch {}
+        }
+      });
+    }, { threshold: 0.35 }); // ~1/3 on screen
+    document.querySelectorAll('.gallery video').forEach(v => videoObserver.observe(v));
+  }
 
   // ===== BUILD VERTICAL GALLERY =====
   function buildProjectSection(pid) {
@@ -195,7 +212,17 @@
           const src = files[idx];
           if (isVideoSrc(src)) {
             const v = document.createElement('video');
-            v.src = src; v.preload = 'none'; v.setAttribute('playsinline',''); v.setAttribute('muted',''); v.setAttribute('loop',''); v.setAttribute('autoplay','');
+            // set properties BEFORE src for iOS/Safari
+            v.muted = true;
+            v.playsInline = true;
+            v.loop = true;
+            v.autoplay = true;
+            v.preload = 'metadata';
+            v.setAttribute('playsinline','');
+            v.setAttribute('muted','');
+            v.setAttribute('loop','');
+            v.setAttribute('autoplay','');
+            v.src = src;
             row.appendChild(v);
           } else {
             const img = document.createElement('img');
@@ -219,7 +246,17 @@
 
       if (isVideoSrc(src)) {
         const v = document.createElement('video');
-        v.src = src; v.preload = 'none'; v.setAttribute('playsinline',''); v.setAttribute('muted',''); v.setAttribute('loop',''); v.setAttribute('autoplay','');
+        // set properties BEFORE src for iOS/Safari
+        v.muted = true;
+        v.playsInline = true;
+        v.loop = true;
+        v.autoplay = true;
+        v.preload = 'metadata';
+        v.setAttribute('playsinline','');
+        v.setAttribute('muted','');
+        v.setAttribute('loop','');
+        v.setAttribute('autoplay','');
+        v.src = src;
         wrap.appendChild(v);
       } else {
         const img = document.createElement('img');
@@ -240,10 +277,10 @@
       const section = buildProjectSection(pid);
       gallery.appendChild(section);
     }
-    // after DOM is ready, set initial info
     updateProjectInfo(0);
     bindZoomHandlers();
     observeProjects();
+    setupVideoObserver();
   }
 
   // ===== PROJECT NAV (dots) → smooth scroll to section =====
@@ -260,7 +297,7 @@
     });
   });
 
-  // Keep the correct dot selected while scrolling
+  // keep dot selected while scrolling
   function observeProjects() {
     const dots = Array.from(projectBoxes);
     const io = new IntersectionObserver((entries) => {
@@ -283,7 +320,7 @@
     backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 
-  // ===== INFO POPUP TOGGLE (WCAG ARIA) =====
+  // ===== INFO POPUP TOGGLE =====
   if (infoToggle && infoPopup) {
     infoToggle.setAttribute('aria-expanded', 'false');
     infoPopup.hidden = true;
@@ -305,7 +342,7 @@
     });
   }
 
-  // ===== SOUND MODE (unchanged) =====
+  // ===== SOUND MODE =====
   const SFX = {
     click:    new Audio('Assets/new_click_next_sound_v1.mp3'),
     next:     new Audio('Assets/new_click_next_sound_v1.mp3'),
@@ -337,11 +374,13 @@
     });
   }
 
-  // Unlock audio on first real user gesture
+  // Unlock audio + nudge videos on first gesture (iOS/Safari quirk)
   let audioUnlocked = false;
-  function unlockAudio() {
+  function unlockAudioAndNudgeVideos() {
     if (audioUnlocked) return;
     audioUnlocked = true;
+
+    // soft-unlock SFX
     Object.values(SFX).forEach(a => {
       try {
         a.volume = 0.001;
@@ -350,33 +389,33 @@
         a.volume = 1;
       } catch {}
     });
+
+    // try play any visible paused videos
+    document.querySelectorAll('.gallery video').forEach(v => {
+      const rect = v.getBoundingClientRect();
+      const visible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (visible) { try { v.play().catch(()=>{}); } catch {} }
+    });
   }
   ['pointerdown','keydown','touchstart','click'].forEach(evt => {
-    window.addEventListener(evt, unlockAudio, { once: true, capture: true });
-    document.addEventListener(evt, unlockAudio, { once: true, capture: true });
+    window.addEventListener(evt, unlockAudioAndNudgeVideos, { once: true, capture: true });
+    document.addEventListener(evt, unlockAudioAndNudgeVideos, { once: true, capture: true });
   });
 
   function playSfx(a) {
     if (!soundEnabled || !a) return;
     try { a.currentTime = 0; a.play().catch(() => {}); } catch {}
   }
-
   const INTERACTIVE_SELECTOR = [
     'a','button','.menu-toggle','.project-box',
     '#infoToggle','#soundToggle','#colorModeToggle','.logo-link'
   ].join(',');
-  const asEl = (n) => (n && n.nodeType === 1 ? n : null);
-
   document.addEventListener('click', (e) => {
-    const target = asEl(e.target);
-    const el = target ? target.closest(INTERACTIVE_SELECTOR) : null;
-    if (el) {
-      return playSfx(SFX.click);
-    }
-    playSfx(SFX.dead);
+    const el = e.target.closest ? e.target.closest(INTERACTIVE_SELECTOR) : null;
+    playSfx(el ? SFX.click : SFX.dead);
   }, true);
 
-  // ===== NEW: ZOOM OVERLAY =====
+  // ===== ZOOM OVERLAY =====
   function bindZoomHandlers() {
     document.querySelectorAll('.media img, .media video').forEach(el => {
       el.addEventListener('click', () => openZoom(el));
@@ -404,7 +443,7 @@
     zoomOverlay.hidden = false;
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    zoomClose.focus();
+    zoomClose && zoomClose.focus();
   }
 
   function closeZoom() {
@@ -422,5 +461,5 @@
   }
 
   // ===== INIT =====
-  buildGallery();   // builds from your arrays and rowMap
+  buildGallery();
 })();
