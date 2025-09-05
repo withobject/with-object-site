@@ -339,41 +339,36 @@ if (menuToggle) {
     document.querySelectorAll('.project').forEach(sec => io.observe(sec));
   }
 
-// === BACK TO TOP — final ===
-(function setupBackToTop () {
-  const btn = document.getElementById('backToTop');
-  if (!btn) return;
+// === BACK TO TOP — final (ONLY change we’re making) ===
+  (function setupBackToTop () {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
 
-  function getScrollTop() {
-    // works across Safari/iOS/Chrome/Firefox
-    if (typeof window.pageYOffset === 'number') return window.pageYOffset;
-    const de = document.documentElement;
-    const db = document.body;
-    return (de && de.scrollTop) || (db && db.scrollTop) || 0;
-  }
+    function getScrollTop() {
+      if (typeof window.pageYOffset === 'number') return window.pageYOffset;
+      const de = document.documentElement;
+      const db = document.body;
+      return (de && de.scrollTop) || (db && db.scrollTop) || 0;
+    }
 
-  function update() {
-    // show after modest scroll so you can test quickly
-    const y = getScrollTop();
-    if (y > 120) btn.classList.add('show'); else btn.classList.remove('show');
-  }
+    function update() {
+      const y = getScrollTop();
+      if (y > 120) btn.classList.add('show'); else btn.classList.remove('show');
+    }
 
-  // clear any inline display that might have been set
-  btn.style.display = '';
+    btn.style.display = ''; // clear any inline display from previous attempts
 
-  // bind once
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('load', update);
-  document.addEventListener('DOMContentLoaded', update);
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('load', update);
+    document.addEventListener('DOMContentLoaded', update);
 
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-  update();
-})();
-
+    update();
+  })();
 
   // ===== INFO POPUP TOGGLE =====
   if (infoToggle && infoPopup) {
