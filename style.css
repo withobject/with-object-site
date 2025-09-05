@@ -12,6 +12,25 @@ body {
   touch-action: manipulation;
 }
 
+:root { --media-width: 75vw; }  /* dial this up/down whenever you want */
+
+.media.full img,
+.media.full video { width: var(--media-width); margin: 0 auto; }
+
+.media.row,
+.media.row-3 { width: var(--media-width); margin: 0 auto; }
+
+@media (max-width: 768px) {
+  :root { --media-width: 100vw; }
+  /* If you didn't use the var approach, just override directly:
+  .media.full img,
+  .media.full video,
+  .media.row,
+  .media.row-3 { width: 100vw; }
+  */
+}
+
+
 :root {
   --bg-color: #1A1A1A;
   --text-color: #F2F2F2;
@@ -176,7 +195,7 @@ body {
 .media.full img,
 .media.full video {
   display: block;
-  width: 75vw;
+  width: 100vw;
   height: auto;
   margin: 0;
   object-fit: cover; /* covers tall videos nicely */
