@@ -1,102 +1,82 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    <title>Image Viewer</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <title>WITH OBJECT — Gallery</title>
 
-    <!-- SEO & Social Meta -->
-    <meta name="description" content="PLACEHOLDER: brief page description for search engines">
-    <link rel="canonical" href="https://withobject.design/">
-    <meta property="og:type"        content="website">
-    <meta property="og:title"       content="Image Viewer | WITH OBJECT">
-    <meta property="og:description" content="PLACEHOLDER: OG description">
-    <meta property="og:url"         content="https://withobject.design/">
-    <meta property="og:image"       content="https://withobject.design/og-placeholder.jpg">
-    <meta name="twitter:card"        content="summary_large_image">
-    <meta name="twitter:title"       content="Image Viewer | WITH OBJECT">
-    <meta name="twitter:description" content="PLACEHOLDER: Twitter desc">
-    <meta name="twitter:image"       content="https://withobject.design/og-placeholder.jpg">
-    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#F2F2F2" media="(prefers-color-scheme: light)">
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="WITH OBJECT gallery">
+  <link rel="canonical" href="https://withobject.design/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="WITH OBJECT — Gallery">
+  <meta property="og:description" content="WITH OBJECT gallery">
+  <meta property="og:url" content="https://withobject.design/">
+  <meta property="og:image" content="https://withobject.design/og-placeholder.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WITH OBJECT — Gallery">
+  <meta name="twitter:description" content="WITH OBJECT gallery">
+  <meta name="twitter:image" content="https://withobject.design/og-placeholder.jpg">
+  <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F2F2F2" media="(prefers-color-scheme: light)">
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body class="theme-light">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    <!-- Skip link -->
-    <a href="#main" class="skip-link">Skip to content</a>
+<body class="theme-light">
+  <!-- Skip link -->
+  <a href="#main" class="skip-link">Skip to content</a>
 
-    <header class="custom-header">
-      <a href="/" class="logo-link">
-        <span class="logo"></span>
-      </a>
+  <!-- Header (fixed) -->
+  <header class="custom-header" role="banner">
+    <a href="/" class="logo-link" aria-label="WITH OBJECT home">
+      <span class="logo"></span>
+    </a>
 
-      <!-- EMAIL ICON + HIDDEN EMAIL -->
-      <div class="header-controls">
-    <button
-      class="menu-toggle"
-      id="menuToggle"
-      aria-label="Toggle menu"
-      aria-expanded="false"
-    >+</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">+</button>
+    <nav class="menu" id="mainMenu" hidden>
+      <ul>
+        <li><a href="about.html" id="aboutMenuLink">About</a></li>
+        <li><a href="#" id="colorModeToggle">Color Mode</a></li>
+        <li><a href="#" id="soundToggle" role="button" aria-pressed="false">Sound Off</a></li>
+      </ul>
+    </nav>
+  </header>
 
+  <!-- Main vertical gallery -->
+  <main id="main" class="gallery" role="main" aria-label="Project gallery">
+    <!-- Populated by script.js from projectData -->
+  </main>
 
-  <nav class="menu" id="mainMenu" hidden>
-    <ul>
-      <li><a href="about.html" id="aboutMenuLink">About</a></li>
-      <li><a href="#" id="colorModeToggle">Color Mode</a></li>
-      <li>
-        <a href="#"
-           id="soundToggle"
-           role="button"
-           aria-pressed="false"
-        >Sound Off</a>
-      </li>
-      <!--<li><a href="shop.html">Shop</a></li>-->
-    </ul>
-  </nav>
-</header>
+  <!-- Back to top -->
+  <button id="backToTop" class="back-to-top" aria-label="Back to top">↑</button>
 
-   <div id="main" class="image-wrapper">
-  <button class="nav left" id="prevBtn" aria-label="Previous image">❮</button>
+  <!-- Footer controls (fixed) -->
+  <footer class="custom-footer" role="contentinfo">
+    <button class="info-toggle" id="infoToggle" aria-expanded="false">Show Info</button>
 
-  <video id="mediaVideo"
-         playsinline
-         muted
-         loop
-         preload="auto"
-         hidden></video>
+    <div class="project-nav" aria-label="Project navigation">
+      <div class="project-box selected" data-project="0" role="button" tabindex="0" aria-label="Go to project 1"></div>
+      <div class="project-box" data-project="1" role="button" tabindex="0" aria-label="Go to project 2"></div>
+      <div class="project-box" data-project="2" role="button" tabindex="0" aria-label="Go to project 3"></div>
+    </div>
 
-  <img id="zoomImage" src="" alt="Zoomable" />
+    <div class="info-popup" id="infoPopup" hidden>
+      <h2 class="info-title">Project Title</h2>
+      <h3 class="info-sub">OBJECTIVE</h3>
+      <p class="info-body">Brief description of project objective.</p>
+      <h3 class="info-sub">FINAL OBJECT</h3>
+      <p class="info-body">Brief description of final object.</p>
+    </div>
+  </footer>
 
- 
-  <button class="nav right" id="nextBtn" aria-label="Next image">❯</button>
-</div>
+  <!-- Zoom overlay -->
+  <div id="zoomOverlay" class="zoom-overlay" hidden aria-modal="true" role="dialog" aria-label="Zoomed media">
+    <button class="close-btn" id="zoomClose" aria-label="Close">×</button>
+    <!-- media injected here -->
+  </div>
 
-
-    <footer class="custom-footer">
-      <button
-        class="info-toggle"
-        id="infoToggle"
-        aria-expanded="false"
-      >Show Info</button>
-     <div class="project-nav">
-  <div class="project-box selected" data-project="0" role="button" tabindex="0" aria-label="Select project 1"></div>
-  <div class="project-box" data-project="1" role="button" tabindex="0" aria-label="Select project 2"></div>
-  <div class="project-box" data-project="2" role="button" tabindex="0" aria-label="Select project 3"></div>
-</div>
-      <div class="info-popup" id="infoPopup" hidden>
-        <h2 class="info-title">Project Title</h2>
-        <h3 class="info-sub">OBJECTIVE</h3>
-        <p class="info-body">Brief 10 word description of project objective goes here.</p>
-        <h3 class="info-sub">FINAL OBJECT</h3>
-        <p class="info-body">Brief 10 word description of final object goes here.</p>
-      </div>
-    </footer>
-
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
