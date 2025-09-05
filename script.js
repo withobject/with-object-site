@@ -122,7 +122,6 @@
   // ===== PROJECT DATA =====
   const projectImages = [
     [
-      'Assets/wo_tease_frame5_v4.mp4',
       'Assets/cd_player_frame1_v2.png',
       'Assets/cellphone_frame1_v2.jpg',   // mixed media works
       'Assets/model1_frame3_v3.jpg',
