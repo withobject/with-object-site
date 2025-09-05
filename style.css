@@ -12,24 +12,6 @@ body {
   touch-action: manipulation;
 }
 
-:root { --media-width: 75vw; }  /* dial this up/down whenever you want */
-
-.media.full img,
-.media.full video { width: var(--media-width); margin: 0 auto; }
-
-.media.row,
-.media.row-3 { width: var(--media-width); margin: 0 auto; }
-
-@media (max-width: 768px) {
-  :root { --media-width: 100vw; }
-  /* If you didn't use the var approach, just override directly:
-  .media.full img,
-  .media.full video,
-  .media.row,
-  .media.row-3 { width: 100vw; }
-  */
-}
-
 
 :root {
   --bg-color: #1A1A1A;
@@ -500,4 +482,58 @@ html, body { overflow-y: auto; overflow-x: hidden; }
 /* Back-to-top: final stacking + visibility */
 .back-to-top { position: fixed; z-index: 1500; pointer-events: auto; }
 .back-to-top.show { display: block; }
+
+/* ====== OVERRIDE: 75vw centered on desktop, full width on small ====== */
+:root {
+  /* Change this number any time you want a different desktop width */
+  --media-width-desktop: 75vw;
+}
+
+/* Make every media block (full + rows) use the same max width and center it */
+.gallery .media,
+.gallery .media.full,
+.gallery .media.row,
+.gallery .media.row-3 {
+  width: var(--media-width-desktop) !important; /* override earlier 100vw */
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Inside a full block, make the image/video fill the new container width */
+.gallery .media.full img,
+.gallery .media.full video {
+  width: 100% !important;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Rows: keep the grid, but constrain the row to the same 75vw width */
+.gallery .media.row,
+.gallery .media.row-3 {
+  /* already set to var(--media-width-desktop) above */
+  grid-gap: 0;              /* no gaps between items */
+}
+.gallery .media.row > *,
+.gallery .media.row-3 > * {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Small screens: go back to full-bleed (100vw) */
+@media (max-width: 768px) {
+  .gallery .media,
+  .gallery .media.full,
+  .gallery .media.row,
+  .gallery .media.row-3 {
+    width: 100vw !important;
+  }
+
+  /* If you want each item to be truly full-width on small screens, stack rows */
+  .gallery .media.row       { grid-template-columns: 1fr !important; }
+  .gallery .media.row-3     { grid-template-columns: 1fr !important; }
+  /* If you'd rather keep 2-up on small, delete the two lines above. */
+}
 
