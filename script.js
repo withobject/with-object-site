@@ -129,11 +129,17 @@
       'Assets/weird_thumb_v3.jpg'
     ],
     [
-      'Assets/weird_thumb_v4.jpg',
-      'Assets/weird_blur_v1.jpg',
-      'Assets/weird_shirtmock_v2.jpg',
-      'Assets/weird_loop_v1.mp4',
-      'Assets/weird_thumb_v3.jpg'
+      'Assets/symbols_v1.jpg',
+      'Assets/augment_v1.jpg',
+      'Assets/air_v1.jpg',
+      'Assets/Low_v1.jpg',
+      'Assets/cte_v1.jpg',
+      'Assets/postcard_v1.jpg',
+      'Assets/paint_v1.jpg',
+      'Assets/paint_v2.jpg',
+      'Assets/nightbear_v1.jpg',
+      'Assets/nightbear_frame4_v1.mp4'
+        
     ]
   ];
 
