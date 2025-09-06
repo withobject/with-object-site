@@ -168,7 +168,7 @@
 
   // ===== OPTIONAL side-by-side rows (unchanged) =====
   const rowMap = {
-    0: [[1,2]
+    0: [[1,2],
         [7,8]],
     1: [[2,3]],
     2: [[1,2]],
