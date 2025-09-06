@@ -106,9 +106,9 @@
   const projectImages = [
     [
       'Assets/cd_player_frame1_v2.png',
-      'Assets/cellphone_frame1_v20.jpg',
-      'Assets/model1_frame3_v3.jpg',
-      'Assets/cellphone_frame1_v2.jpg'
+      'Assets/object_still_v2.png',
+      'Assets/object_still_v1.png',
+      'Assets/cellphone_frame1_v20.jpg'
     ],
     [
       'Assets/glassindex_v1.jpg',
@@ -162,7 +162,7 @@
 
   // ===== OPTIONAL side-by-side rows (unchanged) =====
   const rowMap = {
-    0: [[2,3]],
+    0: [[1,2]],
     1: [[2,3]],
     2: [[1,2]],
     3: [[1,2]]
