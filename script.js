@@ -138,8 +138,7 @@
       'Assets/paint_v1.jpg',
       'Assets/paint_v2.jpg',
       'Assets/nightbear_v1.jpg',
-      'Assets/nightbear_frame4_v1.mp4'
-        
+      'Assets/nightbear_frame4_v1.mp4' 
     ]
   ];
 
@@ -170,7 +169,7 @@
   const rowMap = {
     0: [[1,2]],
     1: [[2,3],
-        [7,8]],
+        [6,7]],
     2: [[1,2]],
     3: [[1,2],        
         [6,7]]         
