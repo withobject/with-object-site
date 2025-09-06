@@ -123,8 +123,8 @@
     ],
     [
       'Assets/weird_thumb_v4.jpg',
-      'Assets/weird_forest_v1.jpg',
-      'Assets/weird_mock_v1.jpg',
+      'Assets/weird_blur_v1.jpg',
+      'Assets/weird_shirtmock_v2.jpg',
       'Assets/weird_loop_v1.mp4',
       'Assets/weird_thumb_v3.jpg'
     ]
