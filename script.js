@@ -116,8 +116,7 @@
       'Assets/glassindex_v3.jpg',
       'Assets/glassindex_v2.jpg',
       'Assets/glassindex_v4.jpg',
-      'Assets/glassindex_v11.jpg',
-      'Assets/glassindex_v10.jpg',
+      'Assets/glassindex_v13.jpg',
       'Assets/glassindex_v7.jpg',
       'Assets/glassindex_v8.jpg',
       'Assets/glassindex_v9.jpg'
