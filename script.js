@@ -108,7 +108,8 @@
       'Assets/cd_player_frame1_v2.png',
       'Assets/object_still_v2.png',
       'Assets/object_still_v1.png',
-      'Assets/cellphone_frame1_v20.jpg'
+      'Assets/cellphone_frame1_v20.jpg',
+      'Assets/wo_tease_frame5_v4.mp4'
     ],
     [
       'Assets/glassindex_v1.jpg',
