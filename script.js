@@ -134,7 +134,7 @@
       'Assets/air_v1.jpg',
       'Assets/Low_v1.jpg',
       'Assets/cte_v1.jpg',
-      'Assets/postcard_v1.jpg',
+      'Assets/knights_v2.jpg',
       'Assets/paint_v1.jpg',
       'Assets/paint_v2.jpg',
       'Assets/nightbear_v1.jpg',
