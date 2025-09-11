@@ -109,6 +109,7 @@
       'Assets/object_still_v2.png',
       'Assets/object_still_v1.png',
       'Assets/cellphone_frame1_v20.jpg',
+      'Assets/model_object_v2.jpg',
       'Assets/wo_tease_frame5_v4.mp4'
     ],
     [
@@ -167,7 +168,8 @@
 
   // ===== OPTIONAL side-by-side rows (unchanged) =====
   const rowMap = {
-    0: [[1,2]],
+    0: [[1,2],
+        [3,4]],   
     1: [[2,3],
         [6,7]],
     2: [[1,2]],
