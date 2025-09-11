@@ -108,9 +108,9 @@
       'Assets/cd_player_frame1_v2.png',
       'Assets/object_still_v2.png',
       'Assets/object_still_v1.png',
-      'Assets/cellphone_frame1_v20.jpg',
-      'Assets/model_object_v2.jpg',
-      'Assets/wo_tease_frame5_v4.mp4'
+      'Assets/battery_object_v1.jpg',
+      'Assets/taperecorder_object_v1.jpg',
+      'Assets/cd_object_v1.jpg'
     ],
     [
       'Assets/glassindex_v1.jpg',
