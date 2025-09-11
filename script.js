@@ -110,7 +110,8 @@
       'Assets/object_still_v1.png',
       'Assets/battery_object_v1.jpg',
       'Assets/taperecorder_object_v1.jpg',
-      'Assets/cd_object_v1.jpg'
+      'Assets/cd_object_v1.jpg',
+      'Assets/audio_visua_tv1.mp4'
     ],
     [
       'Assets/glassindex_v1.jpg',
