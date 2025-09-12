@@ -584,3 +584,47 @@ html, body { overflow-y: auto; overflow-x: hidden; }
   color: var(--text-color) !important;             /* keep text readable per theme */
   z-index: 2001;                                   /* above footer/buttons if needed */
 }
+
+/* === Hover Unmute button for gallery videos === */
+.video-wrap {
+  position: relative;
+  display: block;
+}
+
+/* Button sits over the video; hidden until hover (desktop) */
+.mute-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 5;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font: 600 12px/1 'Helvetica Neue', Arial, sans-serif;
+  cursor: pointer;
+  background: var(--accent-color);
+  color: var(--text-color);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(4px);
+}
+
+/* Show on hover/focus (desktop) */
+.video-wrap:hover .mute-btn,
+.video-wrap:focus-within .mute-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* On touch devices keep it visible */
+.touch .mute-btn {
+  opacity: 1;
+  transform: none;
+}
+
+/* Optional: distinct state when unmuted */
+.mute-btn.is-unmuted {
+  outline: 2px solid var(--highlight-color);
+  outline-offset: 2px;
+}
+
