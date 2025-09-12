@@ -102,7 +102,7 @@
   // ===== STATE =====
   let currentProject = 0;
 
-  // ===== YOUR DATA (unchanged) =====
+  // ===== YOUR DATA =====
   const projectImages = [
     [
       'Assets/cd_player_frame1_v2.png',
@@ -167,15 +167,12 @@
     }
   ];
 
-  // ===== OPTIONAL side-by-side rows (unchanged) =====
+  // ===== OPTIONAL side-by-side rows =====
   const rowMap = {
-    0: [[1,2],
-        [3,4]],   
-    1: [[2,3],
-        [6,7]],
+    0: [[1,2],[3,4]],
+    1: [[2,3],[6,7]],
     2: [[1,2]],
-    3: [[1,2],        
-        [6,7]]         
+    3: [[1,2],[6,7]]
   };
 
   // ===== INFO PANEL =====
@@ -201,115 +198,237 @@
         const v = entry.target;
         if (!(v instanceof HTMLVideoElement)) return;
         if (entry.isIntersecting) {
-          // try to play when visible
           try { v.play().catch(()=>{}); } catch {}
         } else {
           try { v.pause(); } catch {}
         }
       });
-    }, { threshold: 0.35 }); // ~1/3 on screen
+    }, { threshold: 0.35 });
     document.querySelectorAll('.gallery video').forEach(v => videoObserver.observe(v));
   }
 
   function updateAboutLink() {
-  const link =
-    document.getElementById('aboutMenuLink') ||
-    document.querySelector('#mainMenu a[href$="about.html"]');
-  if (!link) return;
+    const link =
+      document.getElementById('aboutMenuLink') ||
+      document.querySelector('#mainMenu a[href$="about.html"]');
+    if (!link) return;
 
-  const onAbout = /(^|\/)about(?:\.html)?$/i.test(window.location.pathname);
-  if (onAbout) {
-    link.textContent = 'Home';
-    link.setAttribute('href', 'index.html');
-  } else {
-    link.textContent = 'About';
-    link.setAttribute('href', 'about.html');
-  }
-}
-// Call once on load
-updateAboutLink();
-
-// Also update every time the + menu opens/closes
-if (menuToggle) {
-  menuToggle.addEventListener('click', () => {
-    // your existing menu open/close logic runs here…
-    updateAboutLink();
-  });
-}
-
-  // Detect touch to keep the button visible on mobile
-(function detectTouch() {
-  try {
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-      document.documentElement.classList.add('touch');
-      document.body.classList.add('touch');
+    const onAbout = /(^|\/)about(?:\.html)?$/i.test(window.location.pathname);
+    if (onAbout) {
+      link.textContent = 'Home';
+      link.setAttribute('href', 'index.html');
+    } else {
+      link.textContent = 'About';
+      link.setAttribute('href', 'about.html');
     }
-  } catch {}
-})();
+  }
+  updateAboutLink();
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => updateAboutLink());
+  }
 
-// Wrap each gallery <video> with a button that toggles mute
-function enhanceVideosForQuickUnmute() {
-  const vids = document.querySelectorAll('.gallery video');
-  vids.forEach((v) => {
-    if (v.dataset.hasMuteBtn) return; // idempotent
+  // Detect touch to keep unmute button visible on mobile
+  (function detectTouch() {
+    try {
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        document.documentElement.classList.add('touch');
+        document.body.classList.add('touch');
+      }
+    } catch {}
+  })();
 
-    // Ensure autoplay-compatible defaults
-    v.muted = true;
-    v.setAttribute('muted', '');
-    v.playsInline = true;
-    v.setAttribute('playsinline', '');
-    v.loop = true;
+  // ======= BACKGROUND MUSIC (Web Audio, seamless loop + fades) =======
+  const BGM_URL = 'Assets/site_loop.mp3';   // <-- change path/name if needed
+  const BGM_TARGET_GAIN = 0.35;             // music loudness (0..1)
+  const BGM_FADE_MS = 450;                  // fade in/out duration
+  let audioCtx = null;
+  let bgmBuffer = null;
+  let bgmGain = null;
+  let bgmSource = null;
+  let bgmReady = false;
+  let videosUnmutedCount = 0; // any unmuted videos? (>0 => pause bgm)
 
-    // Build wrapper
-    const wrap = document.createElement('div');
-    wrap.className = 'video-wrap';
-    v.parentNode.insertBefore(wrap, v);
-    wrap.appendChild(v);
+  async function ensureAudioContext() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    return audioCtx;
+  }
 
-    // Build button
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'mute-btn';
-    // Start "Unmute" (because videos load muted)
-    btn.setAttribute('aria-label', 'Unmute video');
-    btn.setAttribute('aria-pressed', 'false');
-    btn.textContent = 'Unmute';
+  async function loadBgmBuffer() {
+    if (bgmBuffer) return bgmBuffer;
+    const ctx = await ensureAudioContext();
+    const res = await fetch(BGM_URL);
+    const arr = await res.arrayBuffer();
+    bgmBuffer = await ctx.decodeAudioData(arr);
+    return bgmBuffer;
+  }
 
-    // Clicking the button toggles sound; don't trigger zoom overlay
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+  function makeBgmSource() {
+    if (!audioCtx || !bgmBuffer) return null;
+    const src = audioCtx.createBufferSource();
+    src.buffer = bgmBuffer;
+    src.loop = true;
+    return src;
+  }
 
-      const toUnmute = v.muted;
-      try {
-        v.muted = !toUnmute ? true : false; // toggling based on current state
-        if (toUnmute) {
-          // going from muted → sound on
-          v.muted = false;
-          v.volume = 1.0;
-          v.play().catch(()=>{});
-          btn.textContent = 'Mute';
-          btn.setAttribute('aria-label', 'Mute video');
-          btn.setAttribute('aria-pressed', 'true');
-          btn.classList.add('is-unmuted');
-        } else {
-          // sound on → mute
-          v.muted = true;
-          btn.textContent = 'Unmute';
-          btn.setAttribute('aria-label', 'Unmute video');
-          btn.setAttribute('aria-pressed', 'false');
-          btn.classList.remove('is-unmuted');
-        }
-      } catch {}
+  function now() {
+    return audioCtx ? audioCtx.currentTime : 0;
+  }
+
+  function fadeTo(targetGain, ms) {
+    if (!bgmGain || !audioCtx) return;
+    const t = Math.max(ms || BGM_FADE_MS, 50) / 1000;
+    const n = now();
+    try {
+      bgmGain.gain.cancelScheduledValues(n);
+      const cur = bgmGain.gain.value;
+      bgmGain.gain.setValueAtTime(cur, n);
+      bgmGain.gain.linearRampToValueAtTime(targetGain, n + t);
+    } catch {}
+  }
+
+  async function startBgmIfNeeded() {
+    if (!getSavedSoundOn()) return;          // respect global sound toggle
+    if (videosUnmutedCount > 0) return;      // don't start if a video is unmuted
+
+    await ensureAudioContext();
+    await loadBgmBuffer();
+
+    if (!bgmGain) {
+      bgmGain = audioCtx.createGain();
+      bgmGain.gain.value = 0;
+      bgmGain.connect(audioCtx.destination);
+    }
+
+    // If already playing, just fade up
+    if (bgmSource) {
+      if (audioCtx.state === 'suspended') {
+        try { await audioCtx.resume(); } catch {}
+      }
+      fadeTo(BGM_TARGET_GAIN, BGM_FADE_MS);
+      return;
+    }
+
+    // Create + start a fresh source
+    bgmSource = makeBgmSource();
+    if (!bgmSource) return;
+
+    bgmSource.connect(bgmGain);
+    try {
+      bgmSource.start(0);
+    } catch {}
+    bgmReady = true;
+
+    // Fade in
+    fadeTo(BGM_TARGET_GAIN, BGM_FADE_MS);
+  }
+
+  async function pauseBgm() {
+    if (!audioCtx || !bgmGain) return;
+    // Fade to 0 then suspend the context to fully stop CPU
+    fadeTo(0, BGM_FADE_MS);
+    try {
+      await new Promise(r => setTimeout(r, BGM_FADE_MS + 20));
+      if (audioCtx && audioCtx.state !== 'suspended') {
+        await audioCtx.suspend();
+      }
+    } catch {}
+  }
+
+  async function stopBgmCompletely() {
+    // Used when user toggles Sound Off
+    if (!audioCtx) return;
+    fadeTo(0, BGM_FADE_MS);
+    try { await new Promise(r => setTimeout(r, BGM_FADE_MS + 20)); } catch {}
+    if (bgmSource) {
+      try { bgmSource.stop(0); } catch {}
+      try { bgmSource.disconnect(); } catch {}
+      bgmSource = null;
+    }
+    if (bgmGain) {
+      try { bgmGain.disconnect(); } catch {}
+      bgmGain = null;
+    }
+    // suspend context; keep buffer cached
+    try { await audioCtx.suspend(); } catch {}
+  }
+
+  async function resumeBgmIfAllowed() {
+    if (!getSavedSoundOn()) return;
+    if (videosUnmutedCount > 0) return;
+    await startBgmIfNeeded();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      try { await audioCtx.resume(); } catch {}
+      fadeTo(BGM_TARGET_GAIN, BGM_FADE_MS);
+    }
+  }
+
+  // ======== QUICK UNMUTE BUTTON FOR VIDEOS (also bgm coordination) ========
+  function enhanceVideosForQuickUnmute() {
+    const vids = document.querySelectorAll('.gallery video');
+    vids.forEach((v) => {
+      if (v.dataset.hasMuteBtn) return; // idempotent
+
+      // Ensure autoplay-compatible defaults
+      v.muted = true;
+      v.setAttribute('muted', '');
+      v.playsInline = true;
+      v.setAttribute('playsinline', '');
+      v.loop = true;
+
+      // Wrap
+      const wrap = document.createElement('div');
+      wrap.className = 'video-wrap';
+      v.parentNode.insertBefore(wrap, v);
+      wrap.appendChild(v);
+
+      // Button
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'mute-btn';
+      btn.setAttribute('aria-label', 'Unmute video');
+      btn.setAttribute('aria-pressed', 'false');
+      btn.textContent = 'Unmute';
+
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const toUnmute = v.muted;
+
+        try {
+          if (toUnmute) {
+            // Muted → Unmuted: raise counter, pause bgm
+            v.muted = false;
+            v.volume = 1.0;
+            try { await v.play(); } catch {}
+            btn.textContent = 'Mute';
+            btn.setAttribute('aria-label', 'Mute video');
+            btn.setAttribute('aria-pressed', 'true');
+            btn.classList.add('is-unmuted');
+
+            videosUnmutedCount++;
+            pauseBgm();
+          } else {
+            // Unmuted → Muted: lower counter, maybe resume bgm
+            v.muted = true;
+            btn.textContent = 'Unmute';
+            btn.setAttribute('aria-label', 'Unmute video');
+            btn.setAttribute('aria-pressed', 'false');
+            btn.classList.remove('is-unmuted');
+
+            videosUnmutedCount = Math.max(0, videosUnmutedCount - 1);
+            if (videosUnmutedCount === 0) {
+              resumeBgmIfAllowed();
+            }
+          }
+        } catch {}
+      });
+
+      wrap.appendChild(btn);
+      v.dataset.hasMuteBtn = '1';
     });
-
-    wrap.appendChild(btn);
-
-    // Mark processed
-    v.dataset.hasMuteBtn = '1';
-  });
-}
-
+  }
 
   // ===== BUILD VERTICAL GALLERY =====
   function buildProjectSection(pid) {
@@ -323,7 +442,6 @@ function enhanceVideosForQuickUnmute() {
     const inRow = new Set(rows.flat());
 
     for (let i = 0; i < files.length; i++) {
-      // render declared row when at its first index
       if (rowStarts.has(i)) {
         const rowDef = rows.find(r => r[0] === i) || [];
         const row = document.createElement('div');
@@ -333,16 +451,13 @@ function enhanceVideosForQuickUnmute() {
           const src = files[idx];
           if (isVideoSrc(src)) {
             const v = document.createElement('video');
-            // set properties BEFORE src for iOS/Safari
             v.muted = true;
+            v.setAttribute('muted','');
             v.playsInline = true;
+            v.setAttribute('playsinline','');
             v.loop = true;
             v.autoplay = true;
             v.preload = 'metadata';
-            v.setAttribute('playsinline','');
-            v.setAttribute('muted','');
-            v.setAttribute('loop','');
-            v.setAttribute('autoplay','');
             v.src = src;
             row.appendChild(v);
           } else {
@@ -353,30 +468,25 @@ function enhanceVideosForQuickUnmute() {
         });
 
         section.appendChild(row);
-        i = rowDef[rowDef.length - 1]; // skip the rest of this row
+        i = rowDef[rowDef.length - 1];
         continue;
       }
 
-      // skip indices that belong to a row but aren't the first
       if (inRow.has(i)) continue;
 
-      // full-width block
       const wrap = document.createElement('div');
       wrap.className = 'media full';
       const src = files[i];
 
       if (isVideoSrc(src)) {
         const v = document.createElement('video');
-        // set properties BEFORE src for iOS/Safari
         v.muted = true;
+        v.setAttribute('muted','');
         v.playsInline = true;
+        v.setAttribute('playsinline','');
         v.loop = true;
         v.autoplay = true;
         v.preload = 'metadata';
-        v.setAttribute('playsinline','');
-        v.setAttribute('muted','');
-        v.setAttribute('loop','');
-        v.setAttribute('autoplay','');
         v.src = src;
         wrap.appendChild(v);
       } else {
@@ -433,7 +543,7 @@ function enhanceVideosForQuickUnmute() {
     document.querySelectorAll('.project').forEach(sec => io.observe(sec));
   }
 
-// === BACK TO TOP — final (ONLY change we’re making) ===
+  // === BACK TO TOP
   (function setupBackToTop () {
     const btn = document.getElementById('backToTop');
     if (!btn) return;
@@ -450,8 +560,7 @@ function enhanceVideosForQuickUnmute() {
       if (y > 120) btn.classList.add('show'); else btn.classList.remove('show');
     }
 
-    btn.style.display = ''; // clear any inline display from previous attempts
-
+    btn.style.display = '';
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('load', update);
     document.addEventListener('DOMContentLoaded', update);
@@ -486,7 +595,7 @@ function enhanceVideosForQuickUnmute() {
     });
   }
 
-  // ===== SOUND MODE =====
+  // ===== SOUND MODE (SFX + BGM together) =====
   const SFX = {
     click:    new Audio('Assets/new_click_next_sound_v1.mp3'),
     next:     new Audio('Assets/new_click_next_sound_v1.mp3'),
@@ -494,7 +603,10 @@ function enhanceVideosForQuickUnmute() {
     dead:     new Audio('Assets/new_deadclick_sound_v1.mp3'),
     error:    new Audio('Assets/new_errorclick_sound_v1.mp3')
   };
-  Object.values(SFX).forEach(a => { try { a.preload = 'auto'; a.load(); } catch {} });
+  // Balance SFX level to sit over music tastefully
+  Object.values(SFX).forEach(a => {
+    try { a.preload = 'auto'; a.load(); a.volume = 0.7; } catch {}
+  });
 
   if (localStorage.getItem(SOUND_KEY) == null) {
     localStorage.setItem(SOUND_KEY, 'on');
@@ -510,17 +622,25 @@ function enhanceVideosForQuickUnmute() {
   setSoundLabel(soundToggleEl, soundEnabled);
 
   if (soundToggleEl) {
-    soundToggleEl.addEventListener('click', (e) => {
+    soundToggleEl.addEventListener('click', async (e) => {
       e.preventDefault();
       soundEnabled = !soundEnabled;
       setSoundLabel(soundToggleEl, soundEnabled);
       saveSound(soundEnabled);
+
+      if (soundEnabled) {
+        // turn ON both SFX + BGM
+        await resumeBgmIfAllowed();
+      } else {
+        // turn OFF: stop bgm + suppress SFX via flag
+        await stopBgmCompletely();
+      }
     });
   }
 
-  // Unlock audio + nudge videos on first gesture (iOS/Safari quirk)
+  // Unlock audio + start bgm on first gesture (iOS/Safari friendly)
   let audioUnlocked = false;
-  function unlockAudioAndNudgeVideos() {
+  async function unlockAudioAndStart() {
     if (audioUnlocked) return;
     audioUnlocked = true;
 
@@ -530,20 +650,19 @@ function enhanceVideosForQuickUnmute() {
         a.volume = 0.001;
         a.play().then(() => a.pause()).catch(() => {});
         a.currentTime = 0;
-        a.volume = 1;
+        a.volume = 0.7;
       } catch {}
     });
 
-    // try play any visible paused videos
-    document.querySelectorAll('.gallery video').forEach(v => {
-      const rect = v.getBoundingClientRect();
-      const visible = rect.top < window.innerHeight && rect.bottom > 0;
-      if (visible) { try { v.play().catch(()=>{}); } catch {} }
-    });
+    // Prepare & start BGM if sound is enabled and no video is unmuted
+    try {
+      await ensureAudioContext();
+      if (soundEnabled) await startBgmIfNeeded();
+    } catch {}
   }
   ['pointerdown','keydown','touchstart','click'].forEach(evt => {
-    window.addEventListener(evt, unlockAudioAndNudgeVideos, { once: true, capture: true });
-    document.addEventListener(evt, unlockAudioAndNudgeVideos, { once: true, capture: true });
+    window.addEventListener(evt, unlockAudioAndStart, { once: true, capture: true });
+    document.addEventListener(evt, unlockAudioAndStart, { once: true, capture: true });
   });
 
   function playSfx(a) {
@@ -556,7 +675,12 @@ function enhanceVideosForQuickUnmute() {
   ].join(',');
   document.addEventListener('click', (e) => {
     const el = e.target.closest ? e.target.closest(INTERACTIVE_SELECTOR) : null;
-    playSfx(el ? SFX.click : SFX.dead);
+    // don’t play a click when backToTop smooth-scroll fires programmatically
+    if (el && el.id !== 'backToTop') {
+      playSfx(SFX.click);
+    } else if (!el) {
+      playSfx(SFX.dead);
+    }
   }, true);
 
   // ===== ZOOM OVERLAY =====
@@ -568,7 +692,6 @@ function enhanceVideosForQuickUnmute() {
 
   function openZoom(el) {
     if (!zoomOverlay) return;
-    // Clear previous media
     [...zoomOverlay.querySelectorAll('img,video')].forEach(n => n.remove());
 
     let node;
@@ -604,9 +727,8 @@ function enhanceVideosForQuickUnmute() {
     document.addEventListener('keydown', (e) => { if (!zoomOverlay.hidden && e.key === 'Escape') closeZoom(); });
   }
 
- // ===== INIT =====
-buildGallery();
-enhanceVideosForQuickUnmute();
+  // ===== INIT =====
+  buildGallery();
+  enhanceVideosForQuickUnmute();
+  // Videos added → might need bgm coordination; nothing else to do here.
 })();
-
-
