@@ -237,6 +237,79 @@ if (menuToggle) {
   });
 }
 
+  // Detect touch to keep the button visible on mobile
+(function detectTouch() {
+  try {
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      document.documentElement.classList.add('touch');
+      document.body.classList.add('touch');
+    }
+  } catch {}
+})();
+
+// Wrap each gallery <video> with a button that toggles mute
+function enhanceVideosForQuickUnmute() {
+  const vids = document.querySelectorAll('.gallery video');
+  vids.forEach((v) => {
+    if (v.dataset.hasMuteBtn) return; // idempotent
+
+    // Ensure autoplay-compatible defaults
+    v.muted = true;
+    v.setAttribute('muted', '');
+    v.playsInline = true;
+    v.setAttribute('playsinline', '');
+    v.loop = true;
+
+    // Build wrapper
+    const wrap = document.createElement('div');
+    wrap.className = 'video-wrap';
+    v.parentNode.insertBefore(wrap, v);
+    wrap.appendChild(v);
+
+    // Build button
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'mute-btn';
+    // Start "Unmute" (because videos load muted)
+    btn.setAttribute('aria-label', 'Unmute video');
+    btn.setAttribute('aria-pressed', 'false');
+    btn.textContent = 'Unmute';
+
+    // Clicking the button toggles sound; don't trigger zoom overlay
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const toUnmute = v.muted;
+      try {
+        v.muted = !toUnmute ? true : false; // toggling based on current state
+        if (toUnmute) {
+          // going from muted → sound on
+          v.muted = false;
+          v.volume = 1.0;
+          v.play().catch(()=>{});
+          btn.textContent = 'Mute';
+          btn.setAttribute('aria-label', 'Mute video');
+          btn.setAttribute('aria-pressed', 'true');
+          btn.classList.add('is-unmuted');
+        } else {
+          // sound on → mute
+          v.muted = true;
+          btn.textContent = 'Unmute';
+          btn.setAttribute('aria-label', 'Unmute video');
+          btn.setAttribute('aria-pressed', 'false');
+          btn.classList.remove('is-unmuted');
+        }
+      } catch {}
+    });
+
+    wrap.appendChild(btn);
+
+    // Mark processed
+    v.dataset.hasMuteBtn = '1';
+  });
+}
+
 
   // ===== BUILD VERTICAL GALLERY =====
   function buildProjectSection(pid) {
@@ -534,3 +607,8 @@ if (menuToggle) {
   // ===== INIT =====
   buildGallery();
 })();
+
+// ===== INIT =====
+buildGallery();
+enhanceVideosForQuickUnmute();
+
