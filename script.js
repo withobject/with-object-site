@@ -238,30 +238,82 @@
   })();
 
   // ======= BACKGROUND MUSIC (Web Audio, seamless loop + fades) =======
-  const BGM_URL = 'Assets/site_loop.mp3';   // <-- change path/name if needed
+  const BGM_URL = 'Assets/site_loop.mp3';   // <-- ensure this file exists (case-sensitive)
   const BGM_TARGET_GAIN = 0.35;             // music loudness (0..1)
   const BGM_FADE_MS = 450;                  // fade in/out duration
+
   let audioCtx = null;
   let bgmBuffer = null;
   let bgmGain = null;
   let bgmSource = null;
-  let bgmReady = false;
-  let videosUnmutedCount = 0; // any unmuted videos? (>0 => pause bgm)
+  let videosUnmutedCount = 0;               // any unmuted videos? (>0 => pause bgm)
+  let bgmHtmlEl = null;                     // fallback <audio> element
+  let reportedBgmError = false;
+
+  function logBgmError(err, note) {
+    if (reportedBgmError) return;
+    reportedBgmError = true;
+    console.error('[BGM]', note || 'Background music error', err);
+  }
 
   async function ensureAudioContext() {
     if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {
+        logBgmError(e, 'AudioContext creation failed');
+      }
     }
     return audioCtx;
   }
 
   async function loadBgmBuffer() {
     if (bgmBuffer) return bgmBuffer;
-    const ctx = await ensureAudioContext();
-    const res = await fetch(BGM_URL);
-    const arr = await res.arrayBuffer();
-    bgmBuffer = await ctx.decodeAudioData(arr);
-    return bgmBuffer;
+    try {
+      const ctx = await ensureAudioContext();
+      const res = await fetch(BGM_URL, { mode: 'same-origin' });
+      if (!res.ok) throw new Error(`HTTP ${res.status} loading ${BGM_URL}`);
+      const arr = await res.arrayBuffer();
+      bgmBuffer = await ctx.decodeAudioData(arr);
+      return bgmBuffer;
+    } catch (e) {
+      logBgmError(e, 'Falling back to <audio> element for BGM');
+      if (!bgmHtmlEl) {
+        bgmHtmlEl = new Audio(BGM_URL);
+        bgmHtmlEl.loop = true;
+        bgmHtmlEl.preload = 'auto';
+        bgmHtmlEl.volume = 0; // will fade up
+        const hid = document.createElement('div');
+        hid.style.display = 'none';
+        document.body.appendChild(hid).appendChild(bgmHtmlEl);
+      }
+      return null;
+    }
+  }
+
+  function now() { return audioCtx ? audioCtx.currentTime : 0; }
+
+  function fadeTo(targetGain, ms) {
+    const dur = Math.max(ms || BGM_FADE_MS, 50);
+    if (bgmGain && audioCtx) {
+      const n = now();
+      try {
+        bgmGain.gain.cancelScheduledValues(n);
+        bgmGain.gain.setValueAtTime(bgmGain.gain.value, n);
+        bgmGain.gain.linearRampToValueAtTime(targetGain, n + dur / 1000);
+      } catch {}
+    } else if (bgmHtmlEl) {
+      const start = bgmHtmlEl.volume;
+      const delta = targetGain - start;
+      const steps = Math.max(1, Math.floor(dur / 16));
+      let i = 0;
+      clearInterval(bgmHtmlEl._fadeTimer);
+      bgmHtmlEl._fadeTimer = setInterval(() => {
+        i++;
+        bgmHtmlEl.volume = Math.max(0, Math.min(1, start + (delta * i / steps)));
+        if (i >= steps) clearInterval(bgmHtmlEl._fadeTimer);
+      }, 16);
+    }
   }
 
   function makeBgmSource() {
@@ -272,75 +324,54 @@
     return src;
   }
 
-  function now() {
-    return audioCtx ? audioCtx.currentTime : 0;
-  }
-
-  function fadeTo(targetGain, ms) {
-    if (!bgmGain || !audioCtx) return;
-    const t = Math.max(ms || BGM_FADE_MS, 50) / 1000;
-    const n = now();
-    try {
-      bgmGain.gain.cancelScheduledValues(n);
-      const cur = bgmGain.gain.value;
-      bgmGain.gain.setValueAtTime(cur, n);
-      bgmGain.gain.linearRampToValueAtTime(targetGain, n + t);
-    } catch {}
-  }
-
   async function startBgmIfNeeded() {
-    if (!getSavedSoundOn()) return;          // respect global sound toggle
-    if (videosUnmutedCount > 0) return;      // don't start if a video is unmuted
+    if (!getSavedSoundOn()) return;
+    if (videosUnmutedCount > 0) return;
 
-    await ensureAudioContext();
+    const ctx = await ensureAudioContext();
     await loadBgmBuffer();
 
-    if (!bgmGain) {
-      bgmGain = audioCtx.createGain();
-      bgmGain.gain.value = 0;
-      bgmGain.connect(audioCtx.destination);
-    }
-
-    // If already playing, just fade up
-    if (bgmSource) {
-      if (audioCtx.state === 'suspended') {
-        try { await audioCtx.resume(); } catch {}
+    if (bgmBuffer && ctx) {
+      if (!bgmGain) {
+        bgmGain = ctx.createGain();
+        bgmGain.gain.value = 0;
+        bgmGain.connect(ctx.destination);
+      }
+      if (!bgmSource) {
+        bgmSource = makeBgmSource();
+        if (bgmSource) {
+          bgmSource.connect(bgmGain);
+          try { bgmSource.start(0); } catch {}
+        }
+      }
+      if (ctx.state === 'suspended') {
+        try { await ctx.resume(); } catch (e) { logBgmError(e, 'resume failed'); }
       }
       fadeTo(BGM_TARGET_GAIN, BGM_FADE_MS);
-      return;
+    } else if (bgmHtmlEl) {
+      try {
+        await bgmHtmlEl.play();
+        fadeTo(BGM_TARGET_GAIN, BGM_FADE_MS);
+      } catch (e) {
+        logBgmError(e, 'HTMLAudioElement play() failed');
+      }
     }
-
-    // Create + start a fresh source
-    bgmSource = makeBgmSource();
-    if (!bgmSource) return;
-
-    bgmSource.connect(bgmGain);
-    try {
-      bgmSource.start(0);
-    } catch {}
-    bgmReady = true;
-
-    // Fade in
-    fadeTo(BGM_TARGET_GAIN, BGM_FADE_MS);
   }
 
   async function pauseBgm() {
-    if (!audioCtx || !bgmGain) return;
-    // Fade to 0 then suspend the context to fully stop CPU
     fadeTo(0, BGM_FADE_MS);
-    try {
-      await new Promise(r => setTimeout(r, BGM_FADE_MS + 20));
-      if (audioCtx && audioCtx.state !== 'suspended') {
-        await audioCtx.suspend();
-      }
-    } catch {}
+    try { await new Promise(r => setTimeout(r, BGM_FADE_MS + 30)); } catch {}
+    if (audioCtx && audioCtx.state !== 'suspended') {
+      try { await audioCtx.suspend(); } catch {}
+    }
+    if (bgmHtmlEl) {
+      try { bgmHtmlEl.pause(); } catch {}
+    }
   }
 
   async function stopBgmCompletely() {
-    // Used when user toggles Sound Off
-    if (!audioCtx) return;
     fadeTo(0, BGM_FADE_MS);
-    try { await new Promise(r => setTimeout(r, BGM_FADE_MS + 20)); } catch {}
+    try { await new Promise(r => setTimeout(r, BGM_FADE_MS + 30)); } catch {}
     if (bgmSource) {
       try { bgmSource.stop(0); } catch {}
       try { bgmSource.disconnect(); } catch {}
@@ -350,18 +381,17 @@
       try { bgmGain.disconnect(); } catch {}
       bgmGain = null;
     }
-    // suspend context; keep buffer cached
-    try { await audioCtx.suspend(); } catch {}
+    if (audioCtx && audioCtx.state !== 'suspended') {
+      try { await audioCtx.suspend(); } catch {}
+    }
+    if (bgmHtmlEl) {
+      try { bgmHtmlEl.pause(); bgmHtmlEl.currentTime = 0; } catch {}
+    }
   }
 
   async function resumeBgmIfAllowed() {
-    if (!getSavedSoundOn()) return;
-    if (videosUnmutedCount > 0) return;
+    if (!getSavedSoundOn() || videosUnmutedCount > 0) return;
     await startBgmIfNeeded();
-    if (audioCtx && audioCtx.state === 'suspended') {
-      try { await audioCtx.resume(); } catch {}
-      fadeTo(BGM_TARGET_GAIN, BGM_FADE_MS);
-    }
   }
 
   // ======== QUICK UNMUTE BUTTON FOR VIDEOS (also bgm coordination) ========
@@ -629,10 +659,8 @@
       saveSound(soundEnabled);
 
       if (soundEnabled) {
-        // turn ON both SFX + BGM
         await resumeBgmIfAllowed();
       } else {
-        // turn OFF: stop bgm + suppress SFX via flag
         await stopBgmCompletely();
       }
     });
