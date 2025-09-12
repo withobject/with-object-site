@@ -604,11 +604,9 @@ function enhanceVideosForQuickUnmute() {
     document.addEventListener('keydown', (e) => { if (!zoomOverlay.hidden && e.key === 'Escape') closeZoom(); });
   }
 
-  // ===== INIT =====
-  buildGallery();
-})();
-
-// ===== INIT =====
+ // ===== INIT =====
 buildGallery();
 enhanceVideosForQuickUnmute();
+})();
+
 
