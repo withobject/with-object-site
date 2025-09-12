@@ -238,7 +238,7 @@
   })();
 
   // ======= BACKGROUND MUSIC (Web Audio, seamless loop + fades) =======
-  const BGM_URL = 'Assets/site_loop.mp3';   // <-- change path/name if needed
+  const BGM_URL = 'Assets/WITH OBJECT sounds.mp3';   // <-- change path/name if needed
   const BGM_TARGET_GAIN = 0.35;             // music loudness (0..1)
   const BGM_FADE_MS = 450;                  // fade in/out duration
   let audioCtx = null;
