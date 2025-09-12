@@ -111,7 +111,7 @@
       'Assets/battery_object_v1.jpg',
       'Assets/taperecorder_object_v1.jpg',
       'Assets/cd_object_v1.jpg',
-      'Assets/audio_visua_tv1.mp4'
+      'Assets/audiovisual_v2.mp4'
     ],
     [
       'Assets/glassindex_v1.jpg',
