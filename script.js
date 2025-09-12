@@ -146,7 +146,7 @@
 
   const projectInfo = [
     {
-      title: 'Project One',
+      title: 'WITH OBJECT A-V',
       objective: 'Create a tactile, memory-charged alias for raw creative output—rooted in design, sound, and motion, shaped by the past but built to adapt. WITH love',
       final: 'An evolving system and digital space-serving as archive, interface, and launchpad for experimental work across disciplines.'
     },
@@ -156,14 +156,14 @@
       final: 'The result is a concept campaign editorial, a pack of 20 high-resolution glass scans. Each fragment bears cracks, static, and grain - not only serving as creative resources but also expanding the lore of WITH OBJECT, where every surface becomes evidence of fractured timelines and preserved human memory.'
     },
     {
-      title: 'Project Three',
-      objective: 'Fashion vs Techwear contrast',
-      final: 'Capsule lookbook for launch'
+      title: 'WEIRD MUSEUM',
+      objective: 'Weird Museum presents a channel of ambient tone and image, as a vessel to escape into calm alternate realms. Each fragment is curated by hand, merging human intention with machine capability into cinematic, surreal artifacts.',
+      final: 'The result is a concept campaign editorial, a series of ambient films with sound and visual overlays. Each exhibit bears texture, grain, and atmosphere, not only serving as immersive resources but also extending the lore of Weird Museum, where every scene becomes evidence of preserved memory and imagined realm.'
     },
     {
-      title: 'Project Three',
-      objective: 'Fashion vs Techwear contrast',
-      final: 'Capsule lookbook for launch'
+      title: 'MISC SELECTIONS',
+      objective: 'Misc Selections presents a retrospective of symbol designs, illustrations, covers, paintings, and mixed media. Each piece is archived as an artifact, showing the range of visual language and the transitions across practice.',
+      final: 'The result is a curated portfolio series, a collection of works spanning mediums and eras. Each image serves as both standalone composition and contextual fragment, forming a body that reflects continuity, experimentation, and the evolution of craft.'
     }
   ];
 
