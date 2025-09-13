@@ -116,11 +116,9 @@
     [
       'Assets/glassindex_v1.jpg',
       'Assets/glassindex_v3.jpg',
-      'Assets/glassindex_v2.jpg',
-      'Assets/glassindex_v4.jpg',
       'Assets/ctr_page_v2.jpg',
-      'Assets/glassindex_v7.jpg',
-      'Assets/glassindex_v8.jpg',
+      'Assets/ctr_page_v5.jpg',
+      'Assets/ctr_page_v3.jpg',
       'Assets/glassindex_v9.jpg'
     ],
     [
@@ -172,8 +170,7 @@
   const rowMap = {
     0: [[1,2],
         [3,4]],   
-    1: [[2,3],
-        [6,7]],
+    1: [[4,5]],
     2: [[1,2]],
     3: [[1,2],        
         [6,7]]         
