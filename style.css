@@ -623,6 +623,11 @@ body {
   text-transform: uppercase;
 }
 
+/* ABOUT PAGE HEIGHT FIX */
+.about-container {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
 
 /* =========================================================
    13. DVD BOUNCING LOGO
